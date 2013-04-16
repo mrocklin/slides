@@ -336,6 +336,36 @@ Separation promotes Experimentation and Comparison
 
 \end{tikzpicture}
 
+Kalman Filter - Theano v. Fortran
+---------------------------------
+
+~~~~~~~~~~Python
+from sympy.computations.matrices import fortran_function
+
+newmu   = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
+newSigma= Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
+
+assumptions = [positive_definite(Sigma), symmetric(Sigma), 
+               positive_definite(R), symmetric(R), fullrank(H)]
+
+f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
+~~~~~~~~~~
+
+Kalman Filter - Theano v. Fortran
+---------------------------------
+
+~~~~~~~~~~Python
+from sympy.printing.theanocode import theano_function
+
+newmu   = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
+newSigma= Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
+
+assumptions = [positive_definite(Sigma), symmetric(Sigma), 
+               positive_definite(R), symmetric(R), fullrank(H)]
+
+f = theano_function([mu, Sigma, H, R, data], [newmu, newSigma])
+~~~~~~~~~~
+
 
 Blocked Matrix Multiply
 -----------------------
@@ -367,6 +397,11 @@ Blocked Matrix Inverse
 ~~~~~~~~~~Python
 X = BlockMatrix([[A, B],
                  [C, D]])
+~~~~~~~~~~
+
+$$ \begin{bmatrix} A & B \\\\ C & D \end{bmatrix}^{-1} $$
+
+~~~~~~~~~~Python
 latex(block_collapse(X.I))
 ~~~~~~~~~~
 
@@ -409,7 +444,7 @@ Blocked Kalman Filter
 \end{figure}
 
 ~~~~~~~~~~~Python
->>> inputs = ....
+>>> inputs = [numpy.random.....  ]
 >>> timeit f(*inputs)
 1 loops, best of 3: 2.69 s per loop
 
@@ -438,8 +473,8 @@ Separation
 \end{tikzpicture}
 
 
-Separation
-----------
+Separation promotes Adaptability
+--------------------------------
 
 \begin{tikzpicture}[every text node part/.style={align=center,rectangle}]
 
