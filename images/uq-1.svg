@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="125.86"
-   height="99"
+   width="125.85529"
+   height="99.152908"
    id="svg3582"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="uq-1.svg">
+   sodipodi:docname="uq-2.svg">
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -23,11 +23,11 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.6"
-     inkscape:cx="63.508415"
-     inkscape:cy="50.020347"
+     inkscape:cx="39.517679"
+     inkscape:cy="39.863128"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:window-width="1600"
      inkscape:window-height="876"
      inkscape:window-x="0"
@@ -44,8 +44,8 @@
        visible="true"
        enabled="true"
        snapvisiblegridlinesonly="true"
-       originx="-231.8738px"
-       originy="-527.82669px" />
+       originx="-229.84136px"
+       originy="-513.40501px" />
   </sodipodi:namedview>
   <defs
      id="defs3584" />
@@ -57,7 +57,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -65,7 +65,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-231.8738,-425.53549)">
+     transform="translate(-229.84136,-439.80426)">
     <path
        sodipodi:type="arc"
        style="opacity:0.6;fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none"
@@ -74,11 +74,11 @@
        sodipodi:cy="559.86218"
        sodipodi:rx="0.5"
        sodipodi:ry="0.5"
-       d="m 173,559.86218 a 0.5,0.5 0 1 1 -1,0 0.5,0.5 0 1 1 1,0 z"
-       transform="matrix(1.2447522,-0.45184882,0.31124056,1.7579294,-146.81999,-399.15948)" />
+       d="m 173,559.86218 c 0,0.27614 -0.22386,0.5 -0.5,0.5 -0.27614,0 -0.5,-0.22386 -0.5,-0.5 0,-0.27614 0.22386,-0.5 0.5,-0.5 0.27614,0 0.5,0.22386 0.5,0.5 z"
+       transform="matrix(1.2447522,-0.45184882,0.31124056,1.7579294,-149.12719,-383.77105)" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.30000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 242.3072,506.97375 c 15,-20 50,-45 90,-50"
+       d="m 240,522.36218 c 15,-20 50,-45 90,-50"
        id="path3610"
        inkscape:connector-curvature="0" />
     <path
@@ -89,10 +89,10 @@
        sodipodi:cy="559.86218"
        sodipodi:rx="0.5"
        sodipodi:ry="0.5"
-       d="m 173,559.86218 a 0.5,0.5 0 1 1 -1,0 0.5,0.5 0 1 1 1,0 z"
-       transform="matrix(1.2447522,-0.45184882,0.31124056,1.7579294,-56.819993,-449.15948)" />
+       d="m 173,559.86218 c 0,0.27614 -0.22386,0.5 -0.5,0.5 -0.27614,0 -0.5,-0.22386 -0.5,-0.5 0,-0.27614 0.22386,-0.5 0.5,-0.5 0.27614,0 0.5,0.22386 0.5,0.5 z"
+       transform="matrix(1.2447522,-0.45184882,0.31124056,1.7579294,-59.127191,-433.77105)" />
     <g
-       transform="matrix(0.1297285,0,0,0.1297285,195.29861,461.64866)"
+       transform="matrix(0.1297285,0,0,0.1297285,192.99141,477.03709)"
        id="g4407">
       <g
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:normal;word-spacing:normal;text-anchor:start;fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10.43299961;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
@@ -117,7 +117,7 @@
            id="path4412" /></g>    </g>
     <g
        id="g4438"
-       transform="matrix(0.58370645,0,0,0.58370645,92.65706,260.46113)">
+       transform="matrix(0.58370645,0,0,0.58370645,90.349862,275.84956)">
       <g
          id="g4526"
          transform="matrix(0.244669,0,0,0.244669,235.23443,274.92087)">
@@ -144,7 +144,7 @@
              style="fill:#000000;stroke-width:0" /></g>      </g>
     </g>
     <g
-       transform="matrix(0.11384518,0,0,0.11384518,293.04016,410.79707)"
+       transform="matrix(0.11384518,0,0,0.11384518,290.73296,426.1855)"
        id="g4474">
       <g
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:normal;word-spacing:normal;text-anchor:start;fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10.43299961;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
