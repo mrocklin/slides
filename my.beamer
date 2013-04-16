@@ -5,6 +5,7 @@ $endif$
 $if(colortheme)$
 \usecolortheme{$colortheme$}
 $endif$
+\usepackage{tikz}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
 \usepackage{fixltx2e} % provides \textsubscript
