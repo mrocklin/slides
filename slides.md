@@ -267,16 +267,16 @@ f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
 Picture
 -------
 
-\begin{tikzpicture}
-    [scale=.8,auto=right,every node/.style={rectangle,fill=white!20}]
+\begin{tikzpicture}[every text node part/.style={align=center,rectangle}]
 
-    \node (math) at (10,10) {Mathematics \\ (Inverse, transpose, positive-definite)};
-    \node (computation) at (10,1)  {Computation \\ (GEMM, POSV)};
-    \node (pl) at (5,5)  {Programming Languages \\ (Graph covering)};
+    \node (math) at (10,8) {Mathematics \\ (Inverse, transpose, positive-definite)};
     \node (connection) at (10,5)  {};
+    \node (computation) at (10,2)  {Computation/DAG \\ (GEMM, POSV)};
+    \node (pl) at (7,5)  {Programming Languages \\ (Graph covering)};
+    \node (code) at (10,0)  {Code \\ (Fortran)};
 
     \foreach \from/\to in
-    {math/connection, pl/connection, computation/connection}
+    {math/connection, pl/connection, computation/connection, computation/code}
     \draw (\from) -- (\to);
 
 \end{tikzpicture}
