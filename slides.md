@@ -15,11 +15,15 @@ digraph
 Uncertainty Propagation via Derivatives
 ---------------------------------------
 
-Uncertainty Propagation via Derivatives
----------------------------------------
+\begin{figure}[htbp]
+\centering
+\includegraphics<1>[width=\textwidth]{images/uq-1}
+\includegraphics<2>[width=\textwidth]{images/uq-2}
+\includegraphics<3>[width=\textwidth]{images/uq-3}
+\includegraphics<4>[width=.8\textwidth]{images/uq-4}
+\end{figure}
 
-Uncertainty Propagation via Derivatives
----------------------------------------
+
 
 Argument for High Level Languages 
 ---------------------------------
@@ -32,13 +36,32 @@ Run on CPU, GPU, ....
 Argument for High Level Compilers
 ---------------------------------
 
-MatLab Ordering Problem
+    x = ones(10000, 1)
+
+    (x*x')*x            Elapsed time is 0.337711 seconds.
+    x*(x'*x)            Elapsed time is 0.000956 seconds.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.6\textwidth]{images/xxtrans}
+\end{figure}
 
 
-SciComp example
----------------
+Inference
+---------
 
-[http://scicomp.stackexchange.com/questions/74/symbolic-software-packages-for-matrix-expressions/](http://scicomp.stackexchange.com/questions/74/symbolic-software-packages-for-matrix-expressions/)
+We know that $\mathbf A$ is symmetric and positive-definite and that $\mathbf B$ is orthogonal:
+
+**Question**: is $\mathbf B \cdot\mathbf A \cdot\mathbf B^\top$ symmetric and
+positive-definite? 
+
+**Answer**: Yes.
+
+**Question**: Could a computer have told us this?
+
+**Answer**: Probably.
+
+Are there any symbolic algebra systems (like Mathematica) that handle and propagate known facts about matrices?
 
 
 Background and Related Work
