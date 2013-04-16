@@ -202,7 +202,7 @@ inputs  = [X, y]
 outputs = [(X.T*X).I*X.T*y]
 facts   = Q.fullrank(X)
 
-f = f2py(next(compile(inputs, outputs, facts)))
+f = fortran_function(inputs, outputs, facts)
 ~~~~~~~~~
 
 \hrule
@@ -264,8 +264,8 @@ f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
 \end{figure}
 
 
-Picture
--------
+Separation
+----------
 
 \begin{tikzpicture}[every text node part/.style={align=center,rectangle}]
 
@@ -273,10 +273,188 @@ Picture
     \node (connection) at (10,5)  {};
     \node (computation) at (10,2)  {Computation/DAG \\ (GEMM, POSV)};
     \node (pl) at (7,5)  {Programming Languages \\ (Graph covering)};
-    \node (code) at (10,0)  {Code \\ (Fortran)};
+    \node (fortran) at (10,0)  {Fortran};
 
     \foreach \from/\to in
-    {math/connection, pl/connection, computation/connection, computation/code}
+    {math/connection, pl/connection, computation/connection, computation/fortran}
+    \draw (\from) -- (\to);
+
+\end{tikzpicture}
+
+
+Separation
+----------
+
+\begin{tikzpicture}[every text node part/.style={align=center,rectangle}]
+
+    \node (math) at (10,8) {Mathematics \\ (Inverse, transpose, positive-definite)};
+    \node (connection) at (10,5)  {};
+    \node (computation) at (10,2)  {Computation/DAG \\ (GEMM, POSV)};
+    \node (pl) at (3,5)  {Programming Languages \\ (Graph covering)};
+    \node (fortran) at (10,0)  {Fortran};
+
+    \foreach \from/\to in
+    {math/connection, pl/connection, computation/connection, computation/fortran}
+    \draw (\from) -- (\to);
+
+\end{tikzpicture}
+
+Separation promotes Growth
+--------------------------
+
+\begin{tikzpicture}[every text node part/.style={align=center,rectangle}]
+
+    \node (math) at (10,8) {Mathematics \\ (Inverse, transpose, positive-definite\\ determinant, block matrices, DFT)};
+    \node (connection) at (10,5)  {};
+    \node (computation) at (10,2)  {Computation/DAG \\ (GEMM, POSV, FFTW)};
+    \node (pl) at (3,5)  {Programming Languages \\ (Graph covering)};
+    \node (fortran) at (10,0)  {Fortran};
+
+    \foreach \from/\to in
+    {math/connection, pl/connection, computation/connection, computation/fortran}
+    \draw (\from) -- (\to);
+
+\end{tikzpicture}
+
+
+Separation promotes Experimentation and Comparison
+--------------------------------------------------
+
+\begin{tikzpicture}[every text node part/.style={align=center,rectangle}]
+
+    \node (math) at (10,8) {Mathematics \\ (Inverse, transpose, positive-definite\\ determinant, block matrices, DFT)};
+    \node (connection) at (10,5)  {};
+    \node (computation) at (10,2)  {Computation/DAG \\ (GEMM, POSV, FFTW)};
+    \node (pl) at (3,5)  {Programming Languages \\ (Graph covering)};
+    \node (fortran) at (10,0)  {Fortran};
+
+    \node (Theano) at (6, 2)  {Theano \\ (Tensor computations)};
+
+    \foreach \from/\to in
+    {math/connection, pl/connection, computation/connection, computation/fortran, connection/Theano}
+    \draw (\from) -- (\to);
+
+\end{tikzpicture}
+
+
+Blocked Matrix Multiply
+-----------------------
+
+~~~~~~~~~~Python
+from sympy import BlockMatrix, block_collapse
+A, B, C, D, E, F, G, K = [MatrixSymbol(a, n, n) for a in 'ABCDEFGK']
+X = BlockMatrix([[A, B],
+                 [C, D]])
+Y = BlockMatrix([[E, F],
+                 [G, K]])
+latex(X*Y)
+~~~~~~~~~~
+
+$$ \begin{bmatrix} A & B \\\\ C & D \end{bmatrix} 
+   \begin{bmatrix} E & F \\\\ G & K \end{bmatrix}$$
+
+~~~~~~~~~~Python
+latex(block_collapse(X*Y))
+~~~~~~~~~~
+
+$$ \begin{bmatrix} A E + B G & A F + B K \\\\ 
+                   C E + D G & C F + D K\end{bmatrix} $$
+
+
+Blocked Matrix Inverse
+----------------------
+
+~~~~~~~~~~Python
+X = BlockMatrix([[A, B],
+                 [C, D]])
+latex(block_collapse(X.I))
+~~~~~~~~~~
+
+$$ \begin{bmatrix} 
+\left(- B D^{-1} C + A\right)^{-1} & - A^{-1} B \left(- C A^{-1} B + D\right)^{-1} \\\\ 
+- \left(- C A^{-1} B + D\right)^{-1} C A^{-1} & \left(- C A^{-1} B + D\right)^{-1}
+\end{bmatrix} $$
+
+Blocked Kalman Filter
+----------------------------
+
+~~~~~~~~~~Python
+from sympy import blockcut, block_collapse
+blocksizes = {
+        Sigma: [(n/2, n/2), (n/2, n/2)],
+        H:     [(k/2, k/2), (n/2, n/2)],
+        R:     [(k/2, k/2), (k/2, k/2)],
+        mu:    [(n/2, n/2), (1,)],
+        data:  [(k/2, k/2), (1,)]
+        }
+blockinputs = [blockcut(i, *blocksizes[i]) for i in inputs]
+blockoutputs = [o.subs(dict(zip(inputs, blockinputs))) for o in outputs]
+collapsed_outputs = map(block_collapse, blockoutputs)
+
+fblocked = theano_function(inputs, collapsed_outputs, dtypes=dtypes)
+~~~~~~~~~~
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\textwidth]{images/fblocked}
+\end{figure}
+
+
+Blocked Kalman Filter
+---------------------
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\textwidth]{images/fblocked}
+\end{figure}
+
+~~~~~~~~~~~Python
+>>> inputs = ....
+>>> timeit f(*inputs)
+1 loops, best of 3: 2.69 s per loop
+
+>>> timeit fblocked(*inputs)
+1 loops, best of 3: 2.12 s per loop
+~~~~~~~~~~~
+
+
+Separation
+----------
+
+\begin{tikzpicture}[every text node part/.style={align=center,rectangle}]
+
+    \node (math) at (10,8) {Mathematics \\ (Inverse, transpose, positive-definite\\ determinant, block matrices, DFT)};
+    \node (connection) at (10,5)  {};
+    \node (computation) at (10,2)  {Computation/DAG \\ (GEMM, POSV, FFTW)};
+    \node (pl) at (3,5)  {Programming Languages \\ (Graph covering)};
+    \node (fortran) at (10,0)  {Fortran};
+
+    \node (Theano) at (6, 2)  {Theano \\ (Tensor computations)};
+
+    \foreach \from/\to in
+    {math/connection, pl/connection, computation/connection, computation/fortran, connection/Theano}
+    \draw (\from) -- (\to);
+
+\end{tikzpicture}
+
+
+Separation
+----------
+
+\begin{tikzpicture}[every text node part/.style={align=center,rectangle}]
+
+    \node (math) at (10,8) {Mathematics \\ (Inverse, transpose, positive-definite\\ determinant, block matrices, DFT)};
+    \node (connection) at (10,5)  {};
+    \node (computation) at (10,2)  {Computation/DAG \\ (GEMM, POSV, FFTW)};
+    \node (pl) at (3,5)  {Programming Languages \\ (Graph covering)};
+    \node (fortran) at (10,0)  {Fortran};
+    \node (C) at (12,0)  {C};
+    \node (CUDA) at (8, 0)  {CUDA};
+
+    \node (Theano) at (6, 2)  {Theano \\ (Tensor computations)};
+
+    \foreach \from/\to in
+    {math/connection, pl/connection, computation/connection, computation/fortran, computation/C, computation/CUDA, connection/Theano}
     \draw (\from) -- (\to);
 
 \end{tikzpicture}
