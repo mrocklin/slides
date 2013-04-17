@@ -601,6 +601,30 @@ Related work
     *   JJ Dongarra, RA Vandegeijn, and DW Walker. *Scalability issues affecting the design of a dense linear algebra library* 1994
 
 
+Links
+-----
+
+
++--------------+---------------------------+-------------------------------------------+
+|  Project     | Application               | URL                                       |
++==============+===========================+===========================================+
+| SymPy        | Math                      | http://sympy.org                          |
++--------------+---------------------------+-------------------------------------------+
+| LogPy        | Logic Programming         | http://github.com/logpy/logpy/            |
++--------------+---------------------------+-------------------------------------------+
+| Strategies   | Control Flow Programming  | http://github.com/logpy/strategies/       |
++--------------+---------------------------+-------------------------------------------+
+| Sympy-BLAS   | Matrix Computation        | See my SymPy branches                     |
++--------------+---------------------------+-------------------------------------------+
+| Theano       | Array Computation         | http://deeplearning.net/software/theano/  |
++--------------+---------------------------+-------------------------------------------+
+| HEFT         | Scheduling Heuristic      | http://github.com/mrocklin/heft/          |
++--------------+---------------------------+-------------------------------------------+
+| ILP          | Scheduling Algorithm      | http://github.com/mrocklin/tompkins       |
++--------------+---------------------------+-------------------------------------------+
+| Blog         | Numerical Experiments     | http://matthewrocklin.com/blog            |
++--------------+---------------------------+-------------------------------------------+
+
 End
 ---
 
