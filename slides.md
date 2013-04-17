@@ -71,9 +71,12 @@ Background and Related Work
 *   BLAS/LAPACK
 *   ATLAS - Autotunes for architecture (algorithm selection, blocksizes, ...)
 *   FLAME - Formal Linear Algebra Methods Environment
+    -   SuperMatrix - Dynamic shared memory variant
+    -   Elemental - Distributed memory variant
 *   TCE - Tensor Contraction Engine 
 *   "A Domain-Specific Compiler for Linear Algebra Operations" Fabregat, Bientinesi, 2012
 *   Theano - Tensor compiler Python $\rightarrow$ Python/C/CUDA
+*   Spiral - Hardware specific numeric code generation with internal computation language
 
 *   Trillinos - shared ideals - high-level, separable scientific software 
 
@@ -522,27 +525,6 @@ Separation promotes Adaptability
 Static Scheduling
 -----------------
 
-    newmu    = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
-    newSigma = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
-
-![](images/kalman-math.pdf)
-
-Static Scheduling
------------------
-    
-    newmu    = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
-    newSigma = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.48\textwidth]{images/kalman_cpu1}
-\includegraphics[width=.48\textwidth]{images/kalman_cpu0}
-\end{figure}
-
-
-Static Scheduling
------------------
-
 **Given**:
 \begin{columns}
 \column{.5\textwidth}
@@ -600,10 +582,37 @@ Related work
     *   Roman Iakymchuk. *Performance Modeling and Prediction for Linear Algebra Algorithms* 2012
     *   JJ Dongarra, RA Vandegeijn, and DW Walker. *Scalability issues affecting the design of a dense linear algebra library* 1994
 
+*   Automated Dense Linear Algebra
+    *   ScaLAPACK, PlaLAPACK, BLACS
+    *   FLAME - Language for blocked matrix algorithms
+        -   SuperMatrix - Dynamic shared memory variant
+        -   Elemental - Distributed memory variant
+    *   Magma - Hybrid LAPACK - Parametrized dynamic/static scheduling
+
+
+Static Scheduling
+-----------------
+
+    newmu    = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
+    newSigma = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
+
+![](images/kalman-math.pdf)
+
+Static Scheduling
+-----------------
+    
+    newmu    = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
+    newSigma = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.48\textwidth]{images/kalman_cpu1}
+\includegraphics[width=.48\textwidth]{images/kalman_cpu0}
+\end{figure}
+
 
 Links
 -----
-
 
 +--------------+---------------------------+-------------------------------------------+
 |  Project     | Application               | URL                                       |
@@ -631,14 +640,3 @@ End
 Thanks!
 
 
-Temp
-----
-
-*   Automated Dense Linear Algebra
-    *   ScaLAPACK, PlaLAPACK, BLACS
-    *   FLAME - Language for blocked matrix algorithms
-        -   SuperMatrix - Dynamic shared memory variant
-        -   Elemental - Distributed memory variant
-    *   Magma - Hybrid LAPACK
-    *   Spiral - Hardware specific numeric code generation with 
-        internal computation language
