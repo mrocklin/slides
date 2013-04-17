@@ -519,7 +519,102 @@ Separation promotes Adaptability
 \end{tikzpicture}
 
 
+Static Scheduling
+-----------------
+
+    newmu    = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
+    newSigma = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
+
+![](images/kalman-math.pdf)
+
+Static Scheduling
+-----------------
+    
+    newmu    = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
+    newSigma = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.48\textwidth]{images/kalman_cpu1}
+\includegraphics[width=.48\textwidth]{images/kalman_cpu0}
+\end{figure}
+
+
+Static Scheduling
+-----------------
+
+**Given**:
+\begin{columns}
+\column{.5\textwidth}
+
+Computation Graph
+
+\column{.5\textwidth}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.8\textwidth]{images/hat-comp}
+\end{figure}
+
+\end{columns}
+
+\begin{columns}
+\column{.5\textwidth}
+Worker network 
+
+\column{.5\textwidth}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.8\textwidth]{images/worker}
+\end{figure}
+\end{columns}
+
+
+\begin{columns}
+\column{.5\textwidth}
+Computation times
+
+Communication times 
+
+\column{.5\textwidth}
+:: task, worker $\rightarrow$ time
+
+:: variable, source, target $\rightarrow$ time
+\end{columns}
+
+**Produce**:
+
+Set of computation subgraphs to minimize total runtime
+
+
+Related work
+------------
+
+*   Heterogeneous Static Scheduling
+    *   **HEFT**: H. Topcuoglu, S. Hariri, M. Wu. *Performance-effective and low-complexity task scheduling for heterogeneous computing.* 2002
+    *   **ILP**: M. Tompkins. *Optimization Techniques for Task Allocation and Scheduling in Distributed Multi-Agent Operations.* 2003
+
+*   Performance Modeling
+    *   E Peise and P Bientinesi. *Performance Modeling for Dense Linear Algebra.* 2012
+    *   Roman Iakymchuk. *Performance Modeling and Prediction for Linear Algebra Algorithms* 2012
+    *   JJ Dongarra, RA Vandegeijn, and DW Walker. *Scalability issues affecting the design of a dense linear algebra library* 1994
+
+
 End
 ---
 
 Thanks!
+
+
+Temp
+----
+
+*   Automated Dense Linear Algebra
+    *   ScaLAPACK, PlaLAPACK, BLACS
+    *   FLAME - Language for blocked matrix algorithms
+        -   SuperMatrix - Dynamic shared memory variant
+        -   Elemental - Distributed memory variant
+    *   Magma - Hybrid LAPACK
+    *   Spiral - Hardware specific numeric code generation with 
+        internal computation language

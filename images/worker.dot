@@ -1,0 +1,14 @@
+graph
+{
+    cpu1 [shape=box, label=CPU]
+    cpu2 [shape=box, label=CPU]
+    cpu3 [shape=box, label=CPU]
+    gpu1 [shape=box, label=GPU]
+    gpu2 [shape=box, label=GPU]
+
+    cpu1 -- cpu2
+    cpu2 -- cpu3
+    cpu1 -- cpu3
+    cpu1 -- gpu1
+    cpu2 -- gpu2
+}
