@@ -38,6 +38,7 @@ Argument for High Level Compilers
 
     x = ones(10000, 1)
 
+    x*x'*x              Elapsed time is    ?     seconds.
     (x*x')*x            Elapsed time is 0.337711 seconds.
     x*(x'*x)            Elapsed time is 0.000956 seconds.
 
@@ -70,9 +71,9 @@ Background and Related Work
 *   BLAS/LAPACK
 *   ATLAS - Autotunes for architecture (algorithm selection, blocksizes, ...)
 *   FLAME - Formal Linear Algebra Methods Environment
-*   Tensor Contraction Engine for Chemistry
-*   Bientinesi and Fabregat
-*   Theano - Tensor compiler Python -> Python/C/CUDA
+*   TCE - Tensor Contraction Engine 
+*   "A Domain-Specific Compiler for Linear Algebra Operations" Fabregat, Bientinesi, 2012
+*   Theano - Tensor compiler Python $\rightarrow$ Python/C/CUDA
 
 *   Trillinos - shared ideals - high-level, separable scientific software 
 
@@ -93,7 +94,7 @@ Linear Regression - Python/MatLab
 
 $$ \beta = (X^TX)^{-1}X^Ty $$
 
-Python
+Python/NumPy
 
     beta = (X.T*X).I * X.T*y
 
@@ -107,7 +108,7 @@ Linear Regression - Python/MatLab
 
 $$ \beta = (X^TX)^{-1}X^Ty $$
 
-Python
+Python/NumPy
 
     beta = solve(X.T*X, X.T*y)
 
@@ -121,7 +122,7 @@ Linear Regression - Python/MatLab
 
 $$ \beta = (X^TX)^{-1}X^Ty $$
 
-Python
+Python/NumPy
 
     beta = spd_solve(X.T*X, X.T*y)
 
@@ -147,8 +148,8 @@ Numeric libraries for dense linear algebra
     *   `SUBROUTINE DPOSV( UPLO, N, NRHS, A, LDA, B, LDB, INFO )`
 
 
-Computation
------------
+Connecting Math and Computation
+-------------------------------
 
 **Given**:
 
@@ -273,8 +274,8 @@ Kalman Filter
 -------------
 
 ~~~~~~~~~~Python
-newmu   = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
-newSigma= Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
+newmu       = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
+newSigma    = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
 
 assumptions = [positive_definite(Sigma), symmetric(Sigma), 
                positive_definite(R), symmetric(R), fullrank(H)]
