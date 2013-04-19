@@ -2,8 +2,8 @@
 % Matthew Rocklin
 % April 21st, 2013
 
-Who am I?
----------
+Challenges of Scientific Computation
+------------------------------------
 
 \begin{figure}[htbp]
 \centering
@@ -40,7 +40,7 @@ Argument for High Level Languages
 
 Want:  Physical proecesses, Derivatives, matrices computations, error bounds, and time stepping methods all on array expressions
 
-Want:  Hardware agnostic implementations - output to CPU, GPU, ....
+Don't want:  Multiple implementations across hardware (CPU, GPU, ....)
 
 Have:  Plenty of static libraries (BLAS/LAPACK/PETSc/Trillinos) 
 
@@ -48,16 +48,13 @@ Have:  Plenty of high level scripting environments (Matlab/Python/R)
 
 Don't Have:  Ability to express high-level transformations on high-level code
 
-Closest thing:  Computer Algebra Systems
-
 \begin{figure}[htbp]
 \centering
-\phantom{\includegraphics<1>[width=.6\textwidth]{images/venn-uq-cuda}}
-\includegraphics<2>[width=.6\textwidth]{images/venn-uq-cuda}
+\includegraphics[width=.6\textwidth]{images/venn-uq-cuda}
 \end{figure}
 
-Argument for High Level Compilers
----------------------------------
+Argument for High Level Compilers - Optimizations
+-------------------------------------------------
 
     x = ones(10000, 1)
 
@@ -71,10 +68,11 @@ Argument for High Level Compilers
 \end{figure}
 
 
-Inference
----------
+Argument for High Level Compilers - Inference
+---------------------------------------------
 
-We know that $\mathbf A$ is symmetric and positive-definite and that $\mathbf B$ is orthogonal:
+Given that $\mathbf A$ is symmetric and positive-definite and that $\mathbf B$
+is full rank:
 
 **Question**: is $\mathbf B \cdot\mathbf A \cdot\mathbf B^\top$ symmetric and
 positive-definite? 
@@ -88,29 +86,45 @@ positive-definite?
 Are there any symbolic algebra systems (like Mathematica) that handle and propagate known facts about matrices?
 
 
+Argument for High Level Compilers - Inference
+---------------------------------------------
+
+Given that $\mathbf A$ is symmetric and positive-definite and that $\mathbf B$
+is full rank:
+
+**Question**: is $\mathbf B \cdot\mathbf A \cdot\mathbf B^\top$ symmetric and
+positive-definite? 
+
+**Answer**: Yes.
+
+**Question**: Could a computer have told us this?
+
+**Answer**: Probably.
+
+Are there any symbolic algebra systems (like Mathematica) that handle and propagate known facts about matrices?
+
+\vspace{1em}
+\hrule
+
+    sympy.matrices.expressions
+
+~~~~~~~~Python
+>>> A = MatrixSymbol('A', n, n)
+>>> B = MatrixSymbol('B', n, n)
+>>> context = symmetric(A) & positive_definite(A) & fullrank(B)
+>>> ask(symmetric(B*A*B.T) & positive_definite(B*A*B.T), context)
+True
+~~~~~~~~
+
+
 Matrix Expressions and Computations
 ===================================
-
-
-Background and Related Work
----------------------------
-
-*   BLAS/LAPACK - Excellent libraries for dense linear algebra computations
-*   ATLAS - Autotunes for architecture (algorithm selection, blocksizes, ...)
-*   FLAME - Formal Linear Algebra Methods Environment
-    -   SuperMatrix - Dynamic shared memory variant
-    -   Elemental - Distributed memory variant
-*   TCE - Tensor Contraction Engine 
-*   "A Domain-Specific Compiler for Linear Algebra Operations" Fabregat, Bientinesi, 2012
-*   Theano - Tensor compiler Python $\rightarrow$ Python/C/CUDA
-*   Spiral - Hardware specific numeric code generation with internal computation language
-
-*   Trillinos - shared ideals - high-level, separable scientific software 
 
 
 Linear Regression - Math
 ------------------------
 
+$$ X \beta \cong y $$
 $$ \beta = (X^TX)^{-1}X^Ty $$
 
 
@@ -255,7 +269,7 @@ y = MatrixSymbol('y', n, 1)
 
 inputs  = [X, y]
 outputs = [(X.T*X).I*X.T*y]
-facts   = Q.fullrank(X)
+facts   = fullrank(X)
 
 f = fortran_function(inputs, outputs, facts)
 ~~~~~~~~~
@@ -298,6 +312,21 @@ f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
 \centering
 \includegraphics[width=.7\textwidth]{images/kalman-math}
 \end{figure}
+
+
+Background and Related Work
+---------------------------
+
+*   **BLAS/LAPACK** - Excellent libraries for dense linear algebra computations
+*   **ATLAS** - Autotunes for architecture (algorithm selection, blocksizes, ...)
+*   **FLAME** - Formal Linear Algebra Methods Environment
+*   **TCE** - Tensor Contraction Engine 
+*   "A Domain-Specific Compiler for Linear Algebra Operations" Fabregat, Bientinesi, 2012  -- AICES
+*   **Spiral** - Hardware specific numeric code generation with internal computation language
+*   **Theano** - Tensor compiler Python $\rightarrow$ Python/C/CUDA
+
+*   **Trillinos** - shared ideals - high-level, separable scientific software, 
+    some high level transformations through templates
 
 
 Separation
@@ -365,7 +394,7 @@ y = MatrixSymbol('y', n, 1)
 
 inputs  = [X, y]
 outputs = [(X.T*X).I*X.T*y]
-facts   = Q.fullrank(X)
+facts   = fullrank(X)
 ~~~~~~~~~
 
 \begin{figure}[htbp]
@@ -394,8 +423,7 @@ class SYRK(BLAS):
     ...
 
   (alpha*A*A.T + beta*D, SYRK(alpha, A, beta, D), [alpha, A, beta, D], True),
-  (A*A.T, SYRK(1.0, A, 0.0, 0), [A], True),
-  (A.T*A, SYRK(1.0, A.T, 0.0, 0)), [A], True),
+  (A*A.T,                SYRK(1.0, A, 0.0, 0),    [A],                 True),
 ~~~~~~~~~~~~
 
 SYRK
@@ -478,8 +506,8 @@ from sympy.printing.theanocode import theano_function
 newmu   = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
 newSigma= Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
 
-assumptions = [positive_definite(Sigma), symmetric(Sigma), 
-               positive_definite(R), symmetric(R), fullrank(H)]
+
+
 
 f = theano_function([mu, Sigma, H, R, data], [newmu, newSigma])
 ~~~~~~~~~~
@@ -540,7 +568,6 @@ newSigma    = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
 
 assumptions = [positive_definite(Sigma), symmetric(Sigma), 
                positive_definite(R), symmetric(R), fullrank(H)]
-f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
 ~~~~~~~~~~
 
 \begin{figure}[htbp]
@@ -768,7 +795,26 @@ Other Work and Collaborations
     *   Theano
         *   Nengo neural simulator
 
-Analysis of real-world complex networks
+\begin{footnotesize}
+
+\begin{itemize}
+\item   M. Rocklin, A. Pinar \textit{On Clustering on Graphs with Multiple Edge
+    Types}, Internet Mathematics, 2012
+\item   M. Rocklin, A. Pinar, \textit{Latent Clustering on Graphs with Multiple
+    Edge Types} Algorithms and Models for the Web-Graph, 2011
+\item   M. Rocklin, A. Pinar, \textit{Computing an Aggregate Edge-Weight Function
+    for Clustering Graphs with Multiple Edge
+    Types} Algorithms and Models for the Web-Graph, 2010
+\item   E. Constantinescu,V. Zavala, M. Rocklin, S. Lee, and M. Anitescu,
+    \textit{A Computational Framework for Uncertainty Quantification and
+    Stochastic Optimization in Unit Commitment with Wind Power
+    Generation.} IEEE Transactions on Power Systems, 2010.
+\item   M. Rocklin, \textit{Uncertainty Modeling with SymPy Stats}
+    SciPy 2012
+\end{itemize}
+
+
+\end{footnotesize}
 
 
 End
@@ -780,7 +826,6 @@ newSigma    = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
 
 assumptions = [positive_definite(Sigma), symmetric(Sigma), 
                positive_definite(R), symmetric(R), fullrank(H)]
-f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
 ~~~~~~~~~~
 
 \begin{figure}[htbp]
