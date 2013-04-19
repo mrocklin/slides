@@ -5,11 +5,21 @@
 Who am I?
 ---------
 
-digraph
-{
-    "Applied Math" -> Computation [label="High Level Compilers"];
-    "Hardware" -> Computation [label="Distributed Systems"];
-}
+\begin{figure}[htbp]
+\centering
+\includegraphics<1>[width=\textwidth]{images/math-hardware-computation}
+\includegraphics<2>[width=\textwidth]{images/math-hardware-computation-automation}
+\end{figure}
+
+Slides 
+
+    http://github.com/mrocklin/slides
+    git clone git@github.com:mrocklin/slides  
+    git checkout sandia
+    make pdf
+
+Motivating Problem
+==================
 
 
 Uncertainty Propagation via Derivatives
@@ -28,10 +38,23 @@ Uncertainty Propagation via Derivatives
 Argument for High Level Languages 
 ---------------------------------
 
-Physical process, Time stepping method, Derivatives, Matrices
+Want:  Physical proecesses, Derivatives, matrices computations, error bounds, and time stepping methods all on array expressions
 
-Run on CPU, GPU, ....
+Want:  Hardware agnostic implementations - output to CPU, GPU, ....
 
+Have:  Plenty of static libraries (BLAS/LAPACK/PETSc/Trillinos) 
+
+Have:  Plenty of high level scripting environments (Matlab/Python/R)
+
+Don't Have:  Ability to express high-level transformations on high-level code
+
+Closest thing:  Computer Algebra Systems
+
+\begin{figure}[htbp]
+\centering
+\phantom{\includegraphics<1>[width=.6\textwidth]{images/venn-uq-cuda}}
+\includegraphics<2>[width=.6\textwidth]{images/venn-uq-cuda}
+\end{figure}
 
 Argument for High Level Compilers
 ---------------------------------
@@ -65,10 +88,14 @@ positive-definite?
 Are there any symbolic algebra systems (like Mathematica) that handle and propagate known facts about matrices?
 
 
+Matrix Expressions and Computations
+===================================
+
+
 Background and Related Work
 ---------------------------
 
-*   BLAS/LAPACK
+*   BLAS/LAPACK - Excellent libraries for dense linear algebra computations
 *   ATLAS - Autotunes for architecture (algorithm selection, blocksizes, ...)
 *   FLAME - Formal Linear Algebra Methods Environment
     -   SuperMatrix - Dynamic shared memory variant
@@ -206,7 +233,8 @@ Necessary Definitions
 \includegraphics[width=.5\textwidth]{images/symm}
 \end{figure}
 
-Computation
+
+Compilation
 -----------
 
 \begin{figure}[htbp]
@@ -254,25 +282,6 @@ RETURN
 END
 ~~~~~~~~~
 
-Multiple Results
-----------------
-
-\begin{figure}[htbp]
-\centering
-\includegraphics<1->[width=.24\textwidth]{images/hat0}
-\includegraphics<1->[width=.24\textwidth]{images/hat1}
-\includegraphics<1->[width=.24\textwidth]{images/hat2}
-\includegraphics<1->[width=.24\textwidth]{images/hat3}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics<2>[width=.23\textwidth]{images/hat_gesv1}
-\includegraphics<2>[width=.23\textwidth]{images/hat_gesv2}
-\includegraphics<2>[width=.53\textwidth]{images/hat_gesv3}
-\end{figure}
-
-
 Kalman Filter
 -------------
 
@@ -290,6 +299,9 @@ f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
 \includegraphics[width=.7\textwidth]{images/kalman-math}
 \end{figure}
 
+
+Separation
+==========
 
 Separation
 ----------
@@ -325,6 +337,85 @@ Separation
     \draw (\from) -- (\to);
 
 \end{tikzpicture}
+
+Separation promotes Growth
+--------------------------
+
+\begin{tikzpicture}[every text node part/.style={align=center,rectangle}]
+
+    \node (math) at (10,8) {Mathematics \\ (Inverse, transpose, positive-definite\\ determinant, block matrices, DFT)};
+    \node (connection) at (10,5)  {};
+    \node (computation) at (10,2)  {Computation/DAG \\ (GEMM, POSV, FFTW)};
+    \node (pl) at (3,5)  {Programming Languages \\ (Graph covering)};
+    \node (fortran) at (10,0)  {Fortran};
+
+    \foreach \from/\to in
+    {math/connection, pl/connection, computation/connection, computation/fortran}
+    \draw (\from) -- (\to);
+
+\end{tikzpicture}
+
+
+SYRK
+----
+
+~~~~~~~~Python
+X = MatrixSymbol('X', n, m)
+y = MatrixSymbol('y', n, 1)
+
+inputs  = [X, y]
+outputs = [(X.T*X).I*X.T*y]
+facts   = Q.fullrank(X)
+~~~~~~~~~
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\textwidth]{images/hat-comp}
+\end{figure}
+
+
+SYRK
+----
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\textwidth]{images/hat-comp-syrk}
+\end{figure}
+
+~~~~~~~~~~~Python
+class SYRK(BLAS):
+    """ Symmetric Rank-K Update `alpha X' X + beta Y' """
+    _inputs  = (alpha, A, beta, D)
+    _outputs = (alpha * A * A.T + beta * D,)
+    inplace  = {0: 3}
+    fortran_template = ("call %(fn)s('%(UPLO)s', '%(TRANS)s', %(N)s, %(K)s, "
+                        "%(alpha)s, %(A)s, %(LDA)s, "
+                        "%(beta)s, %(D)s, %(LDD)s)")
+    ...
+
+  (alpha*A*A.T + beta*D, SYRK(alpha, A, beta, D), [alpha, A, beta, D], True),
+  (A*A.T, SYRK(1.0, A, 0.0, 0), [A], True),
+  (A.T*A, SYRK(1.0, A.T, 0.0, 0)), [A], True),
+~~~~~~~~~~~~
+
+SYRK
+----
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\textwidth]{images/hat-comp}
+\end{figure}
+
+    Elapsed real time = 0.43399999 
+    
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\textwidth]{images/hat-comp-syrk}
+\end{figure}
+
+    Elapsed real time = 0.39500001 
+
+
 
 Separation promotes Growth
 --------------------------
@@ -393,9 +484,11 @@ assumptions = [positive_definite(Sigma), symmetric(Sigma),
 f = theano_function([mu, Sigma, H, R, data], [newmu, newSigma])
 ~~~~~~~~~~
 
+Blocked Algorithms
+==================
 
-Blocked Matrix Multiply
------------------------
+Blocked Matrix Multiply Improves Cache Performance
+----------------------------------------------------
 
 ~~~~~~~~~~Python
 from sympy import BlockMatrix, block_collapse
@@ -418,8 +511,8 @@ $$ \begin{bmatrix} A E + B G & A F + B K \\\\
                    C E + D G & C F + D K\end{bmatrix} $$
 
 
-Blocked Matrix Inverse
-----------------------
+Blocked Matrix Inverse Improves Cache Performance
+-------------------------------------------------
 
 ~~~~~~~~~~Python
 X = BlockMatrix([[A, B],
@@ -437,8 +530,27 @@ $$ \begin{bmatrix}
 - \left(- C A^{-1} B + D\right)^{-1} C A^{-1} & \left(- C A^{-1} B + D\right)^{-1}
 \end{bmatrix} $$
 
+
+Kalman Filter
+-------------
+
+~~~~~~~~~~Python
+newmu       = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
+newSigma    = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
+
+assumptions = [positive_definite(Sigma), symmetric(Sigma), 
+               positive_definite(R), symmetric(R), fullrank(H)]
+f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
+~~~~~~~~~~
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.7\textwidth]{images/kalman-math}
+\end{figure}
+
+
 Blocked Kalman Filter
-----------------------------
+---------------------
 
 ~~~~~~~~~~Python
 from sympy import blockcut, block_collapse
@@ -521,6 +633,8 @@ Separation promotes Adaptability
 
 \end{tikzpicture}
 
+Static Scheduling
+=================
 
 Static Scheduling
 -----------------
@@ -611,32 +725,85 @@ Static Scheduling
 \end{figure}
 
 
-Links
------
+Conclusion
+==========
+
+Software Links
+--------------
 
 +--------------+---------------------------+-------------------------------------------+
 |  Project     | Application               | URL                                       |
 +==============+===========================+===========================================+
-| SymPy        | Math                      | http://sympy.org                          |
+| SymPy        | Computer Algebra          | http://github.com/sympy/sympy/            |
++--------------+---------------------------+-------------------------------------------+
+| Computations | BLAS/LAPACK/FFTW/...      | http://github.com/mrocklin/computations/  |
 +--------------+---------------------------+-------------------------------------------+
 | LogPy        | Logic Programming         | http://github.com/logpy/logpy/            |
 +--------------+---------------------------+-------------------------------------------+
 | Strategies   | Control Flow Programming  | http://github.com/logpy/strategies/       |
 +--------------+---------------------------+-------------------------------------------+
-| Sympy-BLAS   | Matrix Computation        | See my SymPy branches                     |
-+--------------+---------------------------+-------------------------------------------+
 | Theano       | Array Computation         | http://deeplearning.net/software/theano/  |
 +--------------+---------------------------+-------------------------------------------+
 | HEFT         | Scheduling Heuristic      | http://github.com/mrocklin/heft/          |
 +--------------+---------------------------+-------------------------------------------+
-| ILP          | Scheduling Algorithm      | http://github.com/mrocklin/tompkins       |
+| ILP          | Scheduling Algorithm      | http://github.com/mrocklin/tompkins/      |
 +--------------+---------------------------+-------------------------------------------+
-| Blog         | Numerical Experiments     | http://matthewrocklin.com/blog            |
+| Blog         | Numerical Experiments     | http://matthewrocklin.com/blog/           |
 +--------------+---------------------------+-------------------------------------------+
+
+
+Other Work and Collaborations
+-----------------------------
+
+*   SymPy - Standard CAS in numeric Python ecosystem
+    *   Statistics / Uncertainty modeling
+    *   Linear algebra
+*   Theano - Array computations
+    *   GPU/MPI asynchronous communication
+    *   Scheduling
+*   SymPy-Theano code generation 
+    *   Mechanical engineering - ODEs of complex expressions
+*   LogPy - Term rewrite system/Compiler tools
+    *   SymPy
+    *   Theano
+        *   Nengo neural simulator
+
+Analysis of real-world complex networks
+
 
 End
 ---
 
-Thanks!
+~~~~~~~~~~Python
+newmu       = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
+newSigma    = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
 
+assumptions = [positive_definite(Sigma), symmetric(Sigma), 
+               positive_definite(R), symmetric(R), fullrank(H)]
+f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
+~~~~~~~~~~
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.7\textwidth]{images/kalman-math}
+\end{figure}
+
+
+Multiple Results
+----------------
+
+\begin{figure}[htbp]
+\centering
+\includegraphics<1->[width=.24\textwidth]{images/hat0}
+\includegraphics<1->[width=.24\textwidth]{images/hat1}
+\includegraphics<1->[width=.24\textwidth]{images/hat2}
+\includegraphics<1->[width=.24\textwidth]{images/hat3}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics<2>[width=.23\textwidth]{images/hat_gesv1}
+\includegraphics<2>[width=.23\textwidth]{images/hat_gesv2}
+\includegraphics<2>[width=.53\textwidth]{images/hat_gesv3}
+\end{figure}
 
