@@ -38,20 +38,20 @@ Uncertainty Propagation via Derivatives
 Argument for High Level Languages 
 ---------------------------------
 
-Want:  Physical proecesses, Derivatives, matrices computations, error bounds, and time stepping methods all on array expressions
+**Want**:  Physical processes, derivatives, matrix computations, statistics, and time stepping methods all on array expressions
 
-Don't want:  Multiple implementations across hardware (CPU, GPU, ....)
-
-Have:  Plenty of static libraries (BLAS/LAPACK/PETSc/Trillinos) 
-
-Have:  Plenty of high level scripting environments (Matlab/Python/R)
-
-Don't Have:  Ability to express high-level transformations on high-level code
+**Don't want**:  Multiple implementations across hardware (CPU, GPU, ....)
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.6\textwidth]{images/venn-uq-cuda}
 \end{figure}
+
+**Have**:  Plenty of static libraries (BLAS/LAPACK/PETSc/Trillinos) 
+
+**Have**:  Plenty of high level scripting environments (Matlab/Python/R)
+
+**Don't Have**:  Ability to express high-level transformations on high-level code
 
 
 Today
@@ -59,13 +59,14 @@ Today
 
 **Computer Algebra**: Define Linear Algebra in a Computer Algebra System (`SymPy`)
 
-**Backends**: Connect to separate computational backends (Theano and BLAS/LAPACK)
+**Backends**: Connect to separate computational backends 
+            (Theano and BLAS/LAPACK)
 
 **Performance**: Improvements through algorithm selection and blocking
 
 **Development**: Demographic challenges behind scientific software development
 
-If time - Static scheduling
+**If time**: Static scheduling (briefly)
 
 
 Argument for High Level Compilers - Optimizations
@@ -124,8 +125,9 @@ Are there any symbolic algebra systems (like Mathematica) that handle and propag
 ~~~~~~~~Python
 >>> A = MatrixSymbol('A', n, n)
 >>> B = MatrixSymbol('B', n, n)
->>> context = symmetric(A) & positive_definite(A) & fullrank(B)
->>> ask(symmetric(B*A*B.T) & positive_definite(B*A*B.T), context)
+>>> context = symmetric(A) & positive_definite(A) & orthogonal(B)
+>>> query   = symmetric(B*A*B.T) & positive_definite(B*A*B.T)
+>>> ask(query, context)
 True
 ~~~~~~~~
 
@@ -333,6 +335,7 @@ Background and Related Work
 
 *   **BLAS/LAPACK** - Excellent libraries for dense linear algebra computations
 *   **ATLAS** - Autotunes for architecture (algorithm selection, blocksizes, ...)
+*   **Matlab** - Impressive dynamic runtime checks.  E.g. `\` operator
 *   **FLAME** - Formal Linear Algebra Methods Environment
 *   **TCE** - Tensor Contraction Engine 
 *   "A Domain-Specific Compiler for Linear Algebra Operations" Fabregat, Bientinesi, 2012  -- AICES
@@ -823,8 +826,10 @@ Other Work and Collaborations
     \textit{A Computational Framework for Uncertainty Quantification and
     Stochastic Optimization in Unit Commitment with Wind Power
     Generation.} IEEE Transactions on Power Systems, 2010.
+\item M. Rocklin, \textit{Uncertainty Quantification and Sensitivity Analysis in
+    Dynamical Systems} 2011, Masters Thesis
 \item   M. Rocklin, \textit{Uncertainty Modeling with SymPy Stats}
-    SciPy 2012
+    SciPy-2012
 \end{itemize}
 
 
