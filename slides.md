@@ -53,6 +53,21 @@ Don't Have:  Ability to express high-level transformations on high-level code
 \includegraphics[width=.6\textwidth]{images/venn-uq-cuda}
 \end{figure}
 
+
+Today
+-----
+
+**Computer Algebra**: Define Linear Algebra in a Computer Algebra System (`SymPy`)
+
+**Backends**: Connect to separate computational backends (Theano and BLAS/LAPACK)
+
+**Performance**: Improvements through algorithm selection and blocking
+
+**Development**: Demographic challenges behind scientific software development
+
+If time - Static scheduling
+
+
 Argument for High Level Compilers - Optimizations
 -------------------------------------------------
 
@@ -71,8 +86,7 @@ Argument for High Level Compilers - Optimizations
 Argument for High Level Compilers - Inference
 ---------------------------------------------
 
-Given that $\mathbf A$ is symmetric and positive-definite and that $\mathbf B$
-is full rank:
+For all matrices $\mathbf{A, B}$ such that $\mathbf A$ is symmetric positive-definite and $\mathbf B$ is orthogonal:
 
 **Question**: is $\mathbf B \cdot\mathbf A \cdot\mathbf B^\top$ symmetric and
 positive-definite? 
@@ -89,8 +103,7 @@ Are there any symbolic algebra systems (like Mathematica) that handle and propag
 Argument for High Level Compilers - Inference
 ---------------------------------------------
 
-Given that $\mathbf A$ is symmetric and positive-definite and that $\mathbf B$
-is full rank:
+For all matrices $\mathbf{A, B}$ such that $\mathbf A$ is symmetric positive-definite and $\mathbf B$ is orthogonal:
 
 **Question**: is $\mathbf B \cdot\mathbf A \cdot\mathbf B^\top$ symmetric and
 positive-definite? 
@@ -305,6 +318,7 @@ newSigma    = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
 
 assumptions = [positive_definite(Sigma), symmetric(Sigma), 
                positive_definite(R), symmetric(R), fullrank(H)]
+
 f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
 ~~~~~~~~~~
 
