@@ -1,6 +1,6 @@
 % Mathematically Informed Automated Linear Algebra
 % Matthew Rocklin
-% April 21st, 2013
+% April 22nd, 2013
 
 Challenges of Scientific Computation
 ------------------------------------
