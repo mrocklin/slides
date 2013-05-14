@@ -217,7 +217,10 @@ Connecting Math and Computation
 
 **Produce**:
 
-![](images/hat-comp.pdf)
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.8\textwidth]{images/hat-comp}
+\end{figure}
 
 
 Necessary Definitions
@@ -439,8 +442,8 @@ class SYRK(BLAS):
                         "%(beta)s, %(D)s, %(LDD)s)")
     ...
 
-  (alpha*A*A.T + beta*D, SYRK(alpha, A, beta, D), [alpha, A, beta, D], True),
-  (A*A.T,                SYRK(1.0, A, 0.0, 0),    [A],                 True),
+  (alpha*A*A.T + beta*D, SYRK(alpha, A, beta, D), True),
+  (A*A.T,                SYRK(1.0, A, 0.0, 0),  , True),
 ~~~~~~~~~~~~
 
 SYRK
@@ -754,7 +757,10 @@ Static Scheduling
     newmu    = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
     newSigma = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
 
-![](images/kalman-math.pdf)
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.8\textwidth]{images/kalman-math}
+\end{figure}
 
 Static Scheduling
 -----------------
