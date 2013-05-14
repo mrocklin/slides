@@ -42,12 +42,12 @@ $endif$
 $if(verbatim-in-note)$
 \usepackage{fancyvrb}
 $endif$
-$if(fancy-enums)$
-\usepackage{enumerate}
-$endif$
 $if(tables)$
-\usepackage{ctable}
-\usepackage{float} % provides the H option for float placement
+\usepackage{longtable}
+% These lines are needed to make table captions work with longtable:
+\makeatletter
+\def\fnum@table{\tablename~\thetable}
+\makeatother
 $endif$
 $if(url)$
 \usepackage{url}
@@ -63,14 +63,28 @@ $if(graphics)$
   \fi
 }
 \makeatother
-\setkeys{Gin}{width=\ScaleIfNeeded}
+\let\Oldincludegraphics\includegraphics
+\renewcommand{\includegraphics}[2][]{\Oldincludegraphics[width=\ScaleIfNeeded]{#2}}
 $endif$
+
 % Comment these out if you don't want a slide with just the
 % part/section/subsection/subsubsection title:
-\AtBeginPart{\frame{\partpage}}
-\AtBeginSection{\frame{\sectionpage}}
-\AtBeginSubsection{\frame{\subsectionpage}}
-\AtBeginSubsubsection{\frame{\subsubsectionpage}}
+\AtBeginPart{
+  \let\insertpartnumber\relax
+  \let\partname\relax
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \let\insertsectionnumber\relax
+  \let\sectionname\relax
+  \frame{\sectionpage}
+}
+\AtBeginSubsection{
+  \let\insertsubsectionnumber\relax
+  \let\subsectionname\relax
+  \frame{\subsectionpage}
+}
+
 $if(strikeout)$
 \usepackage[normalem]{ulem}
 % avoid problems with \sout in headers with hyperref:
