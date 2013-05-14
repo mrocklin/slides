@@ -1,6 +1,6 @@
 % Mathematically Informed Automated Linear Algebra
 % Matthew Rocklin
-% April 22nd, 2013
+% May 18th, 2013
 
 Challenges of Scientific Computation
 ------------------------------------
@@ -15,7 +15,7 @@ Slides
 
     http://github.com/mrocklin/slides
     git clone git@github.com:mrocklin/slides  
-    git checkout sandia
+    git checkout kaust
     make pdf
 
 Motivating Problem
