@@ -355,54 +355,12 @@ Separation
 Separation
 ----------
 
-\begin{tikzpicture}[every text node part/.style={align=center,rectangle}]
-
-    \node (math) at (10,8) {Mathematics \\ (Inverse, transpose, positive-definite)};
-    \node (connection) at (10,5)  {};
-    \node (computation) at (10,2)  {Computation/DAG \\ (GEMM, POSV)};
-    \node (pl) at (7,5)  {Programming Languages \\ (Graph covering)};
-    \node (fortran) at (10,0)  {Fortran};
-
-    \foreach \from/\to in
-    {math/connection, pl/connection, computation/connection, computation/fortran}
-    \draw (\from) -- (\to);
-
-\end{tikzpicture}
-
-
-Separation
-----------
-
-\begin{tikzpicture}[every text node part/.style={align=center,rectangle}]
-
-    \node (math) at (10,8) {Mathematics \\ (Inverse, transpose, positive-definite)};
-    \node (connection) at (10,5)  {};
-    \node (computation) at (10,2)  {Computation/DAG \\ (GEMM, POSV)};
-    \node (pl) at (3,5)  {Programming Languages \\ (Graph covering)};
-    \node (fortran) at (10,0)  {Fortran};
-
-    \foreach \from/\to in
-    {math/connection, pl/connection, computation/connection, computation/fortran}
-    \draw (\from) -- (\to);
-
-\end{tikzpicture}
-
-Separation promotes Growth
---------------------------
-
-\begin{tikzpicture}[every text node part/.style={align=center,rectangle}]
-
-    \node (math) at (10,8) {Mathematics \\ (Inverse, transpose, positive-definite\\ determinant, block matrices, DFT)};
-    \node (connection) at (10,5)  {};
-    \node (computation) at (10,2)  {Computation/DAG \\ (GEMM, POSV, FFTW)};
-    \node (pl) at (3,5)  {Programming Languages \\ (Graph covering)};
-    \node (fortran) at (10,0)  {Fortran};
-
-    \foreach \from/\to in
-    {math/connection, pl/connection, computation/connection, computation/fortran}
-    \draw (\from) -- (\to);
-
-\end{tikzpicture}
+\begin{figure}[htbp]
+\centering
+\includegraphics<1>[width=\textwidth]{images/not-separation}
+\includegraphics<2>[width=\textwidth]{images/separation}
+\includegraphics<3>[width=\textwidth]{images/separation-2}
+\end{figure}
 
 
 SYRK
@@ -446,6 +404,7 @@ class SYRK(BLAS):
   (A*A.T,                SYRK(1.0, A, 0.0, 0),  , True),
 ~~~~~~~~~~~~
 
+
 SYRK
 ----
 
@@ -464,43 +423,15 @@ SYRK
     Elapsed real time = 0.39500001 
 
 
-
-Separation promotes Growth
---------------------------
-
-\begin{tikzpicture}[every text node part/.style={align=center,rectangle}]
-
-    \node (math) at (10,8) {Mathematics \\ (Inverse, transpose, positive-definite\\ determinant, block matrices, DFT)};
-    \node (connection) at (10,5)  {};
-    \node (computation) at (10,2)  {Computation/DAG \\ (GEMM, POSV, FFTW)};
-    \node (pl) at (3,5)  {Programming Languages \\ (Graph covering)};
-    \node (fortran) at (10,0)  {Fortran};
-
-    \foreach \from/\to in
-    {math/connection, pl/connection, computation/connection, computation/fortran}
-    \draw (\from) -- (\to);
-
-\end{tikzpicture}
-
-
-Separation promotes Experimentation and Comparison
+Separation promotes Comparison and Experimentation
 --------------------------------------------------
 
-\begin{tikzpicture}[every text node part/.style={align=center,rectangle}]
+\begin{figure}[htbp]
+\centering
+\includegraphics<1>[width=\textwidth]{images/separation-2}
+\includegraphics<2>[width=\textwidth]{images/separation-theano}
+\end{figure}
 
-    \node (math) at (10,8) {Mathematics \\ (Inverse, transpose, positive-definite\\ determinant, block matrices, DFT)};
-    \node (connection) at (10,5)  {};
-    \node (computation) at (10,2)  {Computation/DAG \\ (GEMM, POSV, FFTW)};
-    \node (pl) at (3,5)  {Programming Languages \\ (Graph covering)};
-    \node (fortran) at (10,0)  {Fortran};
-
-    \node (Theano) at (6, 2)  {Theano \\ (Tensor computations)};
-
-    \foreach \from/\to in
-    {math/connection, pl/connection, computation/connection, computation/fortran, connection/Theano}
-    \draw (\from) -- (\to);
-
-\end{tikzpicture}
 
 Kalman Filter - Theano v. Fortran
 ---------------------------------
@@ -538,42 +469,27 @@ Blocked Algorithms
 Blocked Matrix Multiply Improves Cache Performance
 ----------------------------------------------------
 
-~~~~~~~~~~Python
-from sympy import BlockMatrix, block_collapse
-A, B, C, D, E, F, G, K = [MatrixSymbol(a, n, n) for a in 'ABCDEFGK']
-X = BlockMatrix([[A, B],
-                 [C, D]])
-Y = BlockMatrix([[E, F],
-                 [G, K]])
-latex(X*Y)
-~~~~~~~~~~
+$$ A, B, C, D, E, F, G, K \in \mathbb{R}^{n\times n}$$
+$$ X, Y, Z \in \mathbb{R}^{2n \times 2n}$$
+$$ X = \begin{bmatrix} A & B \\\\ C & D \end{bmatrix} $$
+$$ Y = \begin{bmatrix} E & F \\\\ G & K \end{bmatrix} $$
 
-$$ \begin{bmatrix} A & B \\\\ C & D \end{bmatrix} 
-   \begin{bmatrix} E & F \\\\ G & K \end{bmatrix}$$
+$$ Z = \begin{bmatrix} A & B \\\\ C & D \end{bmatrix} 
+       \begin{bmatrix} E & F \\\\ G & K \end{bmatrix}$$
 
-~~~~~~~~~~Python
-latex(block_collapse(X*Y))
-~~~~~~~~~~
 
-$$ \begin{bmatrix} A E + B G & A F + B K \\\\ 
-                   C E + D G & C F + D K\end{bmatrix} $$
+$$ Z = \begin{bmatrix} A E + B G & A F + B K \\\\ 
+                       C E + D G & C F + D K\end{bmatrix} $$
 
 
 Blocked Matrix Inverse Improves Cache Performance
 -------------------------------------------------
 
-~~~~~~~~~~Python
-X = BlockMatrix([[A, B],
-                 [C, D]])
-~~~~~~~~~~
 
-$$ \begin{bmatrix} A & B \\\\ C & D \end{bmatrix}^{-1} $$
+$$ Z = \begin{bmatrix} A & B \\\\ C & D \end{bmatrix}^{-1} $$
 
-~~~~~~~~~~Python
-latex(block_collapse(X.I))
-~~~~~~~~~~
 
-$$ \begin{bmatrix} 
+$$ Z = \begin{bmatrix} 
 \left(- B D^{-1} C + A\right)^{-1} & - A^{-1} B \left(- C A^{-1} B + D\right)^{-1} \\\\ 
 - \left(- C A^{-1} B + D\right)^{-1} C A^{-1} & \left(- C A^{-1} B + D\right)^{-1}
 \end{bmatrix} $$
@@ -639,49 +555,15 @@ Blocked Kalman Filter
 ~~~~~~~~~~~
 
 
-Separation
-----------
+Separation Promotes Extension
+-----------------------------
 
-\begin{tikzpicture}[every text node part/.style={align=center,rectangle}]
+\begin{figure}[htbp]
+\centering
+\includegraphics<1>[width=\textwidth]{images/separation-2}
+\includegraphics<2>[width=\textwidth]{images/separation-ss}
+\end{figure}
 
-    \node (math) at (10,8) {Mathematics \\ (Inverse, transpose, positive-definite\\ determinant, block matrices, DFT)};
-    \node (connection) at (10,5)  {};
-    \node (computation) at (10,2)  {Computation/DAG \\ (GEMM, POSV, FFTW)};
-    \node (pl) at (3,5)  {Programming Languages \\ (Graph covering)};
-    \node (fortran) at (10,0)  {Fortran};
-
-    \node (Theano) at (6, 2)  {Theano \\ (Tensor computations)};
-
-    \foreach \from/\to in
-    {math/connection, pl/connection, computation/connection, computation/fortran, connection/Theano}
-    \draw (\from) -- (\to);
-
-\end{tikzpicture}
-
-
-Separation promotes Adaptability
---------------------------------
-
-\begin{tikzpicture}[every text node part/.style={align=center,rectangle}]
-
-    \node (math) at (10,8) {Mathematics \\ (Inverse, transpose, positive-definite\\ determinant, block matrices, DFT)};
-    \node (connection) at (10,5)  {};
-    \node (computation) at (10,2)  {Computation/DAG \\ (GEMM, POSV, FFTW)};
-    \node (pl) at (3,5)  {Programming Languages \\ (Graph covering)};
-    \node (fortran) at (10,0)  {Fortran};
-    \node (C) at (12,0)  {C};
-    \node (CUDA) at (8, 0)  {CUDA};
-
-    \node (Theano) at (6, 2)  {Theano \\ (Tensor computations)};
-
-    \foreach \from/\to in
-    {math/connection, pl/connection, computation/connection, computation/fortran, computation/C, computation/CUDA, connection/Theano}
-    \draw (\from) -- (\to);
-
-\end{tikzpicture}
-
-Static Scheduling
-=================
 
 Static Scheduling
 -----------------
