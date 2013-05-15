@@ -10,4 +10,4 @@ pdf: slides.tex images/pdfs
 	pdflatex slides.tex
 
 publish: pdf
-	scp slides.pdf mrocklin@belvedere.cs.uchicago.edu:html/storage/sandia-slides.pdf
+	scp slides.pdf mrocklin@belvedere.cs.uchicago.edu:html/storage/kaust-slides.pdf
