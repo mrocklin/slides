@@ -245,6 +245,8 @@ Necessary Definitions
         inplace   = {0: 4}
         fortran   = ....
 
+**Compiler Tools**:  Pattern matching, logic programming, algorithm search, ....
+
 Necessary Definitions
 ---------------------
 
@@ -326,31 +328,28 @@ assumptions = [positive_definite(Sigma), symmetric(Sigma),
 
 f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
 ~~~~~~~~~~
+\vspace{-1em}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.7\textwidth]{images/kalman-math}
+\includegraphics[width=.9\textwidth]{images/kalman-math}
 \end{figure}
 
 
 Background and Related Work
 ---------------------------
 
-*   **BLAS/LAPACK** - Excellent libraries for dense linear algebra computations
-*   **ATLAS** - Autotunes for architecture (algorithm selection, blocksizes, ...)
-*   **Matlab** - Impressive dynamic runtime checks.  E.g. `\` operator
-*   **FLAME** - Formal Linear Algebra Methods Environment
-*   **TCE** - Tensor Contraction Engine 
+*   **ATLAS** - Autotuning for on architecture
+*   **FLAME** - Language for blocked matrix algorithms
+*   **TCE** - Optimize array access for memory hierarchy
+*   **Spiral** - Code generation for signals processing
+*   **Matlab** - Dynamic runtime checks.  `\` operator
 *   "A Domain-Specific Compiler for Linear Algebra Operations" Fabregat, Bientinesi, 2012  -- AICES
-*   **Spiral** - Hardware specific numeric code generation with internal computation language
 *   **Theano** - Tensor compiler Python $\rightarrow$ Python/C/CUDA
 
-*   **Trillinos** - shared ideals - high-level, separable scientific software, 
-    some high level transformations through templates
 
-
-Separation
-==========
+Software Design
+===============
 
 Separation
 ----------
@@ -361,7 +360,18 @@ Separation
 \includegraphics<2>[width=\textwidth]{images/separation}
 \includegraphics<3>[width=\textwidth]{images/separation-2}
 \end{figure}
+   
+\phantom{\texttt{du -{}-max-depth=1 /home/ \textbar{} sort -n -r \textbar{} lpr}}
 
+Separation
+----------
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{images/separation-2}
+\end{figure}
+
+`du --max-depth=1 /home/ | sort -n -r | lpr`
 
 SYRK
 ----
@@ -481,6 +491,8 @@ $$ Z = \begin{bmatrix} A & B \\\\ C & D \end{bmatrix}
 $$ Z = \begin{bmatrix} A E + B G & A F + B K \\\\ 
                        C E + D G & C F + D K\end{bmatrix} $$
 
+Implemented in `GEMM`
+
 
 Blocked Matrix Inverse Improves Cache Performance
 -------------------------------------------------
@@ -494,6 +506,7 @@ $$ Z = \begin{bmatrix}
 - \left(- C A^{-1} B + D\right)^{-1} C A^{-1} & \left(- C A^{-1} B + D\right)^{-1}
 \end{bmatrix} $$
 
+Implemented in `GESV`, `POSV`
 
 Kalman Filter
 -------------
@@ -506,9 +519,11 @@ assumptions = [positive_definite(Sigma), symmetric(Sigma),
                positive_definite(R), symmetric(R), fullrank(H)]
 ~~~~~~~~~~
 
+\vspace{-1em}
+
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.7\textwidth]{images/kalman-math}
+\includegraphics[width=.9\textwidth]{images/kalman-math}
 \end{figure}
 
 
@@ -527,7 +542,11 @@ blocksizes = {
 blockinputs = [blockcut(i, *blocksizes[i]) for i in inputs]
 blockoutputs = [o.subs(dict(zip(inputs, blockinputs))) for o in outputs]
 collapsed_outputs = map(block_collapse, blockoutputs)
+~~~~~~~~~~
 
+\hrule
+
+~~~~~~~~~~Python
 fblocked = theano_function(inputs, collapsed_outputs, dtypes=dtypes)
 ~~~~~~~~~~
 
@@ -613,26 +632,6 @@ Communication times
 Set of computation subgraphs to minimize total runtime
 
 
-Related work
-------------
-
-*   Heterogeneous Static Scheduling
-    *   **HEFT**: H. Topcuoglu, S. Hariri, M. Wu. *Performance-effective and low-complexity task scheduling for heterogeneous computing.* 2002
-    *   **ILP**: M. Tompkins. *Optimization Techniques for Task Allocation and Scheduling in Distributed Multi-Agent Operations.* 2003
-
-*   Performance Modeling
-    *   E Peise and P Bientinesi. *Performance Modeling for Dense Linear Algebra.* 2012
-    *   Roman Iakymchuk. *Performance Modeling and Prediction for Linear Algebra Algorithms* 2012
-    *   JJ Dongarra, RA Vandegeijn, and DW Walker. *Scalability issues affecting the design of a dense linear algebra library* 1994
-
-*   Automated Dense Linear Algebra
-    *   ScaLAPACK, PlaLAPACK, BLACS
-    *   FLAME - Language for blocked matrix algorithms
-        -   SuperMatrix - Dynamic shared memory variant
-        -   Elemental - Distributed memory variant
-    *   Magma - Hybrid LAPACK - Parametrized dynamic/static scheduling
-
-
 Static Scheduling
 -----------------
 
@@ -655,6 +654,26 @@ Static Scheduling
 \includegraphics[width=.48\textwidth]{images/kalman_cpu1}
 \includegraphics[width=.48\textwidth]{images/kalman_cpu0}
 \end{figure}
+
+
+Related work
+------------
+
+*   Heterogeneous Static Scheduling
+    *   **HEFT**: H. Topcuoglu, S. Hariri, M. Wu. *Performance-effective and low-complexity task scheduling for heterogeneous computing.* 2002
+    *   **ILP**: M. Tompkins. *Optimization Techniques for Task Allocation and Scheduling in Distributed Multi-Agent Operations.* 2003
+
+*   Performance Modeling
+    *   E Peise and P Bientinesi. *Performance Modeling for Dense Linear Algebra.* 2012
+    *   Roman Iakymchuk. *Performance Modeling and Prediction for Linear Algebra Algorithms* 2012
+    *   JJ Dongarra, RA Vandegeijn, and DW Walker. *Scalability issues affecting the design of a dense linear algebra library* 1994
+
+*   Automated Dense Linear Algebra
+    *   ScaLAPACK, PlaLAPACK, BLACS
+    *   FLAME - Language for blocked matrix algorithms
+        -   SuperMatrix - Dynamic shared memory variant
+        -   Elemental - Distributed memory variant
+    *   Magma - Hybrid LAPACK - Parametrized dynamic/static scheduling
 
 
 Conclusion
@@ -684,32 +703,21 @@ Software Links
 +--------------+---------------------------+-------------------------------------------+
 
 
-Other Work and Collaborations
+I Do Other Things
 -----------------------------
-
-*   SymPy - Standard CAS in numeric Python ecosystem
-    *   Statistics / Uncertainty modeling
-    *   Linear algebra
-*   Theano - Array computations
-    *   GPU/MPI asynchronous communication
-    *   Scheduling
-*   SymPy-Theano code generation 
-    *   Mechanical engineering - ODEs of complex expressions
-*   LogPy - Term rewrite system/Compiler tools
-    *   SymPy
-    *   Theano
-        *   Nengo neural simulator
 
 \begin{footnotesize}
 
+Software
 \begin{itemize}
-\item   M. Rocklin, A. Pinar \textit{On Clustering on Graphs with Multiple Edge
-    Types}, Internet Mathematics, 2012
-\item   M. Rocklin, A. Pinar, \textit{Latent Clustering on Graphs with Multiple
-    Edge Types} Algorithms and Models for the Web-Graph, 2011
-\item   M. Rocklin, A. Pinar, \textit{Computing an Aggregate Edge-Weight Function
-    for Clustering Graphs with Multiple Edge
-    Types} Algorithms and Models for the Web-Graph, 2010
+\item   SymPy - Computer Algebra in scientific ecosystem
+\item   Theano - Array computations
+\item   LogPy -  Composable logic programming in Python
+\item   Clojure enthusiast
+\end{itemize}
+
+Uncertainty Quantification and Computational Statistics
+\begin{itemize}
 \item   E. Constantinescu,V. Zavala, M. Rocklin, S. Lee, and M. Anitescu,
     \textit{A Computational Framework for Uncertainty Quantification and
     Stochastic Optimization in Unit Commitment with Wind Power
@@ -718,6 +726,18 @@ Other Work and Collaborations
     Dynamical Systems} 2011, Masters Thesis
 \item   M. Rocklin, \textit{Uncertainty Modeling with SymPy Stats}
     SciPy-2012
+\end{itemize}
+
+
+Structure in Complex Networks
+\begin{itemize}
+\item   M. Rocklin, A. Pinar \textit{On Clustering on Graphs with Multiple Edge
+    Types}, Internet Mathematics, 2012
+\item   M. Rocklin, A. Pinar, \textit{Latent Clustering on Graphs with Multiple
+    Edge Types} Algorithms and Models for the Web-Graph, 2011
+\item   M. Rocklin, A. Pinar, \textit{Computing an Aggregate Edge-Weight Function
+    for Clustering Graphs with Multiple Edge
+    Types} Algorithms and Models for the Web-Graph, 2010
 \end{itemize}
 
 
