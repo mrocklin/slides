@@ -679,30 +679,6 @@ Related work
 Conclusion
 ==========
 
-Software Links
---------------
-
-+--------------+---------------------------+-------------------------------------------+
-|  Project     | Application               | URL                                       |
-+==============+===========================+===========================================+
-| SymPy        | Computer Algebra          | http://github.com/sympy/sympy/            |
-+--------------+---------------------------+-------------------------------------------+
-| Computations | BLAS/LAPACK/FFTW/...      | http://github.com/mrocklin/computations/  |
-+--------------+---------------------------+-------------------------------------------+
-| LogPy        | Logic Programming         | http://github.com/logpy/logpy/            |
-+--------------+---------------------------+-------------------------------------------+
-| Strategies   | Control Flow Programming  | http://github.com/logpy/strategies/       |
-+--------------+---------------------------+-------------------------------------------+
-| Theano       | Array Computation         | http://deeplearning.net/software/theano/  |
-+--------------+---------------------------+-------------------------------------------+
-| HEFT         | Scheduling Heuristic      | http://github.com/mrocklin/heft/          |
-+--------------+---------------------------+-------------------------------------------+
-| ILP          | Scheduling Algorithm      | http://github.com/mrocklin/tompkins/      |
-+--------------+---------------------------+-------------------------------------------+
-| Blog         | Numerical Experiments     | http://matthewrocklin.com/blog/           |
-+--------------+---------------------------+-------------------------------------------+
-
-
 I Do Other Things
 -----------------------------
 
