@@ -47,30 +47,39 @@ Argument for High Level Languages
 \includegraphics[width=.6\textwidth]{images/venn-uq-cuda}
 \end{figure}
 
-**Have**:  Plenty of static libraries (BLAS/LAPACK/PETSc/Trillinos) 
+**Have**:  Static libraries (BLAS/LAPACK/PETSc/Trillinos) 
 
-**Have**:  Plenty of high level scripting environments (Matlab/Python/R)
+**Have**:  High level scripting environments (Matlab/Python/R)
 
-**Don't Have**:  Ability to express high-level transformations on high-level code
+**Have**:  Low level transformations/compilers (gcc/ADOLC)
 
-
-Today
------
-
-**Computer Algebra**: Define Linear Algebra in a Computer Algebra System (`SymPy`)
-
-**Backends**: Connect to separate computational backends 
-            (Theano and BLAS/LAPACK)
-
-**Performance**: Improvements through algorithm selection and blocking
-
-**Development**: Demographic challenges behind scientific software development
-
-**If time**: Static scheduling (briefly)
+**Don't Have**:  High-level transformation/compilers on high-level code
 
 
-Argument for High Level Compilers - Optimizations
--------------------------------------------------
+Outline
+-------
+
+Today: 
+
+*   **Computer Algebra**: Define Linear Algebra in a Computer Algebra System (`SymPy`)
+*   **Code Generation for Numeric Computing**: Fortran90 and BLAS/LAPACK
+*   **Software Design**: Separation facilitates growth
+    *   Performance: Improvements through algorithm selection and blocking
+    *   Development: Demographic challenges behind scientific software development
+*   **Static scheduling**: briefly
+
+Missing:
+
+*   **Pattern Matching**:  Idiomatic description of expertise
+*   **Operation Covering**:  Selecting operations to cover a computation
+*   **Algorithm Selection**:  Efficiently searching a graph of possible algorithms
+
+Matrix Expressions and Computations
+===================================
+
+
+Argument for High Level Compilers
+---------------------------------
 
     x = ones(10000, 1)
 
@@ -84,8 +93,8 @@ Argument for High Level Compilers - Optimizations
 \end{figure}
 
 
-Argument for High Level Compilers - Inference
----------------------------------------------
+Argument for High Level Compilers
+---------------------------------
 
 For all matrices $\mathbf{A, B}$ such that $\mathbf A$ is symmetric positive-definite and $\mathbf B$ is orthogonal:
 
@@ -101,8 +110,8 @@ positive-definite?
 Are there any symbolic algebra systems (like Mathematica) that handle and propagate known facts about matrices?
 
 
-Argument for High Level Compilers - Inference
----------------------------------------------
+Argument for High Level Compilers
+---------------------------------
 
 For all matrices $\mathbf{A, B}$ such that $\mathbf A$ is symmetric positive-definite and $\mathbf B$ is orthogonal:
 
@@ -131,9 +140,6 @@ Are there any symbolic algebra systems (like Mathematica) that handle and propag
 True
 ~~~~~~~~
 
-
-Matrix Expressions and Computations
-===================================
 
 
 Linear Regression - Math
@@ -241,7 +247,7 @@ Necessary Definitions
     class SYMM(BLAS):
         inputs    = [alpha, A, B, beta, C]
         outputs   = [alpha*A*B + beta*C]
-        condition = symmetric(A) or symmetric(B)
+        condition = symmetric(A) | symmetric(B)
         inplace   = {0: 4}
         fortran   = ....
 
@@ -339,6 +345,8 @@ f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
 Background and Related Work
 ---------------------------
 
+Related Software
+
 *   **ATLAS** - Autotuning for on architecture
 *   **FLAME** - Language for blocked matrix algorithms
 *   **TCE** - Optimize array access for memory hierarchy
@@ -347,6 +355,11 @@ Background and Related Work
 *   "A Domain-Specific Compiler for Linear Algebra Operations" Fabregat, Bientinesi, 2012  -- AICES
 *   **Theano** - Tensor compiler Python $\rightarrow$ Python/C/CUDA
 
+Big Ideas
+
+*   We should formally encode our expertise and distribute it widely
+*   Compilers can go farther than static libraries and scripting languages
+*   Scientific Computing should reconnect with the Programming Languages community
 
 Software Design
 ===============
@@ -361,6 +374,9 @@ Separation
 \includegraphics<3>[width=\textwidth]{images/separation-2}
 \end{figure}
    
+
+\phantom{Unix Model of Modularity}
+
 \phantom{\texttt{du -{}-max-depth=1 /home/ \textbar{} sort -n -r \textbar{} lpr}}
 
 Separation
@@ -370,6 +386,8 @@ Separation
 \centering
 \includegraphics[width=\textwidth]{images/separation-2}
 \end{figure}
+
+Unix Model of Modularity
 
 `du --max-depth=1 /home/ | sort -n -r | lpr`
 
@@ -433,6 +451,42 @@ SYRK
     Elapsed real time = 0.39500001 
 
 
+Blocked Algorithms
+==================
+
+Blocked Matrix Multiply Improves Cache Performance
+----------------------------------------------------
+
+$$ X, Y \in \mathbb{R}^{n \times n}$$
+$$ A, B, C, D, E, F, G, K \in \mathbb{R}^{\frac{n}{2}\times \frac{n}{2}}$$
+$$ X = \begin{bmatrix} A & B \\\\ C & D \end{bmatrix} $$
+$$ Y = \begin{bmatrix} E & F \\\\ G & K \end{bmatrix} $$
+
+$$ Z = X Y = \begin{bmatrix} A & B \\\\ C & D \end{bmatrix} 
+             \begin{bmatrix} E & F \\\\ G & K \end{bmatrix}$$
+
+
+$$ Z = \begin{bmatrix} A E + B G & A F + B K \\\\ 
+                       C E + D G & C F + D K\end{bmatrix} $$
+
+Implemented in `GEMM`
+
+
+Blocked Matrix Inverse Improves Cache Performance
+-------------------------------------------------
+
+
+$$ Z = \begin{bmatrix} A & B \\\\ C & D \end{bmatrix}^{-1} $$
+
+
+$$ Z = \begin{bmatrix} 
+\left(- B D^{-1} C + A\right)^{-1} & - A^{-1} B \left(- C A^{-1} B + D\right)^{-1} \\\\ 
+- \left(- C A^{-1} B + D\right)^{-1} C A^{-1} & \left(- C A^{-1} B + D\right)^{-1}
+\end{bmatrix} $$
+
+Implemented in `GESV`, `POSV`
+
+
 Separation promotes Comparison and Experimentation
 --------------------------------------------------
 
@@ -473,40 +527,6 @@ newSigma= Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
 f = theano_function([mu, Sigma, H, R, data], [newmu, newSigma])
 ~~~~~~~~~~
 
-Blocked Algorithms
-==================
-
-Blocked Matrix Multiply Improves Cache Performance
-----------------------------------------------------
-
-$$ A, B, C, D, E, F, G, K \in \mathbb{R}^{n\times n}$$
-$$ X, Y, Z \in \mathbb{R}^{2n \times 2n}$$
-$$ X = \begin{bmatrix} A & B \\\\ C & D \end{bmatrix} $$
-$$ Y = \begin{bmatrix} E & F \\\\ G & K \end{bmatrix} $$
-
-$$ Z = \begin{bmatrix} A & B \\\\ C & D \end{bmatrix} 
-       \begin{bmatrix} E & F \\\\ G & K \end{bmatrix}$$
-
-
-$$ Z = \begin{bmatrix} A E + B G & A F + B K \\\\ 
-                       C E + D G & C F + D K\end{bmatrix} $$
-
-Implemented in `GEMM`
-
-
-Blocked Matrix Inverse Improves Cache Performance
--------------------------------------------------
-
-
-$$ Z = \begin{bmatrix} A & B \\\\ C & D \end{bmatrix}^{-1} $$
-
-
-$$ Z = \begin{bmatrix} 
-\left(- B D^{-1} C + A\right)^{-1} & - A^{-1} B \left(- C A^{-1} B + D\right)^{-1} \\\\ 
-- \left(- C A^{-1} B + D\right)^{-1} C A^{-1} & \left(- C A^{-1} B + D\right)^{-1}
-\end{bmatrix} $$
-
-Implemented in `GESV`, `POSV`
 
 Kalman Filter
 -------------
@@ -573,6 +593,9 @@ Blocked Kalman Filter
 1 loops, best of 3: 2.12 s per loop
 ~~~~~~~~~~~
 
+
+Static Scheduling
+=================
 
 Separation Promotes Extension
 -----------------------------
@@ -656,8 +679,14 @@ Static Scheduling
 \end{figure}
 
 
-Related work
-------------
+Applications and Related work
+-----------------------------
+
+*   Applications
+    *   Embedded Hardware - Signals Processing
+    *   Heterogeneous Compute Nodes
+    *   Non-Uniform Memory Architecture
+    *   Static/Dynamic Hybrid schedulers
 
 *   Heterogeneous Static Scheduling
     *   **HEFT**: H. Topcuoglu, S. Hariri, M. Wu. *Performance-effective and low-complexity task scheduling for heterogeneous computing.* 2002
@@ -671,13 +700,10 @@ Related work
 *   Automated Dense Linear Algebra
     *   ScaLAPACK, PlaLAPACK, BLACS
     *   FLAME - Language for blocked matrix algorithms
-        -   SuperMatrix - Dynamic shared memory variant
+        -   SuperMatrix - Shared memory variant
         -   Elemental - Distributed memory variant
     *   Magma - Hybrid LAPACK - Parametrized dynamic/static scheduling
 
-
-Conclusion
-==========
 
 I Do Other Things
 -----------------------------
