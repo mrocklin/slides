@@ -47,17 +47,22 @@ Argument for High Level Languages
 \includegraphics[width=.6\textwidth]{images/venn-uq-cuda}
 \end{figure}
 
-**Have**:  Static libraries (BLAS/LAPACK/PETSc/Trillinos) 
-
-**Have**:  High level scripting environments (Matlab/Python/R)
+**Have**:  Static low-level libraries (BLAS/LAPACK/PETSc/Trillinos) 
 
 **Have**:  Low level transformations/compilers (gcc/ADOLC)
+
+**Have**:  High level scripting environments (Matlab/Python/R)
 
 **Don't Have**:  High-level transformation/compilers on high-level code
 
 
 Outline
 -------
+
+Point:
+
+*   Software engineering, particularly modularity, 
+    is worth thinking about, particularly in scientific computing
 
 Today: 
 
