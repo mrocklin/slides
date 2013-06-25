@@ -1,96 +1,18 @@
-% Mathematically Informed Automated Linear Algebra
+% Matrix Expressions and BLAS/LAPACK
 % Matthew Rocklin
-% May 18th, 2013
+% June nth, 2013
 
-Challenges of Scientific Computation
-------------------------------------
-
-\begin{figure}[htbp]
-\centering
-\includegraphics<1>[width=\textwidth]{images/math-hardware-computation}
-\includegraphics<2>[width=\textwidth]{images/math-hardware-computation-automation}
-\end{figure}
-
-Slides 
-
-    http://github.com/mrocklin/slides
-    git clone git@github.com:mrocklin/slides  
-    git checkout kaust
-    make pdf
-
-Motivating Problem
-==================
-
-
-Uncertainty Propagation via Derivatives
----------------------------------------
-
-\begin{figure}[htbp]
-\centering
-\includegraphics<1>[width=\textwidth]{images/uq-1}
-\includegraphics<2>[width=\textwidth]{images/uq-2}
-\includegraphics<3>[width=\textwidth]{images/uq-3}
-\includegraphics<4>[width=.8\textwidth]{images/uq-4}
-\end{figure}
-
-
-
-Argument for High Level Languages 
----------------------------------
-
-**Want**:  Physical processes, derivatives, matrix computations, statistics, and time stepping methods all on array expressions
-
-**Don't want**:  Multiple implementations across hardware (CPU, GPU, ....)
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.6\textwidth]{images/venn-uq-cuda}
-\end{figure}
-
-**Have**:  Static low-level libraries (BLAS/LAPACK/PETSc/Trillinos) 
-
-**Have**:  Low level transformations/compilers (gcc/ADOLC)
-
-**Have**:  High level scripting environments (Matlab/Python/R)
-
-**Don't Have**:  High-level transformation/compilers on high-level code
-
-
-Outline
--------
-
-Point:
-
-*   Software engineering, particularly modularity, 
-    is worth thinking about, particularly in scientific computing
-
-Today: 
-
-*   **Computer Algebra**: Define Linear Algebra in a Computer Algebra System (`SymPy`)
-*   **Code Generation for Numeric Computing**: Fortran90 and BLAS/LAPACK
-*   **Software Design**: Separation facilitates growth
-    *   Performance: Improvements through algorithm selection and blocking
-    *   Development: Demographic challenges behind scientific software development
-*   **Static scheduling**: briefly
-
-Missing:
-
-*   **Pattern Matching**:  Idiomatic description of expertise
-*   **Operation Covering**:  Selecting operations to cover a computation
-*   **Algorithm Selection**:  Efficiently searching a graph of possible algorithms
-
-Matrix Expressions and Computations
-===================================
-
+Problem
+=======
 
 Argument for High Level Compilers
 ---------------------------------
 
-    x = ones(10000, 1)
+    x = matrix(ones(10000, 1))
 
-    x*x'*x              Elapsed time is    ?     seconds.
-    (x*x')*x            Elapsed time is 0.337711 seconds.
-    x*(x'*x)            Elapsed time is 0.000956 seconds.
+    x*x.T*x              Elapsed time is    ?     seconds.
+    (x*x.T)*x            Elapsed time is 0.337711 seconds.
+    x*(x.T*x)            Elapsed time is 0.000956 seconds.
 
 \begin{figure}[htbp]
 \centering
@@ -113,38 +35,6 @@ positive-definite?
 **Answer**: Probably.
 
 Are there any symbolic algebra systems (like Mathematica) that handle and propagate known facts about matrices?
-
-
-Argument for High Level Compilers
----------------------------------
-
-For all matrices $\mathbf{A, B}$ such that $\mathbf A$ is symmetric positive-definite and $\mathbf B$ is orthogonal:
-
-**Question**: is $\mathbf B \cdot\mathbf A \cdot\mathbf B^\top$ symmetric and
-positive-definite? 
-
-**Answer**: Yes.
-
-**Question**: Could a computer have told us this?
-
-**Answer**: Probably.
-
-Are there any symbolic algebra systems (like Mathematica) that handle and propagate known facts about matrices?
-
-\vspace{1em}
-\hrule
-
-    sympy.matrices.expressions
-
-~~~~~~~~Python
->>> A = MatrixSymbol('A', n, n)
->>> B = MatrixSymbol('B', n, n)
->>> context = symmetric(A) & positive_definite(A) & orthogonal(B)
->>> query   = symmetric(B*A*B.T) & positive_definite(B*A*B.T)
->>> ask(query, context)
-True
-~~~~~~~~
-
 
 
 Linear Regression - Math
@@ -194,7 +84,7 @@ $$ \beta = (X^TX)^{-1}X^Ty $$
 
 Python/NumPy
 
-    beta = spd_solve(X.T*X, X.T*y)
+    beta = solve(X.T*X, X.T*y, sym_pos=True)
 
 MatLab
 
@@ -234,78 +124,150 @@ Connecting Math and Computation
 \end{figure}
 
 
-Necessary Definitions
----------------------
+Matrix Expressions and SymPy
+============================
 
-**Language**: Multiply, addition, inverse, transpose, trace, determinant, blocks, etc...
+SymPy Expressions
+-----------------
 
-    X = MatrixSymbol('X', n, n)
-    y = MatrixSymbol('y', n, 1)
-    beta = (X.T*X).I * X.T*y              X.I*X -> Identity
+Operators (Add, log, exp, sin, integral, derivative, ...) are Python classes
 
-**Predicates**: symmetric, positive_definite, full_rank, orthogonal, triangular, etc....
+Terms ( 3, x, log(3*x), integral(x**2), ...) are Python objects
 
-    fullrank(X)                           fullrank(X) -> positive_definite(X.T*X)
 
-**Computations**:
+\begin{columns}
+  \begin{column}{0.5\textwidth}
+    \lstinputlisting{expr.py}
+  \end{column}
 
-    class SYMM(BLAS):
-        inputs    = [alpha, A, B, beta, C]
-        outputs   = [alpha*A*B + beta*C]
-        condition = symmetric(A) | symmetric(B)
-        inplace   = {0: 4}
-        fortran   = ....
+  \begin{column}{0.5\textwidth}
+    \begin{figure}[htbp]
+    \centering
+    \includegraphics<1>[width=.7\textwidth, totalheight=.6\textheight, keepaspectratio]{images/expr}
+    \includegraphics<2>[width=.7\textwidth, totalheight=.6\textheight, keepaspectratio]{images/sexpr}
+    \end{figure}
+  \end{column}
+\end{columns}
 
-**Compiler Tools**:  Pattern matching, logic programming, algorithm search, ....
 
-Necessary Definitions
----------------------
+Inference
+---------
 
-**Language**: Multiply, addition, inverse, transpose, trace, determinant, blocks, etc...
+~~~~~~~~~~~~Python
+>>> x = Symbol('x')
+>>> y = Symbol('y')
 
-    X = MatrixSymbol('X', n, n)
-    y = MatrixSymbol('y', n, 1)
-    beta = (X.T*X).I * X.T*y              X.I*X -> Identity
+>>> facts = Q.positive(y) & Q.real(x)
+>>> query = Q.positive(x**2 + y)
 
-**Predicates**: symmetric, positive_definite, full_rank, orthogonal, triangular, etc....
+>>> ask(query, facts)
+True
+~~~~~~~~~~~~
 
-    fullrank(X)                           fullrank(X) -> positive_definite(X.T*X)
 
-**Computations**:
+Matrix Expressions
+------------------
+
+~~~~~~~~~~~~Python
+>>> X = MatrixSymbol('X', n, m)
+>>> y = MatrixSymbol('y', n, 1)
+
+>>> beta = MatMul(Inverse(MatMul(Transpose(X), X)),  Transpose(X), y)
+>>> beta = (X.T*X).I * X.T*y
+~~~~~~~~~~~~
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.5\textwidth]{images/symm}
+\includegraphics[width=.4\textwidth]{images/matrixexpr}
 \end{figure}
 
 
-Compilation
------------
+Matrix Inference
+----------------
 
-\begin{figure}[htbp]
-\centering
-\includegraphics<1->[width=.24\textwidth]{images/hat0}
-\includegraphics<2->[width=.24\textwidth]{images/hat1}
-\includegraphics<3->[width=.24\textwidth]{images/hat2}
-\includegraphics<4->[width=.24\textwidth]{images/hat3}
-\end{figure}
+For all matrices $\mathbf{A, B}$ such that $\mathbf A$ is symmetric positive-definite and $\mathbf B$ is orthogonal:
 
+**Question**: is $\mathbf B \cdot\mathbf A \cdot\mathbf B^\top$ symmetric and
+positive-definite? 
 
-User Experience
----------------
+**Answer**: Yes.
+
+**Question**: Could a computer have told us this?
+
+**Answer**: Probably.
+
+Are there any symbolic algebra systems (like Mathematica) that handle and propagate known facts about matrices?
+
+\vspace{1em}
+\hrule
+
+    sympy.matrices.expressions
 
 ~~~~~~~~Python
-X = MatrixSymbol('X', n, m)
-y = MatrixSymbol('y', n, 1)
+>>> A = MatrixSymbol('A', n, n)
+>>> B = MatrixSymbol('B', n, n)
 
-inputs  = [X, y]
-outputs = [(X.T*X).I*X.T*y]
-facts   = fullrank(X)
+>>> facts = Q.symmetric(A) & Q.positive_definite(A) & Q.orthogonal(B)
+>>> query = Q.symmetric(B*A*B.T) & Q.positive_definite(B*A*B.T)
 
-f = fortran_function(inputs, outputs, facts)
-~~~~~~~~~
+>>> ask(query, facts)
+True
+~~~~~~~~
 
-\hrule
+
+Computations
+============
+
+BLAS/LAPACK
+-----------
+
+Numeric libraries for dense linear algebra
+
+*  `DGEMM` - **D**ouble precision **GE**neral **M**atrix **M**ultiply -- $\alpha A B + \beta C$
+    *   `SUBROUTINE DGEMM(TRANSA,TRANSB,M,N,K,ALPHA,A,LDA,B,LDB,BETA,C,LDC)`
+
+*  `DSYMM` - **D**ouble precision **SY**mmetric **M**atrix **M**ultiply -- $\alpha A B + \beta C$
+    *   `SUBROUTINE DSYMM(SIDE,UPLO,M,N,ALPHA,A,LDA,B,LDB,BETA,C,LDC)`
+
+*  ...
+
+*  `DPOSV` - **D**ouble symmetric **PO**sitive definite matrix **S**ol**V**e  -- $A^{-1}y$
+    *   `SUBROUTINE DPOSV( UPLO, N, NRHS, A, LDA, B, LDB, INFO )`
+
+
+Definition of a Routine
+-----------------------
+
+\begin{figure}[htbp]
+\centering
+\includegraphics<1>[width=.8\textwidth]{images/linregress}
+\includegraphics<2>[width=\textwidth]{images/ilinregress}
+\end{figure}
+\vspace{-4em}
+
+~~~~~~~~~~~~~~~Python
+comp = (GEMM(1, X.T, X, 0, 0) 
+      + GEMM(1, X.T, y, 0, 0)
+      + POSV(X.T*X, X.T*y))
+
+class GEMM(BLAS):
+    """ Genreral Matrix Multiply """
+    inputs    = [alpha, A, B, beta, C]
+    outputs   = [alpha*A*B + beta*C]
+    inplace   = {0: 4}
+    fortran   = ....
+
+class POSV(BLAS):
+    """ Symmetric Positive Definite Matrix Solve """
+    inputs    = [A, y]
+    outputs   = [UofCholesky(A), A.I*y]
+    inplace   = {0: 0, 1: 1}
+    condition = Q.symmetric(A) & Q.positive_definite(A)
+    fortran   = ....
+~~~~~~~~~~~~~~~
+
+Code Generation
+---------------
 
 ~~~~~~~~Fortran
 subroutine f(X, y, var_7, m, n)
@@ -327,6 +289,55 @@ RETURN
 END
 ~~~~~~~~~
 
+Automation
+==========
+
+Problem
+-------
+
+
+**Have**
+
+    (X.T*X).I*X.T*y
+    full_rank(X)
+
+**Want**
+
+    comp = (GEMM(1, X.T, X, 0, 0) 
+          + GEMM(1, X.T, y, 0, 0)
+          + POSV(X.T*X, X.T*y))
+
+**Accomplish Using Pattern Matching**
+
+~~~~~~~~~~~Python
+# Source Expression,  Target Computation,        Condition
+(alpha*A*B + beta*C, GEMM(alpha, A, B, beta, C), True),
+(alpha*A*B + beta*C, SYMM(alpha, A, B, beta, C), Q.symmetric(A) | Q.symmetric(B)),
+(A.I*x,              POSV(A, x),        Q.symmetric(A) & Q.positive_definite(A)),
+(alpha*A + B,        AXPY(alpha, A, B), True),
+~~~~~~~~~~~
+
+Pattern Matching done with LogPy, a composable Logic Programming library
+
+Evolution
+---------
+
+\begin{figure}[htbp]
+\centering
+\includegraphics<1->[width=.24\textwidth]{images/hat0}
+\includegraphics<2->[width=.24\textwidth]{images/hat1}
+\includegraphics<3->[width=.24\textwidth]{images/hat2}
+\includegraphics<4->[width=.24\textwidth]{images/hat3}
+\end{figure}
+
+~~~~~~~~~~~Python
+# Source Expression,  Target Computation,        Condition
+(alpha*A*B + beta*C, GEMM(alpha, A, B, beta, C), True),
+(alpha*A*B + beta*C, SYMM(alpha, A, B, beta, C), Q.symmetric(A) | Q.symmetric(B)),
+(A.I*x,              POSV(A, x),        Q.symmetric(A) & Q.positive_definite(A)),
+(alpha*A + B,        AXPY(alpha, A, B), True),
+~~~~~~~~~~~
+
 Kalman Filter
 -------------
 
@@ -334,8 +345,8 @@ Kalman Filter
 newmu       = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
 newSigma    = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
 
-assumptions = [positive_definite(Sigma), symmetric(Sigma), 
-               positive_definite(R), symmetric(R), fullrank(H)]
+assumptions = [Q.positive_definite(Sigma), Q.symmetric(Sigma), 
+               Q.positive_definite(R), Q.symmetric(R), Q.fullrank(H)]
 
 f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
 ~~~~~~~~~~
@@ -347,24 +358,13 @@ f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
 \end{figure}
 
 
-Background and Related Work
----------------------------
+Kalman Filter
+-------------
 
-Related Software
+~~~~~~~~~~~Fortran
+include [Kalman](kalman.f90)
+~~~~~~~~~~~
 
-*   **ATLAS** - Autotuning for on architecture
-*   **FLAME** - Language for blocked matrix algorithms
-*   **TCE** - Optimize array access for memory hierarchy
-*   **Spiral** - Code generation for signals processing
-*   **Matlab** - Dynamic runtime checks.  `\` operator
-*   "A Domain-Specific Compiler for Linear Algebra Operations" Fabregat, Bientinesi, 2012  -- AICES
-*   **Theano** - Tensor compiler Python $\rightarrow$ Python/C/CUDA
-
-Big Ideas
-
-*   We should formally encode our expertise and distribute it widely
-*   Compilers can go farther than static libraries and scripting languages
-*   Scientific Computing should reconnect with the Programming Languages community
 
 Software Design
 ===============
@@ -380,22 +380,6 @@ Separation
 \end{figure}
    
 
-\phantom{Unix Model of Modularity}
-
-\phantom{\texttt{du -{}-max-depth=1 /home/ \textbar{} sort -n -r \textbar{} lpr}}
-
-Separation
-----------
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{images/separation-2}
-\end{figure}
-
-Unix Model of Modularity
-
-`du --max-depth=1 /home/ | sort -n -r | lpr`
-
 SYRK
 ----
 
@@ -410,7 +394,8 @@ facts   = fullrank(X)
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.9\textwidth]{images/hat-comp}
+\includegraphics<1>[width=.9\textwidth]{images/hat-comp}
+\includegraphics<2>[width=.9\textwidth]{images/hat-comp-syrk}
 \end{figure}
 
 
@@ -425,8 +410,8 @@ SYRK
 ~~~~~~~~~~~Python
 class SYRK(BLAS):
     """ Symmetric Rank-K Update `alpha X' X + beta Y' """
-    _inputs  = (alpha, A, beta, D)
-    _outputs = (alpha * A * A.T + beta * D,)
+    inputs  = (alpha, A, beta, D)
+    outputs = (alpha * A * A.T + beta * D,)
     inplace  = {0: 3}
     fortran_template = ("call %(fn)s('%(UPLO)s', '%(TRANS)s', %(N)s, %(K)s, "
                         "%(alpha)s, %(A)s, %(LDA)s, "
@@ -434,62 +419,8 @@ class SYRK(BLAS):
     ...
 
   (alpha*A*A.T + beta*D, SYRK(alpha, A, beta, D), True),
-  (A*A.T,                SYRK(1.0, A, 0.0, 0),  , True),
+  (A*A.T,                SYRK(1.0, A, 0.0, 0),    True),
 ~~~~~~~~~~~~
-
-
-SYRK
-----
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\textwidth]{images/hat-comp}
-\end{figure}
-
-    Elapsed real time = 0.43399999 
-    
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\textwidth]{images/hat-comp-syrk}
-\end{figure}
-
-    Elapsed real time = 0.39500001 
-
-
-Blocked Algorithms
-==================
-
-Blocked Matrix Multiply Improves Cache Performance
-----------------------------------------------------
-
-$$ X, Y \in \mathbb{R}^{n \times n}$$
-$$ A, B, C, D, E, F, G, K \in \mathbb{R}^{\frac{n}{2}\times \frac{n}{2}}$$
-$$ X = \begin{bmatrix} A & B \\\\ C & D \end{bmatrix} $$
-$$ Y = \begin{bmatrix} E & F \\\\ G & K \end{bmatrix} $$
-
-$$ Z = X Y = \begin{bmatrix} A & B \\\\ C & D \end{bmatrix} 
-             \begin{bmatrix} E & F \\\\ G & K \end{bmatrix}$$
-
-
-$$ Z = \begin{bmatrix} A E + B G & A F + B K \\\\ 
-                       C E + D G & C F + D K\end{bmatrix} $$
-
-Implemented in `GEMM`
-
-
-Blocked Matrix Inverse Improves Cache Performance
--------------------------------------------------
-
-
-$$ Z = \begin{bmatrix} A & B \\\\ C & D \end{bmatrix}^{-1} $$
-
-
-$$ Z = \begin{bmatrix} 
-\left(- B D^{-1} C + A\right)^{-1} & - A^{-1} B \left(- C A^{-1} B + D\right)^{-1} \\\\ 
-- \left(- C A^{-1} B + D\right)^{-1} C A^{-1} & \left(- C A^{-1} B + D\right)^{-1}
-\end{bmatrix} $$
-
-Implemented in `GESV`, `POSV`
 
 
 Separation promotes Comparison and Experimentation
@@ -506,44 +437,14 @@ Kalman Filter - Theano v. Fortran
 ---------------------------------
 
 ~~~~~~~~~~Python
-from sympy.computations.matrices import fortran_function
-
-newmu   = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
-newSigma= Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
-
-assumptions = [positive_definite(Sigma), symmetric(Sigma), 
-               positive_definite(R), symmetric(R), fullrank(H)]
-
-f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
-~~~~~~~~~~
-
-Kalman Filter - Theano v. Fortran
----------------------------------
-
-~~~~~~~~~~Python
-from sympy.printing.theanocode import theano_function
-
-newmu   = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
-newSigma= Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
-
-
-
-
-f = theano_function([mu, Sigma, H, R, data], [newmu, newSigma])
-~~~~~~~~~~
-
-
-Kalman Filter
--------------
-
-~~~~~~~~~~Python
 newmu       = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
 newSigma    = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
 
-assumptions = [positive_definite(Sigma), symmetric(Sigma), 
-               positive_definite(R), symmetric(R), fullrank(H)]
-~~~~~~~~~~
+assumptions = [Q.positive_definite(Sigma), Q.symmetric(Sigma), 
+               Q.positive_definite(R), Q.symmetric(R), Q.fullrank(H)]
 
+f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
+~~~~~~~~~~
 \vspace{-1em}
 
 \begin{figure}[htbp]
@@ -552,203 +453,25 @@ assumptions = [positive_definite(Sigma), symmetric(Sigma),
 \end{figure}
 
 
-Blocked Kalman Filter
----------------------
+Kalman Filter - Theano v. Fortran
+---------------------------------
 
+\vspace{-1.5em}
 ~~~~~~~~~~Python
-from sympy import blockcut, block_collapse
-blocksizes = {
-        Sigma: [(n/2, n/2), (n/2, n/2)],
-        H:     [(k/2, k/2), (n/2, n/2)],
-        R:     [(k/2, k/2), (k/2, k/2)],
-        mu:    [(n/2, n/2), (1,)],
-        data:  [(k/2, k/2), (1,)]
-        }
-blockinputs = [blockcut(i, *blocksizes[i]) for i in inputs]
-blockoutputs = [o.subs(dict(zip(inputs, blockinputs))) for o in outputs]
-collapsed_outputs = map(block_collapse, blockoutputs)
+newmu       = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
+newSigma    = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
+
+
+
+
+f = theano_function( [mu, Sigma, H, R, data], [newmu, newSigma])
 ~~~~~~~~~~
-
-\hrule
-
-~~~~~~~~~~Python
-fblocked = theano_function(inputs, collapsed_outputs, dtypes=dtypes)
-~~~~~~~~~~
+\vspace{+5em}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.9\textwidth]{images/fblocked}
+\includegraphics[width=\textwidth]{images/kalman-theano}
 \end{figure}
-
-
-Blocked Kalman Filter
----------------------
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\textwidth]{images/fblocked}
-\end{figure}
-
-~~~~~~~~~~~Python
->>> inputs = [numpy.random.....  ]
->>> timeit f(*inputs)
-1 loops, best of 3: 2.69 s per loop
-
->>> timeit fblocked(*inputs)
-1 loops, best of 3: 2.12 s per loop
-~~~~~~~~~~~
-
-
-Static Scheduling
-=================
-
-Separation Promotes Extension
------------------------------
-
-\begin{figure}[htbp]
-\centering
-\includegraphics<1>[width=\textwidth]{images/separation-2}
-\includegraphics<2>[width=\textwidth]{images/separation-ss}
-\end{figure}
-
-
-Static Scheduling
------------------
-
-**Given**:
-\begin{columns}
-\column{.5\textwidth}
-
-Computation Graph
-
-\column{.5\textwidth}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.8\textwidth]{images/hat-comp}
-\end{figure}
-
-\end{columns}
-
-\begin{columns}
-\column{.5\textwidth}
-Worker network 
-
-\column{.5\textwidth}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.8\textwidth]{images/worker}
-\end{figure}
-\end{columns}
-
-
-\begin{columns}
-\column{.5\textwidth}
-Computation times
-
-Communication times 
-
-\column{.5\textwidth}
-:: task, worker $\rightarrow$ time
-
-:: variable, source, target $\rightarrow$ time
-\end{columns}
-
-**Produce**:
-
-Set of computation subgraphs to minimize total runtime
-
-
-Static Scheduling
------------------
-
-    newmu    = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
-    newSigma = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.8\textwidth]{images/kalman-math}
-\end{figure}
-
-Static Scheduling
------------------
-    
-    newmu    = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
-    newSigma = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.48\textwidth]{images/kalman_cpu1}
-\includegraphics[width=.48\textwidth]{images/kalman_cpu0}
-\end{figure}
-
-
-Applications and Related work
------------------------------
-
-*   Applications
-    *   Embedded Hardware - Signals Processing
-    *   Heterogeneous Compute Nodes
-    *   Non-Uniform Memory Architecture
-    *   Static/Dynamic Hybrid schedulers
-
-*   Heterogeneous Static Scheduling
-    *   **HEFT**: H. Topcuoglu, S. Hariri, M. Wu. *Performance-effective and low-complexity task scheduling for heterogeneous computing.* 2002
-    *   **ILP**: M. Tompkins. *Optimization Techniques for Task Allocation and Scheduling in Distributed Multi-Agent Operations.* 2003
-
-*   Performance Modeling
-    *   E Peise and P Bientinesi. *Performance Modeling for Dense Linear Algebra.* 2012
-    *   Roman Iakymchuk. *Performance Modeling and Prediction for Linear Algebra Algorithms* 2012
-    *   JJ Dongarra, RA Vandegeijn, and DW Walker. *Scalability issues affecting the design of a dense linear algebra library* 1994
-
-*   Automated Dense Linear Algebra
-    *   ScaLAPACK, PlaLAPACK, BLACS
-    *   FLAME - Language for blocked matrix algorithms
-        -   SuperMatrix - Shared memory variant
-        -   Elemental - Distributed memory variant
-    *   Magma - Hybrid LAPACK - Parametrized dynamic/static scheduling
-
-
-I Do Other Things
------------------------------
-
-\begin{footnotesize}
-
-Software
-\begin{itemize}
-\item   SymPy - Computer Algebra in scientific ecosystem
-\item   Theano - Array computations
-\item   LogPy -  Composable logic programming in Python
-\item   Clojure enthusiast
-\end{itemize}
-
-Uncertainty Quantification and Computational Statistics
-\begin{itemize}
-\item   E. Constantinescu,V. Zavala, M. Rocklin, S. Lee, and M. Anitescu,
-    \textit{A Computational Framework for Uncertainty Quantification and
-    Stochastic Optimization in Unit Commitment with Wind Power
-    Generation.} IEEE Transactions on Power Systems, 2010.
-\item M. Rocklin, \textit{Uncertainty Quantification and Sensitivity Analysis in
-    Dynamical Systems} 2011, Masters Thesis
-\item   M. Rocklin, \textit{Uncertainty Modeling with SymPy Stats}
-    SciPy-2012
-\end{itemize}
-
-
-Structure in Complex Networks
-\begin{itemize}
-\item   M. Rocklin, A. Pinar \textit{On Clustering on Graphs with Multiple Edge
-    Types}, Internet Mathematics, 2012
-\item   M. Rocklin, A. Pinar, \textit{Latent Clustering on Graphs with Multiple
-    Edge Types} Algorithms and Models for the Web-Graph, 2011
-\item   M. Rocklin, A. Pinar, \textit{Computing an Aggregate Edge-Weight Function
-    for Clustering Graphs with Multiple Edge
-    Types} Algorithms and Models for the Web-Graph, 2010
-\end{itemize}
-
-
-\end{footnotesize}
 
 
 End
