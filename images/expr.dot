@@ -1,0 +1,28 @@
+digraph{
+
+# Graph style
+"rankdir"="TD"
+
+#########
+# Nodes #
+#########
+
+"Symbol(x)" ["color"="black", "label"="x", "shape"="ellipse"];
+"Integer(3)" ["color"="black", "label"="3", "shape"="ellipse"];
+"Integer(2)" ["color"="black", "label"="2", "shape"="ellipse"];
+"Add(Integer(2), Symbol(x))" ["color"="black", "label"="Add", "shape"="ellipse"];
+"exp(Add(Integer(2), Symbol(x)))" ["color"="black", "label"="exp", "shape"="ellipse"];
+"Mul(Integer(3), exp(Add(Integer(2), Symbol(x))))" ["color"="black", "label"="Mul", "shape"="ellipse"];
+"log(Mul(Integer(3), exp(Add(Integer(2), Symbol(x)))))" ["color"="black", "label"="log", "shape"="ellipse"];
+
+#########
+# Edges #
+#########
+
+"Add(Integer(2), Symbol(x))" -> "Symbol(x)";
+"Add(Integer(2), Symbol(x))" -> "Integer(2)";
+"exp(Add(Integer(2), Symbol(x)))" -> "Add(Integer(2), Symbol(x))";
+"Mul(Integer(3), exp(Add(Integer(2), Symbol(x))))" -> "Integer(3)";
+"Mul(Integer(3), exp(Add(Integer(2), Symbol(x))))" -> "exp(Add(Integer(2), Symbol(x)))";
+"log(Mul(Integer(3), exp(Add(Integer(2), Symbol(x)))))" -> "Mul(Integer(3), exp(Add(Integer(2), Symbol(x))))";
+}

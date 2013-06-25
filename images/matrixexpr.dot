@@ -1,0 +1,37 @@
+digraph{
+
+# Graph style
+"rankdir"="TD"
+
+#########
+# Nodes #
+#########
+
+"One()" ["color"="black", "label"="1", "shape"="ellipse"];
+"Symbol(n)" ["color"="black", "label"="n", "shape"="ellipse"];
+"Symbol(m)" ["color"="black", "label"="m", "shape"="ellipse"];
+"MatrixSymbol(y, Symbol(n), One())" ["color"="blue", "label"="MatrixSymbol", "shape"="ellipse"];
+"MatrixSymbol(X, Symbol(n), Symbol(m))" ["color"="blue", "label"="MatrixSymbol", "shape"="ellipse"];
+"Transpose(MatrixSymbol(X, Symbol(n), Symbol(m)))" ["color"="blue", "label"="Transpose", "shape"="ellipse"];
+"MatMul(Transpose(MatrixSymbol(X, Symbol(n), Symbol(m))), MatrixSymbol(X, Symbol(n), Symbol(m)))" ["color"="blue", "label"="MatMul", "shape"="ellipse"];
+"Inverse(MatMul(Transpose(MatrixSymbol(X, Symbol(n), Symbol(m))), MatrixSymbol(X, Symbol(n), Symbol(m))))" ["color"="blue", "label"="Inverse", "shape"="ellipse"];
+"MatMul(Inverse(MatMul(Transpose(MatrixSymbol(X, Symbol(n), Symbol(m))), MatrixSymbol(X, Symbol(n), Symbol(m)))), Transpose(MatrixSymbol(X, Symbol(n), Symbol(m))), MatrixSymbol(y, Symbol(n), One()))" ["color"="blue", "label"="MatMul", "shape"="ellipse"];
+
+#########
+# Edges #
+#########
+
+"MatrixSymbol(y, Symbol(n), One())" -> "y";
+"MatrixSymbol(X, Symbol(n), Symbol(m))" -> "X";
+"MatrixSymbol(y, Symbol(n), One())" -> "One()";
+"MatrixSymbol(y, Symbol(n), One())" -> "Symbol(n)";
+"MatrixSymbol(X, Symbol(n), Symbol(m))" -> "Symbol(n)";
+"MatrixSymbol(X, Symbol(n), Symbol(m))" -> "Symbol(m)";
+"Transpose(MatrixSymbol(X, Symbol(n), Symbol(m)))" -> "MatrixSymbol(X, Symbol(n), Symbol(m))";
+"MatMul(Transpose(MatrixSymbol(X, Symbol(n), Symbol(m))), MatrixSymbol(X, Symbol(n), Symbol(m)))" -> "MatrixSymbol(X, Symbol(n), Symbol(m))";
+"MatMul(Transpose(MatrixSymbol(X, Symbol(n), Symbol(m))), MatrixSymbol(X, Symbol(n), Symbol(m)))" -> "Transpose(MatrixSymbol(X, Symbol(n), Symbol(m)))";
+"Inverse(MatMul(Transpose(MatrixSymbol(X, Symbol(n), Symbol(m))), MatrixSymbol(X, Symbol(n), Symbol(m))))" -> "MatMul(Transpose(MatrixSymbol(X, Symbol(n), Symbol(m))), MatrixSymbol(X, Symbol(n), Symbol(m)))";
+"MatMul(Inverse(MatMul(Transpose(MatrixSymbol(X, Symbol(n), Symbol(m))), MatrixSymbol(X, Symbol(n), Symbol(m)))), Transpose(MatrixSymbol(X, Symbol(n), Symbol(m))), MatrixSymbol(y, Symbol(n), One()))" -> "MatrixSymbol(y, Symbol(n), One())";
+"MatMul(Inverse(MatMul(Transpose(MatrixSymbol(X, Symbol(n), Symbol(m))), MatrixSymbol(X, Symbol(n), Symbol(m)))), Transpose(MatrixSymbol(X, Symbol(n), Symbol(m))), MatrixSymbol(y, Symbol(n), One()))" -> "Transpose(MatrixSymbol(X, Symbol(n), Symbol(m)))";
+"MatMul(Inverse(MatMul(Transpose(MatrixSymbol(X, Symbol(n), Symbol(m))), MatrixSymbol(X, Symbol(n), Symbol(m)))), Transpose(MatrixSymbol(X, Symbol(n), Symbol(m))), MatrixSymbol(y, Symbol(n), One()))" -> "Inverse(MatMul(Transpose(MatrixSymbol(X, Symbol(n), Symbol(m))), MatrixSymbol(X, Symbol(n), Symbol(m))))";
+}

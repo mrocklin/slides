@@ -1,0 +1,12 @@
+digraph{
+	rankdir=TD
+	"[X'*X, X'*y] -> POSV -> [(X'*X)^-1*X'*y, INFO]" [shape=box, label=POSV]
+	"[X] -> GEMM -> [X'*X]" [shape=box, label=GEMM]
+
+	"X'*X" -> "[X'*X, X'*y] -> POSV -> [(X'*X)^-1*X'*y, INFO]"
+	"X'*y" -> "[X'*X, X'*y] -> POSV -> [(X'*X)^-1*X'*y, INFO]"
+	"[X'*X, X'*y] -> POSV -> [(X'*X)^-1*X'*y, INFO]" -> "(X'*X)^-1*X'*y"
+	"[X'*X, X'*y] -> POSV -> [(X'*X)^-1*X'*y, INFO]" -> "INFO"
+	"X" -> "[X] -> GEMM -> [X'*X]"
+	"[X] -> GEMM -> [X'*X]" -> "X'*X"
+}

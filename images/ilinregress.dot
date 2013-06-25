@@ -1,0 +1,28 @@
+
+digraph{
+
+rankdir=LR
+
+"X @ X" [shape=ellipse]
+"y @ y" [shape=ellipse]
+"X'*y @ var_8" [shape=ellipse]
+"X'*X @ var_7" [shape=ellipse]
+"(X'*X)^-1*X'*y @ var_8" [shape=ellipse]
+"UofCholesky(X'*X) @ var_7" [shape=ellipse]
+"INFO @ INFO" [shape=ellipse]
+
+"[1.00000000000000 @ var_5, X @ X, y @ y, 0.0 @ var_6, 0 @ var_8] -> GEMM -> [X'*y @ var_8]" [shape=box, label="GEMM"]
+"[1.00000000000000 @ var_5, X @ X, X @ X, 0.0 @ var_6, 0 @ var_7] -> GEMM -> [X'*X @ var_7]" [shape=box, label="GEMM"]
+"[X'*X @ var_7, X'*y @ var_8] -> POSV -> [(X'*X)^-1*X'*y @ var_8, UofCholesky(X'*X) @ var_7, INFO @ INFO]" [shape=box, label="POSV"]
+
+"X @ X" -> "[1.00000000000000 @ var_5, X @ X, y @ y, 0.0 @ var_6, 0 @ var_8] -> GEMM -> [X'*y @ var_8]"
+"y @ y" -> "[1.00000000000000 @ var_5, X @ X, y @ y, 0.0 @ var_6, 0 @ var_8] -> GEMM -> [X'*y @ var_8]"
+"[1.00000000000000 @ var_5, X @ X, y @ y, 0.0 @ var_6, 0 @ var_8] -> GEMM -> [X'*y @ var_8]" -> "X'*y @ var_8"
+"X @ X" -> "[1.00000000000000 @ var_5, X @ X, X @ X, 0.0 @ var_6, 0 @ var_7] -> GEMM -> [X'*X @ var_7]"
+"[1.00000000000000 @ var_5, X @ X, X @ X, 0.0 @ var_6, 0 @ var_7] -> GEMM -> [X'*X @ var_7]" -> "X'*X @ var_7"
+"X'*X @ var_7" -> "[X'*X @ var_7, X'*y @ var_8] -> POSV -> [(X'*X)^-1*X'*y @ var_8, UofCholesky(X'*X) @ var_7, INFO @ INFO]"
+"X'*y @ var_8" -> "[X'*X @ var_7, X'*y @ var_8] -> POSV -> [(X'*X)^-1*X'*y @ var_8, UofCholesky(X'*X) @ var_7, INFO @ INFO]"
+"[X'*X @ var_7, X'*y @ var_8] -> POSV -> [(X'*X)^-1*X'*y @ var_8, UofCholesky(X'*X) @ var_7, INFO @ INFO]" -> "(X'*X)^-1*X'*y @ var_8"
+"[X'*X @ var_7, X'*y @ var_8] -> POSV -> [(X'*X)^-1*X'*y @ var_8, UofCholesky(X'*X) @ var_7, INFO @ INFO]" -> "UofCholesky(X'*X) @ var_7"
+"[X'*X @ var_7, X'*y @ var_8] -> POSV -> [(X'*X)^-1*X'*y @ var_8, UofCholesky(X'*X) @ var_7, INFO @ INFO]" -> "INFO @ INFO"
+}

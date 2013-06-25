@@ -1,0 +1,24 @@
+digraph{
+
+# Graph style
+"rankdir"="TD"
+
+#########
+# Nodes #
+#########
+
+"Symbol(x)" ["color"="black", "label"="x", "shape"="ellipse"];
+"Integer(3)" ["color"="black", "label"="3", "shape"="ellipse"];
+"Integer(2)" ["color"="black", "label"="2", "shape"="ellipse"];
+"log(Integer(3))" ["color"="black", "label"="log", "shape"="ellipse"];
+"Add(Integer(2), log(Integer(3)), Symbol(x))" ["color"="black", "label"="Add", "shape"="ellipse"];
+
+#########
+# Edges #
+#########
+
+"log(Integer(3))" -> "Integer(3)";
+"Add(Integer(2), log(Integer(3)), Symbol(x))" -> "Symbol(x)";
+"Add(Integer(2), log(Integer(3)), Symbol(x))" -> "Integer(2)";
+"Add(Integer(2), log(Integer(3)), Symbol(x))" -> "log(Integer(3))";
+}

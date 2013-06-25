@@ -1,0 +1,21 @@
+
+digraph{
+
+orientation=TD
+
+"alpha" [shape=ellipse]
+"A" [shape=ellipse]
+"B" [shape=ellipse]
+"beta" [shape=ellipse]
+"C" [shape=ellipse]
+"alpha*A*B + beta*C" [shape=ellipse]
+
+"[alpha, A, B, beta, C] -> SYMM -> [alpha*A*B + beta*C]" [shape=box, label="SYMM"]
+
+"alpha" -> "[alpha, A, B, beta, C] -> SYMM -> [alpha*A*B + beta*C]"
+"A" -> "[alpha, A, B, beta, C] -> SYMM -> [alpha*A*B + beta*C]"
+"B" -> "[alpha, A, B, beta, C] -> SYMM -> [alpha*A*B + beta*C]"
+"beta" -> "[alpha, A, B, beta, C] -> SYMM -> [alpha*A*B + beta*C]"
+"C" -> "[alpha, A, B, beta, C] -> SYMM -> [alpha*A*B + beta*C]"
+"[alpha, A, B, beta, C] -> SYMM -> [alpha*A*B + beta*C]" -> "alpha*A*B + beta*C"
+}

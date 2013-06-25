@@ -1,0 +1,28 @@
+
+digraph{
+
+rankdir=LR
+
+"X'*X" [shape=ellipse]
+"X'*y" [shape=ellipse]
+"(X'*X)^-1*X'*y" [shape=ellipse]
+"UofCholesky(X'*X)" [shape=ellipse]
+"INFO" [shape=ellipse]
+"X" [shape=ellipse]
+"y" [shape=ellipse]
+
+"[1.00000000000000, X, y, 0.0, 0] -> GEMM -> [X'*y]" [shape=box, label="GEMM"]
+"[1.00000000000000, X, X, 0.0, 0] -> GEMM -> [X'*X]" [shape=box, label="GEMM"]
+"[X'*X, X'*y] -> POSV -> [(X'*X)^-1*X'*y, UofCholesky(X'*X), INFO]" [shape=box, label="POSV"]
+
+"X" -> "[1.00000000000000, X, y, 0.0, 0] -> GEMM -> [X'*y]"
+"y" -> "[1.00000000000000, X, y, 0.0, 0] -> GEMM -> [X'*y]"
+"[1.00000000000000, X, y, 0.0, 0] -> GEMM -> [X'*y]" -> "X'*y"
+"X" -> "[1.00000000000000, X, X, 0.0, 0] -> GEMM -> [X'*X]"
+"[1.00000000000000, X, X, 0.0, 0] -> GEMM -> [X'*X]" -> "X'*X"
+"X'*X" -> "[X'*X, X'*y] -> POSV -> [(X'*X)^-1*X'*y, UofCholesky(X'*X), INFO]"
+"X'*y" -> "[X'*X, X'*y] -> POSV -> [(X'*X)^-1*X'*y, UofCholesky(X'*X), INFO]"
+"[X'*X, X'*y] -> POSV -> [(X'*X)^-1*X'*y, UofCholesky(X'*X), INFO]" -> "(X'*X)^-1*X'*y"
+"[X'*X, X'*y] -> POSV -> [(X'*X)^-1*X'*y, UofCholesky(X'*X), INFO]" -> "UofCholesky(X'*X)"
+"[X'*X, X'*y] -> POSV -> [(X'*X)^-1*X'*y, UofCholesky(X'*X), INFO]" -> "INFO"
+}
