@@ -1,511 +1,88 @@
-% Matrix Expressions and BLAS/LAPACK
+% GroupBy \newline or \newline Packages Considered Slightly Harmful
 % Matthew Rocklin
 % June nth, 2013
 
-Problem
-=======
-
-Argument for High Level Compilers
----------------------------------
-
-    x = matrix(ones(10000, 1))
-
-    x*x.T*x              Elapsed time is    ?     seconds.
-    (x*x.T)*x            Elapsed time is 0.337711 seconds.
-    x*(x.T*x)            Elapsed time is 0.000956 seconds.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.6\textwidth]{images/xxtrans}
-\end{figure}
-
-
-Argument for High Level Compilers
----------------------------------
-
-For all matrices $\mathbf{A, B}$ such that $\mathbf A$ is symmetric positive-definite and $\mathbf B$ is orthogonal:
-
-**Question**: is $\mathbf B \cdot\mathbf A \cdot\mathbf B^\top$ symmetric and
-positive-definite? 
-
-**Answer**: Yes.
-
-**Question**: Could a computer have told us this?
-
-**Answer**: Probably.
-
-Are there any symbolic algebra systems (like Mathematica) that handle and propagate known facts about matrices?
-
-
-Linear Regression - Math
-------------------------
-
-$$ X \beta \cong y $$
-$$ \beta = (X^TX)^{-1}X^Ty $$
-
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.4\textwidth]{images/linregress-xy}
-\end{figure}
-
-Linear Regression - Python/MatLab
----------------------------------
-
-$$ \beta = (X^TX)^{-1}X^Ty $$
-
-Python/NumPy
-
-    beta = (X.T*X).I * X.T*y
-
-MatLab
-
-    beta = inv(X'*X) * X'*y
-
-
-Linear Regression - Python/MatLab
----------------------------------
-
-$$ \beta = (X^TX)^{-1}X^Ty $$
-
-Python/NumPy
-
-    beta = solve(X.T*X, X.T*y)
-
-MatLab
-
-    beta = X'*X \ X'*y
-
-
-Linear Regression - Python/MatLab
----------------------------------
-
-$$ \beta = (X^TX)^{-1}X^Ty $$
-
-Python/NumPy
-
-    beta = solve(X.T*X, X.T*y, sym_pos=True)
-
-MatLab
-
-    beta = (X'*X) \ (X'*y)
-
-
-BLAS/LAPACK
------------
-
-Numeric libraries for dense linear algebra
-
->*  `DGEMM` - **D**ouble precision **GE**neral **M**atrix **M**ultiply -- $\alpha A B + \beta C$
-    *   `SUBROUTINE DGEMM(TRANSA,TRANSB,M,N,K,ALPHA,A,LDA,B,LDB,BETA,C,LDC)`
-
->*  `DSYMM` - **D**ouble precision **SY**mmetric **M**atrix **M**ultiply -- $\alpha A B + \beta C$
-    *   `SUBROUTINE DSYMM(SIDE,UPLO,M,N,ALPHA,A,LDA,B,LDB,BETA,C,LDC)`
-
->*  ...
-
->*  `DPOSV` - **D**ouble symmetric **PO**sitive definite matrix **S**ol**V**e  -- $A^{-1}y$
-    *   `SUBROUTINE DPOSV( UPLO, N, NRHS, A, LDA, B, LDB, INFO )`
-
-
-Connecting Math and Computation
--------------------------------
-
-**Given**:
-
-    (X.T*X).I*X.T*y
-    full_rank(X)
-
-**Produce**:
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.8\textwidth]{images/hat-comp}
-\end{figure}
-
-
-Matrix Expressions and SymPy
-============================
-
-SymPy Expressions
------------------
-
-Operators (Add, log, exp, sin, integral, derivative, ...) are Python classes
-
-Terms ( 3, x, log(3*x), integral(x**2), ...) are Python objects
-
-
-\begin{columns}
-  \begin{column}{0.5\textwidth}
-    \lstinputlisting{expr.py}
-  \end{column}
-
-  \begin{column}{0.5\textwidth}
-    \begin{figure}[htbp]
-    \centering
-    \includegraphics<1>[width=.7\textwidth, totalheight=.6\textheight, keepaspectratio]{images/expr}
-    \includegraphics<2>[width=.7\textwidth, totalheight=.6\textheight, keepaspectratio]{images/sexpr}
-    \end{figure}
-  \end{column}
-\end{columns}
-
-
-Inference
+Your Code
 ---------
 
-~~~~~~~~~~~~Python
->>> x = Symbol('x')
->>> y = Symbol('y')
-
->>> facts = Q.positive(y) & Q.real(x)
->>> query = Q.positive(x**2 + y)
-
->>> ask(query, facts)
-True
-~~~~~~~~~~~~
-
-
-Matrix Expressions
-------------------
-
-~~~~~~~~~~~~Python
->>> X = MatrixSymbol('X', n, m)
->>> y = MatrixSymbol('y', n, 1)
-
->>> beta = MatMul(Inverse(MatMul(Transpose(X), X)),  Transpose(X), y)
->>> beta = (X.T*X).I * X.T*y
-~~~~~~~~~~~~
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.4\textwidth]{images/matrixexpr}
+\begin{figure}
+\includegraphics<1>[width=\textwidth]{images/care}
+\includegraphics<2>[width=\textwidth]{images/care2}
+\includegraphics<3>[width=\textwidth]{images/care3}
+\includegraphics<4>[width=\textwidth]{images/care4}
+\includegraphics<5>[width=\textwidth]{images/care5}
 \end{figure}
 
 
-Matrix Inference
-----------------
-
-For all matrices $\mathbf{A, B}$ such that $\mathbf A$ is symmetric positive-definite and $\mathbf B$ is orthogonal:
-
-**Question**: is $\mathbf B \cdot\mathbf A \cdot\mathbf B^\top$ symmetric and
-positive-definite? 
-
-**Answer**: Yes.
-
-**Question**: Could a computer have told us this?
-
-**Answer**: Probably.
-
-Are there any symbolic algebra systems (like Mathematica) that handle and propagate known facts about matrices?
-
-\vspace{1em}
-\hrule
-
-    sympy.matrices.expressions
-
-~~~~~~~~Python
->>> A = MatrixSymbol('A', n, n)
->>> B = MatrixSymbol('B', n, n)
-
->>> facts = Q.symmetric(A) & Q.positive_definite(A) & Q.orthogonal(B)
->>> query = Q.symmetric(B*A*B.T) & Q.positive_definite(B*A*B.T)
-
->>> ask(query, facts)
-True
-~~~~~~~~
-
-
-Computations
-============
-
-BLAS/LAPACK
------------
-
-Numeric libraries for dense linear algebra
-
-*  `DGEMM` - **D**ouble precision **GE**neral **M**atrix **M**ultiply -- $\alpha A B + \beta C$
-    *   `SUBROUTINE DGEMM(TRANSA,TRANSB,M,N,K,ALPHA,A,LDA,B,LDB,BETA,C,LDC)`
-
-*  `DSYMM` - **D**ouble precision **SY**mmetric **M**atrix **M**ultiply -- $\alpha A B + \beta C$
-    *   `SUBROUTINE DSYMM(SIDE,UPLO,M,N,ALPHA,A,LDA,B,LDB,BETA,C,LDC)`
-
-*  ...
-
-*  `DPOSV` - **D**ouble symmetric **PO**sitive definite matrix **S**ol**V**e  -- $A^{-1}y$
-    *   `SUBROUTINE DPOSV( UPLO, N, NRHS, A, LDA, B, LDB, INFO )`
-
-
-Definition of a Routine
------------------------
-
-\begin{figure}[htbp]
-\centering
-\includegraphics<1>[width=.8\textwidth]{images/linregress}
-\includegraphics<2>[width=\textwidth]{images/ilinregress}
-\end{figure}
-\vspace{-4em}
-
-~~~~~~~~~~~~~~~Python
-comp = (GEMM(1, X.T, X, 0, 0) 
-      + GEMM(1, X.T, y, 0, 0)
-      + POSV(X.T*X, X.T*y))
-
-class GEMM(BLAS):
-    """ Genreral Matrix Multiply """
-    inputs    = [alpha, A, B, beta, C]
-    outputs   = [alpha*A*B + beta*C]
-    inplace   = {0: 4}
-    fortran   = ....
-
-class POSV(BLAS):
-    """ Symmetric Positive Definite Matrix Solve """
-    inputs    = [A, y]
-    outputs   = [UofCholesky(A), A.I*y]
-    inplace   = {0: 0, 1: 1}
-    condition = Q.symmetric(A) & Q.positive_definite(A)
-    fortran   = ....
-~~~~~~~~~~~~~~~
-
-Code Generation
----------------
-
-~~~~~~~~Fortran
-subroutine f(X, y, var_7, m, n)
-implicit none
-
-integer, intent(in) :: m
-integer, intent(in) :: n
-real*8, intent(in) :: y(n)          !  y
-real*8, intent(in) :: X(n, m)       !  X
-real*8, intent(out) :: var_7(m)     !  0 -> X'*y -> (X'*X)^-1*X'*y
-real*8 :: var_8(m, m)               !  0 -> X'*X
-integer :: INFO                     !  INFO
-
-call dgemm('N', 'N', m, 1, n, 1.0, X, n, y, n, 0.0, var_7, m)
-call dgemm('N', 'N', m, m, n, 1.0, X, n, X, n, 0.0, var_8, m)
-call dposv('U', m, 1, var_8, m, var_7, m, INFO)
-
-RETURN
-END
-~~~~~~~~~
-
-Automation
-==========
-
-Problem
 -------
 
-
-**Have**
-
-    (X.T*X).I*X.T*y
-    full_rank(X)
-
-**Want**
-
-    comp = (GEMM(1, X.T, X, 0, 0) 
-          + GEMM(1, X.T, y, 0, 0)
-          + POSV(X.T*X, X.T*y))
-
-**Accomplish Using Pattern Matching**
+GroupBy groups elements of a collection by their value under a function.
 
 ~~~~~~~~~~~Python
-# Source Expression,  Target Computation,        Condition
-(alpha*A*B + beta*C, GEMM(alpha, A, B, beta, C), True),
-(alpha*A*B + beta*C, SYMM(alpha, A, B, beta, C), Q.symmetric(A) | Q.symmetric(B)),
-(A.I*x,              POSV(A, x),        Q.symmetric(A) & Q.positive_definite(A)),
-(alpha*A + B,        AXPY(alpha, A, B), True),
-~~~~~~~~~~~
-
-Pattern Matching done with LogPy, a composable Logic Programming library
-
-Evolution
----------
-
-\begin{figure}[htbp]
-\centering
-\includegraphics<1->[width=.24\textwidth]{images/hat0}
-\includegraphics<2->[width=.24\textwidth]{images/hat1}
-\includegraphics<3->[width=.24\textwidth]{images/hat2}
-\includegraphics<4->[width=.24\textwidth]{images/hat3}
-\end{figure}
-
-~~~~~~~~~~~Python
-# Source Expression,  Target Computation,        Condition
-(alpha*A*B + beta*C, GEMM(alpha, A, B, beta, C), True),
-(alpha*A*B + beta*C, SYMM(alpha, A, B, beta, C), Q.symmetric(A) | Q.symmetric(B)),
-(A.I*x,              POSV(A, x),        Q.symmetric(A) & Q.positive_definite(A)),
-(alpha*A + B,        AXPY(alpha, A, B), True),
-~~~~~~~~~~~
-
-Kalman Filter
--------------
-
-~~~~~~~~~~Python
-newmu       = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
-newSigma    = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
-
-assumptions = [Q.positive_definite(Sigma), Q.symmetric(Sigma), 
-               Q.positive_definite(R), Q.symmetric(R), Q.fullrank(H)]
-
-f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
-~~~~~~~~~~
-\vspace{-1em}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\textwidth]{images/kalman-math}
-\end{figure}
-
-
-Kalman Filter
--------------
-
-~~~~~~~~~~~Fortran
-include [Kalman](kalman.f90)
+# https://gist.github.com/mrocklin/5722155
+include [test_groupby.py](test_groupby.py)
 ~~~~~~~~~~~
 
 
-Software Design
-===============
-
-Separation
-----------
-
-\begin{figure}[htbp]
-\centering
-\includegraphics<1>[width=\textwidth]{images/not-separation}
-\includegraphics<2>[width=\textwidth]{images/separation}
-\includegraphics<3>[width=\textwidth]{images/separation-2}
-\end{figure}
-   
-
-SYRK
-----
-
-~~~~~~~~Python
-X = MatrixSymbol('X', n, m)
-y = MatrixSymbol('y', n, 1)
-
-inputs  = [X, y]
-outputs = [(X.T*X).I*X.T*y]
-facts   = fullrank(X)
-~~~~~~~~~
-
-\begin{figure}[htbp]
-\centering
-\includegraphics<1>[width=.9\textwidth]{images/hat-comp}
-\includegraphics<2>[width=.9\textwidth]{images/hat-comp-syrk}
-\end{figure}
-
-
-SYRK
-----
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\textwidth]{images/hat-comp-syrk}
-\end{figure}
+-------
 
 ~~~~~~~~~~~Python
-class SYRK(BLAS):
-    """ Symmetric Rank-K Update `alpha X' X + beta Y' """
-    inputs  = (alpha, A, beta, D)
-    outputs = (alpha * A * A.T + beta * D,)
-    inplace  = {0: 3}
-    fortran_template = ("call %(fn)s('%(UPLO)s', '%(TRANS)s', %(N)s, %(K)s, "
-                        "%(alpha)s, %(A)s, %(LDA)s, "
-                        "%(beta)s, %(D)s, %(LDD)s)")
-    ...
+# https://gist.github.com/mrocklin/5722752
+include [hist.py](hist.py)
+~~~~~~~~~~~
 
-  (alpha*A*A.T + beta*D, SYRK(alpha, A, beta, D), True),
-  (A*A.T,                SYRK(1.0, A, 0.0, 0),    True),
-~~~~~~~~~~~~
+-------
+
+GroupBy groups elements of a collection by their value under a function.
+
+~~~~~~~~~~~Python
+# https://gist.github.com/mrocklin/5618992
+include [groupby.py](groupby.py)
+~~~~~~~~~~~
 
 
-Separation promotes Comparison and Experimentation
---------------------------------------------------
+------------------------------
 
-\begin{figure}[htbp]
+    ~/workspace$ ack-grep "def groupby" */*/*.py 
+
+    computations/computations/util.py
+    80:def groupby(f, coll):
+
+    itertoolz/itertoolz/core.py
+    17:def groupby(f, coll):
+
+    logpy/logpy/util.py
+    90:def groupby(f, coll):
+
+    megatron/megatron/util.py
+    25:def groupby(f, coll):
+
+    term/term/util.py
+    90:def groupby(f, coll):
+
+    tompkins/tompkins/util.py
+    55:def groupby(f, coll):
+
+-------------------------------------------
+
+In which package should this function live?
+
+\begin{figure}
 \centering
-\includegraphics<1>[width=\textwidth]{images/separation-2}
-\includegraphics<2>[width=\textwidth]{images/separation-theano}
+\includegraphics<1>[width=\textwidth]{images/groupby0}
+\includegraphics<2>[width=\textwidth]{images/groupby1}
 \end{figure}
 
+-------------------------------------------
 
-Kalman Filter - Theano v. Fortran
----------------------------------
+~~~~~~~~~~~~~Python
+                    from groupby import groupby
+~~~~~~~~~~~~~
 
-~~~~~~~~~~Python
-newmu       = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
-newSigma    = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
+-------------------------------------------
 
-assumptions = [Q.positive_definite(Sigma), Q.symmetric(Sigma), 
-               Q.positive_definite(R), Q.symmetric(R), Q.fullrank(H)]
+*   Dependency managers (e.g. PyPI with `easy_install`, `pip`, `conda`) are good!  Use them aggressively!
 
-f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
-~~~~~~~~~~
-\vspace{-1em}
+*   Packaging general code with specific code is bad.  Separate code!
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\textwidth]{images/kalman-math}
-\end{figure}
-
-
-Kalman Filter - Theano v. Fortran
----------------------------------
-
-\vspace{-1.5em}
-~~~~~~~~~~Python
-newmu       = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
-newSigma    = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
-
-
-
-
-f = theano_function( [mu, Sigma, H, R, data], [newmu, newSigma])
-~~~~~~~~~~
-\vspace{+5em}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{images/kalman-theano}
-\end{figure}
-
-
-End
----
-
-~~~~~~~~~~Python
-newmu       = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
-newSigma    = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
-
-assumptions = [positive_definite(Sigma), symmetric(Sigma), 
-               positive_definite(R), symmetric(R), fullrank(H)]
-~~~~~~~~~~
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.7\textwidth]{images/kalman-math}
-\end{figure}
-
-
-Multiple Results
-----------------
-
-\begin{figure}[htbp]
-\centering
-\includegraphics<1->[width=.24\textwidth]{images/hat0}
-\includegraphics<1->[width=.24\textwidth]{images/hat1}
-\includegraphics<1->[width=.24\textwidth]{images/hat2}
-\includegraphics<1->[width=.24\textwidth]{images/hat3}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics<2>[width=.23\textwidth]{images/hat_gesv1}
-\includegraphics<2>[width=.23\textwidth]{images/hat_gesv2}
-\includegraphics<2>[width=.53\textwidth]{images/hat_gesv3}
-\end{figure}
-
+*   When you do this aggressivly odd things happen (lots of gists)
