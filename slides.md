@@ -2,8 +2,8 @@
 % Matthew Rocklin
 % June nth, 2013
 
-Problem
-=======
+Need For High Level Compilers
+=============================
 
 Argument for High Level Compilers
 ---------------------------------
@@ -33,8 +33,6 @@ positive-definite?
 **Question**: Could a computer have told us this?
 
 **Answer**: Probably.
-
-Are there any symbolic algebra systems (like Mathematica) that handle and propagate known facts about matrices?
 
 
 Linear Regression - Math
@@ -196,7 +194,6 @@ positive-definite?
 
 **Answer**: Probably.
 
-Are there any symbolic algebra systems (like Mathematica) that handle and propagate known facts about matrices?
 
 \vspace{1em}
 \hrule
@@ -474,16 +471,19 @@ f = theano_function( [mu, Sigma, H, R, data], [newmu, newSigma])
 \end{figure}
 
 
-End
----
+Thoughts - and End
+------------------
 
-~~~~~~~~~~Python
-newmu       = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
-newSigma    = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
+*   Modularity is good 
+    *   Cater to single-field experts
+    *   Eases comparison and evolution 
+    *   This project might die but the parts will survive
 
-assumptions = [positive_definite(Sigma), symmetric(Sigma), 
-               positive_definite(R), symmetric(R), fullrank(H)]
-~~~~~~~~~~
+*   Intermediate Representations are Good
+    *   Fortran code doesn't depend on Python
+    *   Readability encourages development
+    *   Extensibility (lets generate CUDA)
+
 
 \begin{figure}[htbp]
 \centering
