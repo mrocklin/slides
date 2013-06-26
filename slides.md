@@ -1,8 +1,7 @@
 % GroupBy \newline or \newline Packages Considered Slightly Harmful
 % Matthew Rocklin
-% June nth, 2013
+% June 26th, 2013
 
-Your Code
 ---------
 
 \begin{figure}
@@ -43,7 +42,7 @@ include [groupby.py](groupby.py)
 
 ------------------------------
 
-    ~/workspace$ ack-grep "def groupby" */*/*.py 
+    mrocklin/workspace$ ack-grep "def groupby" */*/*.py 
 
     computations/computations/util.py
     80:def groupby(f, coll):
@@ -81,8 +80,14 @@ In which package should this function live?
 
 -------------------------------------------
 
-*   Dependency managers (e.g. PyPI with `easy_install`, `pip`, `conda`) are good!  Use them aggressively!
+*   Dependency managers (e.g. PyPI with `easy_install`, `pip`, `conda`) are cheap!  
+    Use them aggressively!
 
-*   Packaging general code with specific code is bad.  Separate code!
+*   Packaging general code with specific code is bad.  
+    Separate code!
 
-*   When you do this aggressivly odd things happen (lots of gists)
+*   Demographic sensitive software engineering
+
+*   When you do this aggressivly odd things happen.
+    What are best practices?
+
