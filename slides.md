@@ -9,7 +9,8 @@
 \includegraphics<2>[width=\textwidth]{images/care2}
 \includegraphics<3>[width=\textwidth]{images/care3}
 \includegraphics<4>[width=\textwidth]{images/care4}
-\includegraphics<5>[width=\textwidth]{images/care5}
+\includegraphics<5>[width=\textwidth]{images/care4b}
+\includegraphics<6>[width=\textwidth]{images/care5}
 \end{figure}
 
 
@@ -80,11 +81,11 @@ In which package should this function live?
 
 -------------------------------------------
 
+*   Packaging general code with specific code is bad.  
+    Separating code is good!
+
 *   Dependency managers (e.g. PyPI with `easy_install`, `pip`, `conda`) are cheap!  
     Use them aggressively!
-
-*   Packaging general code with specific code is bad.  
-    Separate code!
 
 *   Demographic sensitive software engineering
 
