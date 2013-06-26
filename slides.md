@@ -1,6 +1,6 @@
 % Matrix Expressions and BLAS/LAPACK
 % Matthew Rocklin
-% June nth, 2013
+% June 27th, 2013
 
 Need For High Level Compilers
 =============================
@@ -106,15 +106,12 @@ Numeric libraries for dense linear algebra
     *   `SUBROUTINE DPOSV( UPLO, N, NRHS, A, LDA, B, LDB, INFO )`
 
 
-Connecting Math and Computation
 -------------------------------
 
-**Given**:
+    Naive  :     (X.T*X).I * X.T*y         
 
-    (X.T*X).I*X.T*y
-    full_rank(X)
+    Expert :     solve(X.T*X, X.T*y, sym_pos=True)
 
-**Produce**:
 
 \begin{figure}[htbp]
 \centering
@@ -128,9 +125,9 @@ Matrix Expressions and SymPy
 SymPy Expressions
 -----------------
 
-Operators (Add, log, exp, sin, integral, derivative, ...) are Python classes
+Operators (`Add, log, exp, sin, integral, derivative`, ...) are Python classes
 
-Terms ( 3, x, log(3*x), integral(x**2), ...) are Python objects
+Terms ( `3, x, log(3*x), integral(x**2)`, ...) are Python objects
 
 
 \begin{columns}
@@ -215,7 +212,6 @@ True
 Computations
 ============
 
-BLAS/LAPACK
 -----------
 
 Numeric libraries for dense linear algebra
@@ -232,7 +228,6 @@ Numeric libraries for dense linear algebra
     *   `SUBROUTINE DPOSV( UPLO, N, NRHS, A, LDA, B, LDB, INFO )`
 
 
-Definition of a Routine
 -----------------------
 
 \begin{figure}[htbp]
@@ -263,7 +258,6 @@ class POSV(BLAS):
     fortran   = ....
 ~~~~~~~~~~~~~~~
 
-Code Generation
 ---------------
 
 ~~~~~~~~Fortran
@@ -289,7 +283,6 @@ END
 Automation
 ==========
 
-Problem
 -------
 
 
@@ -316,7 +309,6 @@ Problem
 
 Pattern Matching done with LogPy, a composable Logic Programming library
 
-Evolution
 ---------
 
 \begin{figure}[htbp]
@@ -377,7 +369,6 @@ Separation
 \end{figure}
    
 
-SYRK
 ----
 
 ~~~~~~~~Python
@@ -396,7 +387,6 @@ facts   = fullrank(X)
 \end{figure}
 
 
-SYRK
 ----
 
 \begin{figure}[htbp]
@@ -471,8 +461,8 @@ f = theano_function( [mu, Sigma, H, R, data], [newmu, newSigma])
 \end{figure}
 
 
-Thoughts - and End
-------------------
+Thoughts
+--------
 
 *   Modularity is good 
     *   Cater to single-field experts
