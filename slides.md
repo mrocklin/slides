@@ -4,6 +4,10 @@
 
 ---------
 
+Principle: *Refactor repeated code into a separate module/package*
+
+---------
+
 \begin{figure}
 \includegraphics<1>[width=\textwidth]{images/care}
 \includegraphics<2>[width=\textwidth]{images/care2}
@@ -11,6 +15,8 @@
 \includegraphics<4>[width=\textwidth]{images/care4}
 \includegraphics<5>[width=\textwidth]{images/care4b}
 \includegraphics<6>[width=\textwidth]{images/care5}
+\includegraphics<7>[width=\textwidth]{images/care6}
+\includegraphics<8>[width=\textwidth]{images/care7}
 \end{figure}
 
 
@@ -79,7 +85,8 @@ In which package should this function live?
                     from groupby import groupby
 ~~~~~~~~~~~~~
 
--------------------------------------------
+Final Thoughts
+--------------
 
 *   Packaging general code with specific code is bad.  
     Separating code is good!
