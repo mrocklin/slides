@@ -5,7 +5,22 @@
 Need For High Level Compilers
 =============================
 
-Argument for High Level Compilers
+Math is Important
+-----------------
+
+~~~~~~~~~C
+// A: Naive             // B: Programmer    // C: Mathematician
+int fact(int n){        int fact(int n){    int fact(int n){
+    if (n == 0)             int prod = n;       // n! = Gamma(n+1)   
+        return 1;           while(n--)          return lround(exp(lgamma(n+1)));
+    return n*fact(n-1);         prod *= n;  }
+}                           return prod;
+                        }
+~~~~~~~~~
+
+\vspace{10em}
+Evan Miller [http://www.evanmiller.org/mathematical-hacker.html](http://www.evanmiller.org/mathematical-hacker.html)
+
 ---------------------------------
 
     x = matrix(ones(10000, 1))
@@ -20,10 +35,9 @@ Argument for High Level Compilers
 \end{figure}
 
 
-Argument for High Level Compilers
 ---------------------------------
 
-For all matrices $\mathbf{A, B}$ such that $\mathbf A$ is symmetric positive-definite and $\mathbf B$ is orthogonal:
+If $\mathbf A$ is symmetric positive-definite and $\mathbf B$ is orthogonal:
 
 **Question**: is $\mathbf B \cdot\mathbf A \cdot\mathbf B^\top$ symmetric and
 positive-definite? 
@@ -34,20 +48,10 @@ positive-definite?
 
 **Answer**: Probably.
 
+\vspace{5em}
 
-Linear Regression - Math
-------------------------
+[http://scicomp.stackexchange.com/questions/74/symbolic-software-packages-for-matrix-expressions/](http://scicomp.stackexchange.com/questions/74/symbolic-software-packages-for-matrix-expressions/)
 
-$$ X \beta \cong y $$
-$$ \beta = (X^TX)^{-1}X^Ty $$
-
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.4\textwidth]{images/linregress-xy}
-\end{figure}
-
-Linear Regression - Python/MatLab
 ---------------------------------
 
 $$ \beta = (X^TX)^{-1}X^Ty $$
@@ -61,7 +65,6 @@ MatLab
     beta = inv(X'*X) * X'*y
 
 
-Linear Regression - Python/MatLab
 ---------------------------------
 
 $$ \beta = (X^TX)^{-1}X^Ty $$
@@ -75,7 +78,6 @@ MatLab
     beta = X'*X \ X'*y
 
 
-Linear Regression - Python/MatLab
 ---------------------------------
 
 $$ \beta = (X^TX)^{-1}X^Ty $$
@@ -118,6 +120,12 @@ Numeric libraries for dense linear algebra
 \includegraphics[width=.8\textwidth]{images/hat-comp}
 \end{figure}
 
+~~~~~~~~~~~Fortran
+subroutine least_squares(X, y)
+ ...
+endsubroutine
+~~~~~~~~~~~
+
 
 Matrix Expressions and SymPy
 ============================
@@ -139,7 +147,7 @@ Terms ( `3, x, log(3*x), integral(x**2)`, ...) are Python objects
     \begin{figure}[htbp]
     \centering
     \includegraphics<1>[width=.7\textwidth, totalheight=.6\textheight, keepaspectratio]{images/expr}
-    \includegraphics<2>[width=.7\textwidth, totalheight=.6\textheight, keepaspectratio]{images/sexpr}
+    \includegraphics<2>[width=.7\textwidth, totalheight=.6\textheight, keepaspectratio]{images/sexpr2}
     \end{figure}
   \end{column}
 \end{columns}
@@ -152,7 +160,7 @@ Inference
 >>> x = Symbol('x')
 >>> y = Symbol('y')
 
->>> facts = Q.positive(y) & Q.real(x)
+>>> facts = Q.real(x) & Q.positive(y)
 >>> query = Q.positive(x**2 + y)
 
 >>> ask(query, facts)
@@ -167,7 +175,6 @@ Matrix Expressions
 >>> X = MatrixSymbol('X', n, m)
 >>> y = MatrixSymbol('y', n, 1)
 
->>> beta = MatMul(Inverse(MatMul(Transpose(X), X)),  Transpose(X), y)
 >>> beta = (X.T*X).I * X.T*y
 ~~~~~~~~~~~~
 
@@ -180,7 +187,7 @@ Matrix Expressions
 Matrix Inference
 ----------------
 
-For all matrices $\mathbf{A, B}$ such that $\mathbf A$ is symmetric positive-definite and $\mathbf B$ is orthogonal:
+If $\mathbf A$ is symmetric positive-definite and $\mathbf B$ is orthogonal:
 
 **Question**: is $\mathbf B \cdot\mathbf A \cdot\mathbf B^\top$ symmetric and
 positive-definite? 
@@ -230,6 +237,8 @@ Numeric libraries for dense linear algebra
 
 -----------------------
 
+[http://github.com/mrocklin/computations](http://github.com/mrocklin/computations) 
+\vspace{-2em}
 \begin{figure}[htbp]
 \centering
 \includegraphics<1>[width=.8\textwidth]{images/linregress}
@@ -242,14 +251,14 @@ comp = (GEMM(1, X.T, X, 0, 0)
       + GEMM(1, X.T, y, 0, 0)
       + POSV(X.T*X, X.T*y))
 
-class GEMM(BLAS):
+class GEMM(Computation):
     """ Genreral Matrix Multiply """
     inputs    = [alpha, A, B, beta, C]
     outputs   = [alpha*A*B + beta*C]
     inplace   = {0: 4}
     fortran   = ....
 
-class POSV(BLAS):
+class POSV(Computation):
     """ Symmetric Positive Definite Matrix Solve """
     inputs    = [A, y]
     outputs   = [UofCholesky(A), A.I*y]
@@ -280,6 +289,20 @@ RETURN
 END
 ~~~~~~~~~
 
+Logic Programming
+=================
+
+---------
+
+*   `Term`:  An interface for terms - composable with legacy code via Monkey patching.  Supports pattern matching via Unification
+
+*   `LogPy`: An implementation of miniKanren, a logic programming language
+
+*   `Strategies`:  A partial implementation of Stratego, a control flow programming language
+    
+TODO:  Explain these concisely
+
+
 Automation
 ==========
 
@@ -301,9 +324,10 @@ Automation
 
 ~~~~~~~~~~~Python
 # Source Expression,  Target Computation,        Condition
-(alpha*A*B + beta*C, GEMM(alpha, A, B, beta, C), True),
 (alpha*A*B + beta*C, SYMM(alpha, A, B, beta, C), Q.symmetric(A) | Q.symmetric(B)),
-(A.I*x,              POSV(A, x),        Q.symmetric(A) & Q.positive_definite(A)),
+(alpha*A*B + beta*C, GEMM(alpha, A, B, beta, C), True),
+(A.I*B,              POSV(A, B),        Q.symmetric(A) & Q.positive_definite(A)),
+(A.I*B,              GESV(A, B),        True),
 (alpha*A + B,        AXPY(alpha, A, B), True),
 ~~~~~~~~~~~
 
@@ -321,9 +345,10 @@ Pattern Matching done with LogPy, a composable Logic Programming library
 
 ~~~~~~~~~~~Python
 # Source Expression,  Target Computation,        Condition
-(alpha*A*B + beta*C, GEMM(alpha, A, B, beta, C), True),
 (alpha*A*B + beta*C, SYMM(alpha, A, B, beta, C), Q.symmetric(A) | Q.symmetric(B)),
-(A.I*x,              POSV(A, x),        Q.symmetric(A) & Q.positive_definite(A)),
+(alpha*A*B + beta*C, GEMM(alpha, A, B, beta, C), True),
+(A.I*B,              POSV(A, B),        Q.symmetric(A) & Q.positive_definite(A)),
+(A.I*B,              GESV(A, B),        True),
 (alpha*A + B,        AXPY(alpha, A, B), True),
 ~~~~~~~~~~~
 
@@ -358,7 +383,6 @@ include [Kalman](kalman.f90)
 Software Design
 ===============
 
-Separation
 ----------
 
 \begin{figure}[htbp]
@@ -474,11 +498,14 @@ Thoughts
     *   Readability encourages development
     *   Extensibility (lets generate CUDA)
 
+*   Read more! [http://matthewrocklin.com/blog](http://matthewrocklin.com/blog)
+
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.7\textwidth]{images/kalman-math}
 \end{figure}
+
 
 
 Multiple Results
