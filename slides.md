@@ -492,26 +492,27 @@ f = theano_function( [mu, Sigma, H, R, data], [newmu, newSigma])
 \end{figure}
 
 
-Thoughts
---------
+Final Thoughts
+--------------
 
-*   Modularity is good 
+*   Modularity is good!
     *   Cater to single-field experts
     *   Eases comparison and evolution 
     *   This project might die but the parts will survive
 
-*   Intermediate Representations are Good
+*   Intermediate Representations are Good!
     *   Fortran code doesn't depend on Python
     *   Readability encourages development
     *   Extensibility (lets generate CUDA)
 
 *   Read more! [http://matthewrocklin.com/blog](http://matthewrocklin.com/blog)
 
+*   Listen more!
+    *   Dynamics with SymPy Mechanics, *Jason Moore*,  
+        Room 204 - 2:10pm
+    *   SymPy Gamma and SymPy Live: Python and Mathematics Online, *David Li* \newline
+        Room 203 - 3:50pm
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.7\textwidth]{images/kalman-math}
-\end{figure}
 
 
 
