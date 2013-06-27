@@ -294,14 +294,21 @@ Logic Programming
 
 ---------
 
-*   `Term`:  An interface for terms - composable with legacy code via Monkey patching.  Supports pattern matching via Unification
+                                      TODO
 
-*   `LogPy`: An implementation of miniKanren, a logic programming language
+---------
 
-*   `Strategies`:  A partial implementation of Stratego, a control flow programming language
+*   `http://github.com/mrocklin/term` \newline
+    An interface for terms  
+    Composable with legacy code via Monkey patching \newline
+    Supports pattern matching via Unification
+
+*   `http://github.com/logpy/logpy` \newline
+    Implements miniKanren, a logic programming language
+
+*   `http://github.com/logpy/strategies` \newline
+    Partially implements Stratego, a control flow programming language
     
-TODO:  Explain these concisely
-
 
 Automation
 ==========
@@ -312,7 +319,7 @@ Automation
 **Have**
 
     (X.T*X).I*X.T*y
-    full_rank(X)
+    Q.fullrank(X)
 
 **Want**
 
@@ -419,7 +426,7 @@ facts   = fullrank(X)
 \end{figure}
 
 ~~~~~~~~~~~Python
-class SYRK(BLAS):
+class SYRK(Computation):
     """ Symmetric Rank-K Update `alpha X' X + beta Y' """
     inputs  = (alpha, A, beta, D)
     outputs = (alpha * A * A.T + beta * D,)
