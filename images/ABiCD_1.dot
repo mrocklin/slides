@@ -1,0 +1,27 @@
+
+digraph{
+
+rankdir=TD
+
+"D @ D" [shape=ellipse]
+"C @ C" [shape=ellipse]
+"C*D @ var_8" [shape=ellipse]
+"request_2 @ request_2" [shape=ellipse]
+"ierr_3 @ ierr_3" [shape=ellipse]
+"status_2 @ status_2" [shape=ellipse]
+"ierr_4 @ ierr_4" [shape=ellipse]
+
+"[1.0 @ var, C @ C, D @ D, 0.0 @ var_2, 0 @ var_8] -> GEMM -> [C*D @ var_8]" [shape=box, label="GEMM"]
+"[C*D @ var_8] -> iSend -> [request_2 @ request_2, ierr_3 @ ierr_3]" [shape=box, label="iSend"]
+"[request_2 @ request_2] -> iSendWait -> [status_2 @ status_2, ierr_4 @ ierr_4]" [shape=box, label="iSendWait"]
+
+"C @ C" -> "[1.0 @ var, C @ C, D @ D, 0.0 @ var_2, 0 @ var_8] -> GEMM -> [C*D @ var_8]"
+"D @ D" -> "[1.0 @ var, C @ C, D @ D, 0.0 @ var_2, 0 @ var_8] -> GEMM -> [C*D @ var_8]"
+"[1.0 @ var, C @ C, D @ D, 0.0 @ var_2, 0 @ var_8] -> GEMM -> [C*D @ var_8]" -> "C*D @ var_8"
+"C*D @ var_8" -> "[C*D @ var_8] -> iSend -> [request_2 @ request_2, ierr_3 @ ierr_3]"
+"[C*D @ var_8] -> iSend -> [request_2 @ request_2, ierr_3 @ ierr_3]" -> "request_2 @ request_2"
+"[C*D @ var_8] -> iSend -> [request_2 @ request_2, ierr_3 @ ierr_3]" -> "ierr_3 @ ierr_3"
+"request_2 @ request_2" -> "[request_2 @ request_2] -> iSendWait -> [status_2 @ status_2, ierr_4 @ ierr_4]"
+"[request_2 @ request_2] -> iSendWait -> [status_2 @ status_2, ierr_4 @ ierr_4]" -> "status_2 @ status_2"
+"[request_2 @ request_2] -> iSendWait -> [status_2 @ status_2, ierr_4 @ ierr_4]" -> "ierr_4 @ ierr_4"
+}

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="300"
+   height="200"
+   id="svg3308"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="New document 11">
+  <defs
+     id="defs3310" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8"
+     inkscape:cx="229.34696"
+     inkscape:cy="91.409533"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1600"
+     inkscape:window-height="876"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata3313">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-852.36218)">
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:LMRoman10;-inkscape-font-specification:LMRoman10"
+       x="496.47086"
+       y="569.8114"
+       id="text2985"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2987"
+         x="496.47086"
+         y="569.8114">Parallel Programmers</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:LMRoman10;-inkscape-font-specification:LMRoman10"
+       x="101.38282"
+       y="923.21765"
+       id="text2989"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="102.71876"
+         y="923.21765"
+         id="tspan2993">Software engineers </tspan><tspan
+         sodipodi:role="line"
+         x="102.71876"
+         y="933.21765"
+         id="tspan3843">capable of </tspan><tspan
+         sodipodi:role="line"
+         x="101.38282"
+         y="943.21765"
+         id="tspan2997">building automated systems</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:LMRoman10;-inkscape-font-specification:LMRoman10"
+       x="199.32455"
+       y="938.21765"
+       id="text2999"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3001"
+         x="200.66049"
+         y="938.21765">People who know </tspan><tspan
+         sodipodi:role="line"
+         x="199.32455"
+         y="948.21765"
+         id="tspan3847" /><tspan
+         sodipodi:role="line"
+         x="199.32455"
+         y="958.21765"
+         id="tspan3799">PDEs</tspan></text>
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.6;fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3823"
+       sodipodi:cx="430"
+       sodipodi:cy="542.36218"
+       sodipodi:rx="70"
+       sodipodi:ry="70"
+       d="m 500,542.36218 a 70,70 0 1 1 -140,0 70,70 0 1 1 140,0 z"
+       transform="translate(-332.28124,400.85542)" />
+    <path
+       transform="translate(101.47084,37.44922)"
+       sodipodi:type="arc"
+       style="opacity:0.6;fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3823-9"
+       sodipodi:cx="430"
+       sodipodi:cy="542.36218"
+       sodipodi:rx="70"
+       sodipodi:ry="70"
+       d="m 500,542.36218 c 0,38.65994 -31.34007,70 -70,70 -38.65993,0 -70,-31.34006 -70,-70 0,-38.65993 31.34007,-70 70,-70 38.65993,0 70,31.34007 70,70 z" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.6;fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3845"
+       sodipodi:cx="545"
+       sodipodi:cy="537.36218"
+       sodipodi:rx="45"
+       sodipodi:ry="45"
+       d="m 590,537.36218 a 45,45 0 1 1 -90,0 45,45 0 1 1 90,0 z"
+       transform="matrix(0.78040162,0,0,0.78040162,-224.65844,523.85932)" />
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:LMRoman10;-inkscape-font-specification:LMRoman10"
+       x="184.32455"
+       y="993.21759"
+       id="text2999-3"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3001-1"
+         x="185.66049"
+         y="993.21759">People who know </tspan><tspan
+         sodipodi:role="line"
+         x="184.32455"
+         y="1003.2176"
+         id="tspan3799-9">Finite Elements</tspan></text>
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.6;fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3845-6"
+       sodipodi:cx="545"
+       sodipodi:cy="537.36218"
+       sodipodi:rx="45"
+       sodipodi:ry="45"
+       d="m 590,537.36218 a 45,45 0 1 1 -90,0 45,45 0 1 1 90,0 z"
+       transform="matrix(0.78040162,0,0,0.78040162,-239.65845,573.85932)" />
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:LMRoman10;-inkscape-font-specification:LMRoman10"
+       x="219.32455"
+       y="883.21765"
+       id="text2999-3-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3001-1-8"
+         x="220.66049"
+         y="883.21765">People who know </tspan><tspan
+         sodipodi:role="line"
+         x="219.32455"
+         y="893.21765"
+         id="tspan3799-9-7">Meteorology</tspan></text>
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.6;fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3845-6-2"
+       sodipodi:cx="545"
+       sodipodi:cy="537.36218"
+       sodipodi:rx="45"
+       sodipodi:ry="45"
+       d="m 590,537.36218 a 45,45 0 1 1 -90,0 45,45 0 1 1 90,0 z"
+       transform="matrix(0.78040162,0,0,0.78040162,-204.65845,468.85932)" />
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:LMRoman10;-inkscape-font-specification:LMRoman10"
+       x="134.32454"
+       y="1023.2176"
+       id="text2999-3-0"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="135.66048"
+         y="1023.2176"
+         id="tspan3799-9-79">People who know </tspan><tspan
+         sodipodi:role="line"
+         x="134.32454"
+         y="1033.2175"
+         id="tspan3252">MPI/CUDA</tspan></text>
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.6;fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3845-6-9"
+       sodipodi:cx="545"
+       sodipodi:cy="537.36218"
+       sodipodi:rx="45"
+       sodipodi:ry="45"
+       d="m 590,537.36218 a 45,45 0 1 1 -90,0 45,45 0 1 1 90,0 z"
+       transform="matrix(0.78040162,0,0,0.78040162,-290.37272,607.78789)" />
+  </g>
+</svg>

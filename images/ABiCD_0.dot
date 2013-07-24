@@ -1,0 +1,40 @@
+
+digraph{
+
+rankdir=TD
+
+"A @ A" [shape=ellipse]
+"Inaccessible(C*D) @ var_11" [shape=ellipse]
+"request_1 @ request_1" [shape=ellipse]
+"ierr_1 @ ierr_1" [shape=ellipse]
+"B @ B" [shape=ellipse]
+"C*D @ var_11" [shape=ellipse]
+"status_1 @ status_1" [shape=ellipse]
+"ierr_2 @ ierr_2" [shape=ellipse]
+"A*B @ var_10" [shape=ellipse]
+"(A*B)^-1*(C*D) @ var_11" [shape=ellipse]
+"IPIV((A*B)^-1*(C*D)) @ var_7" [shape=ellipse]
+"INFO @ INFO" [shape=ellipse]
+
+"[] -> iRecv -> [Inaccessible(C*D) @ var_11, request_1 @ request_1, ierr_1 @ ierr_1]" [shape=box, label="iRecv"]
+"[Inaccessible(C*D) @ var_11, request_1 @ request_1] -> iRecvWait -> [C*D @ var_11, status_1 @ status_1, ierr_2 @ ierr_2]" [shape=box, label="iRecvWait"]
+"[1.0 @ var, A @ A, B @ B, 0.0 @ var_2, 0 @ var_10] -> GEMM -> [A*B @ var_10]" [shape=box, label="GEMM"]
+"[A*B @ var_10, C*D @ var_11] -> GESVLASWP -> [(A*B)^-1*(C*D) @ var_11, IPIV((A*B)^-1*(C*D)) @ var_7, INFO @ INFO]" [shape=box, label="GESVLASWP"]
+
+"[] -> iRecv -> [Inaccessible(C*D) @ var_11, request_1 @ request_1, ierr_1 @ ierr_1]" -> "Inaccessible(C*D) @ var_11"
+"[] -> iRecv -> [Inaccessible(C*D) @ var_11, request_1 @ request_1, ierr_1 @ ierr_1]" -> "request_1 @ request_1"
+"[] -> iRecv -> [Inaccessible(C*D) @ var_11, request_1 @ request_1, ierr_1 @ ierr_1]" -> "ierr_1 @ ierr_1"
+"Inaccessible(C*D) @ var_11" -> "[Inaccessible(C*D) @ var_11, request_1 @ request_1] -> iRecvWait -> [C*D @ var_11, status_1 @ status_1, ierr_2 @ ierr_2]"
+"request_1 @ request_1" -> "[Inaccessible(C*D) @ var_11, request_1 @ request_1] -> iRecvWait -> [C*D @ var_11, status_1 @ status_1, ierr_2 @ ierr_2]"
+"[Inaccessible(C*D) @ var_11, request_1 @ request_1] -> iRecvWait -> [C*D @ var_11, status_1 @ status_1, ierr_2 @ ierr_2]" -> "C*D @ var_11"
+"[Inaccessible(C*D) @ var_11, request_1 @ request_1] -> iRecvWait -> [C*D @ var_11, status_1 @ status_1, ierr_2 @ ierr_2]" -> "status_1 @ status_1"
+"[Inaccessible(C*D) @ var_11, request_1 @ request_1] -> iRecvWait -> [C*D @ var_11, status_1 @ status_1, ierr_2 @ ierr_2]" -> "ierr_2 @ ierr_2"
+"A @ A" -> "[1.0 @ var, A @ A, B @ B, 0.0 @ var_2, 0 @ var_10] -> GEMM -> [A*B @ var_10]"
+"B @ B" -> "[1.0 @ var, A @ A, B @ B, 0.0 @ var_2, 0 @ var_10] -> GEMM -> [A*B @ var_10]"
+"[1.0 @ var, A @ A, B @ B, 0.0 @ var_2, 0 @ var_10] -> GEMM -> [A*B @ var_10]" -> "A*B @ var_10"
+"A*B @ var_10" -> "[A*B @ var_10, C*D @ var_11] -> GESVLASWP -> [(A*B)^-1*(C*D) @ var_11, IPIV((A*B)^-1*(C*D)) @ var_7, INFO @ INFO]"
+"C*D @ var_11" -> "[A*B @ var_10, C*D @ var_11] -> GESVLASWP -> [(A*B)^-1*(C*D) @ var_11, IPIV((A*B)^-1*(C*D)) @ var_7, INFO @ INFO]"
+"[A*B @ var_10, C*D @ var_11] -> GESVLASWP -> [(A*B)^-1*(C*D) @ var_11, IPIV((A*B)^-1*(C*D)) @ var_7, INFO @ INFO]" -> "(A*B)^-1*(C*D) @ var_11"
+"[A*B @ var_10, C*D @ var_11] -> GESVLASWP -> [(A*B)^-1*(C*D) @ var_11, IPIV((A*B)^-1*(C*D)) @ var_7, INFO @ INFO]" -> "IPIV((A*B)^-1*(C*D)) @ var_7"
+"[A*B @ var_10, C*D @ var_11] -> GESVLASWP -> [(A*B)^-1*(C*D) @ var_11, IPIV((A*B)^-1*(C*D)) @ var_7, INFO @ INFO]" -> "INFO @ INFO"
+}

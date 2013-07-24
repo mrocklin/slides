@@ -1,0 +1,31 @@
+
+digraph{
+
+rankdir=TD
+
+"C" [shape=ellipse]
+"D" [shape=ellipse]
+"C*D" [shape=ellipse]
+"A*B" [shape=ellipse]
+"(A*B)^-1*(C*D)" [shape=ellipse]
+"IPIV((A*B)^-1*(C*D))" [shape=ellipse]
+"INFO" [shape=ellipse]
+"A" [shape=ellipse]
+"B" [shape=ellipse]
+
+"[1.0, C, D, 0.0, 0] -> GEMM -> [C*D]" [shape=box, label="GEMM"]
+"[1.0, A, B, 0.0, 0] -> GEMM -> [A*B]" [shape=box, label="GEMM"]
+"[A*B, C*D] -> GESVLASWP -> [(A*B)^-1*(C*D), IPIV((A*B)^-1*(C*D)), INFO]" [shape=box, label="GESVLASWP"]
+
+"C" -> "[1.0, C, D, 0.0, 0] -> GEMM -> [C*D]"
+"D" -> "[1.0, C, D, 0.0, 0] -> GEMM -> [C*D]"
+"[1.0, C, D, 0.0, 0] -> GEMM -> [C*D]" -> "C*D"
+"A" -> "[1.0, A, B, 0.0, 0] -> GEMM -> [A*B]"
+"B" -> "[1.0, A, B, 0.0, 0] -> GEMM -> [A*B]"
+"[1.0, A, B, 0.0, 0] -> GEMM -> [A*B]" -> "A*B"
+"A*B" -> "[A*B, C*D] -> GESVLASWP -> [(A*B)^-1*(C*D), IPIV((A*B)^-1*(C*D)), INFO]"
+"C*D" -> "[A*B, C*D] -> GESVLASWP -> [(A*B)^-1*(C*D), IPIV((A*B)^-1*(C*D)), INFO]"
+"[A*B, C*D] -> GESVLASWP -> [(A*B)^-1*(C*D), IPIV((A*B)^-1*(C*D)), INFO]" -> "(A*B)^-1*(C*D)"
+"[A*B, C*D] -> GESVLASWP -> [(A*B)^-1*(C*D), IPIV((A*B)^-1*(C*D)), INFO]" -> "IPIV((A*B)^-1*(C*D))"
+"[A*B, C*D] -> GESVLASWP -> [(A*B)^-1*(C*D), IPIV((A*B)^-1*(C*D)), INFO]" -> "INFO"
+}

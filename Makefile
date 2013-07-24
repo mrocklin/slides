@@ -12,4 +12,4 @@ pdf: slides.tex images/pdfs
 	pdflatex slides.tex
 
 publish: pdf
-	scp slides.pdf mrocklin@belvedere.cs.uchicago.edu:html/storage/scipy-2013-slides.pdf
+	scp slides.pdf mrocklin@belvedere.cs.uchicago.edu:html/storage/defense-slides.pdf

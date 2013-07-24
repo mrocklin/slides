@@ -1,0 +1,48 @@
+digraph{
+    graph [ordering="out"];
+    edge [color="grey"];
+    node [color="black"];
+
+    a [label="20"];
+    aa [label="23"];
+    ab [label="26" color="blue"];
+    aaa [label="21" color="blue"];
+
+    b [label="10"];
+    ba [label="8", color="red"];
+    bb [label="13"];
+    bba [label="14" color="blue"];
+
+    c [label="30"];
+    ca [label="33"];
+    caa [label="21" color="red"];
+    cab [label="26"];
+    caba [label="12" color="blue"];
+
+    cb [label="37"];
+    cba [label="34" color="blue"];
+    cbb [label="40"];
+    cbba [label="58" color="blue"];
+
+    root -> a;
+    root -> b [color="black"];
+    root -> c;
+
+    a -> aa; 
+    a -> ab
+    aa -> aaa;
+
+    b -> ba [color="black"];
+    b -> bb;
+    bb -> bba;
+
+    c -> ca;
+    c -> cb;
+    ca -> caa;
+    ca -> cab;
+    cab -> caba;
+    cb -> cba;
+    cb -> cbb
+    cbb -> cbba;
+}
+
