@@ -10,33 +10,44 @@ Sales Pitch
 Most Talks
 ----------
 
-You want your programs to run faster
+*   You want your programs to run faster
 
-Accelerate computation through sophisticated hardware
+*   Accelerate computation through sophisticated hardware
 
-This is hard and it's going to get harder
+*   This is hard and it's going to get worse 
 
-This is actually really hard for most users
+*   This is actually really hard for most users
 
-Discussion of automating some problem
+*   Discussion of automating some problem
 
 This Talk
 ------------------------
 
-You want your programs to run faster
+*   You want your programs to run faster
 
-~~Accelerate~~ Reduce computation through sophisticated ~~hardware~~ methods 
+*   **Reduce** computation through sophisticated **methods**
 
-This is hard ~~and it's going to get harder~~
+*   This is hard ~~and it's going to get worse~~
 
-This is actually really hard for most users
+*   This is actually really hard for most users **and it's going to get worse**
 
-Discussion of automating some problem 
+*   Discussion of automating some problem 
 
 ------------------------
 
 Slide on integration comparing trapezoid rule to simpsons rule to something
 exotic
+
+
+---------------------------------
+
+*   This is actually really hard for most users **and it's going to get worse**
+
+\hrule
+
+*   Most science is done by naive developers at moderate scale
+
+*   Support mainstream work by automation
 
 ------------------------
 
@@ -52,23 +63,14 @@ int fact(int n){        int fact(int n){    int fact(int n){
 
 ---------------------------------
 
-Most science is done by naive developers at moderate scale
-
-Support mainstream work by automation
-
----------------------------------
-
 \begin{figure}[htbp]
 \centering
-\includegraphics<1>[height=\textheight]{images/parallel-programmers}
-\includegraphics<2>[height=\textheight]{images/gamma-knowers}
-\includegraphics<3>[width=\textwidth]{images/venn-capable-1b}
-\includegraphics<4>[width=\textwidth]{images/venn-capable-3b}
-\includegraphics<5>[width=\textwidth]{images/venn-capable-4b}
+\includegraphics<1>[height=.6\textheight]{images/venn-capable-1}
+\includegraphics<2>[height=.6\textheight]{images/venn-capable-2}
+\includegraphics<3>[height=.6\textheight]{images/venn-capable-3}
 \end{figure}
 
 ---------------------------------
-
 
 *   The distribution of deep expertise is both concentrated and separate \newline
     Demographics of specialist communities
@@ -743,6 +745,29 @@ Blocking
 \end{figure}
 
 
+Conclusion
+==========
+
+Related Work
+------------
+
+Numerical Linear Algebra
+
+*   FLAME
+*   Plasma/Magma
+
+Notable for software engineering
+
+*   Trilinos
+*   Sprial
+
+Program Generation
+
+*   Maude
+*   Stratego/XT
+
+
+
 Static Scheduling
 ---------------------------------------------------------------
 
@@ -831,23 +856,3 @@ Generate code:
   if (ierr_4 .ne. MPI_SUCCESS) print *, 'MPI_WAIT Failed'
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Conclusion
-==========
-
-Related Work
-------------
-
-Numerical Linear Algebra
-
-*   FLAME
-*   Plasma/Magma
-
-Notable for software engineering
-
-*   Trilinos
-*   Sprial
-
-Program Generation
-
-*   Maude
-*   Stratego/XT

@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="300"
+   width="415"
    height="200"
    id="svg3308"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="venn-capable-3b.svg">
+   sodipodi:docname="venn-capable-2b.svg">
   <defs
      id="defs3310" />
   <sodipodi:namedview
@@ -24,17 +24,31 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="229.34696"
-     inkscape:cy="88.790987"
+     inkscape:zoom="1.979899"
+     inkscape:cx="290.80934"
+     inkscape:cy="86.19316"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:window-width="1600"
      inkscape:window-height="876"
      inkscape:window-x="0"
      inkscape:window-y="24"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     fit-margin-left="0"
+     fit-margin-top="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3564"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       originx="156.00001px"
+       originy="-38.131753px" />
+  </sodipodi:namedview>
   <metadata
      id="metadata3313">
     <rdf:RDF>
@@ -51,55 +65,44 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-852.36218)">
-    <text
-       xml:space="preserve"
-       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:LMRoman10;-inkscape-font-specification:LMRoman10"
-       x="496.47086"
-       y="569.8114"
-       id="text2985"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan2987"
-         x="496.47086"
-         y="569.8114">Parallel Programmers</tspan></text>
+     transform="translate(156.00001,-814.23041)">
     <text
        xml:space="preserve"
        style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:LMRoman10;-inkscape-font-specification:LMRoman10"
-       x="101.38282"
-       y="923.21765"
+       x="79.38282"
+       y="893.21765"
        id="text2989"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         x="102.71876"
-         y="923.21765"
+         x="80.718758"
+         y="893.21765"
          id="tspan2993">Software engineers </tspan><tspan
          sodipodi:role="line"
-         x="102.71876"
-         y="933.21765"
+         x="80.718758"
+         y="903.21765"
          id="tspan3843">capable of </tspan><tspan
          sodipodi:role="line"
-         x="101.38282"
-         y="943.21765"
+         x="79.38282"
+         y="913.21765"
          id="tspan2997">building automated systems</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:LMRoman10;-inkscape-font-specification:LMRoman10"
-       x="185.03883"
-       y="938.21765"
+       x="178.66406"
+       y="897.36218"
        id="text2999"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3001"
-         x="186.37477"
-         y="938.21765">People who know </tspan><tspan
+         x="180"
+         y="897.36218">People who </tspan><tspan
          sodipodi:role="line"
-         x="185.03883"
-         y="948.21765"
-         id="tspan3516">the</tspan><tspan
+         x="178.66406"
+         y="907.36218"
+         id="tspan3516">know the</tspan><tspan
          sodipodi:role="line"
-         x="185.03883"
-         y="958.21765"
+         x="178.66406"
+         y="917.36218"
          id="tspan3522">Gamma Function</tspan></text>
     <path
        sodipodi:type="arc"
@@ -110,17 +113,7 @@
        sodipodi:rx="70"
        sodipodi:ry="70"
        d="m 500,542.36218 a 70,70 0 1 1 -140,0 70,70 0 1 1 140,0 z"
-       transform="translate(-332.28124,400.85542)" />
-    <path
-       transform="translate(101.47084,37.44922)"
-       sodipodi:type="arc"
-       style="opacity:0.6;fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-       id="path3823-9"
-       sodipodi:cx="430"
-       sodipodi:cy="542.36218"
-       sodipodi:rx="70"
-       sodipodi:ry="70"
-       d="m 500,542.36218 c 0,38.65994 -31.34007,70 -70,70 -38.65993,0 -70,-31.34006 -70,-70 0,-38.65993 31.34007,-70 70,-70 38.65993,0 70,31.34007 70,70 z" />
+       transform="translate(-354.28124,370.85542)" />
     <path
        sodipodi:type="arc"
        style="opacity:0.6;fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
@@ -130,7 +123,7 @@
        sodipodi:rx="45"
        sodipodi:ry="45"
        d="m 590,537.36218 a 45,45 0 1 1 -90,0 45,45 0 1 1 90,0 z"
-       transform="matrix(0.78040162,0,0,0.78040162,-238.94415,523.85932)" />
+       transform="matrix(0.78040162,0,0,0.78040162,-245.31893,488.00381)" />
     <text
        xml:space="preserve"
        style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:LMRoman10;-inkscape-font-specification:LMRoman10"
@@ -154,7 +147,7 @@
        sodipodi:cy="537.36218"
        sodipodi:rx="45"
        sodipodi:ry="45"
-       d="m 590,537.36218 a 45,45 0 1 1 -90,0 45,45 0 1 1 90,0 z"
+       d="m 590,537.36218 c 0,24.85282 -20.14719,45 -45,45 -24.85281,0 -45,-20.14718 -45,-45 0,-24.85281 20.14719,-45 45,-45 24.85281,0 45,20.14719 45,45 z"
        transform="matrix(0.78040162,0,0,0.78040162,-8.9441639,623.85932)" />
     <text
        xml:space="preserve"
@@ -179,7 +172,7 @@
        sodipodi:cy="537.36218"
        sodipodi:rx="45"
        sodipodi:ry="45"
-       d="m 590,537.36218 a 45,45 0 1 1 -90,0 45,45 0 1 1 90,0 z"
+       d="m 590,537.36218 c 0,24.85282 -20.14719,45 -45,45 -24.85281,0 -45,-20.14718 -45,-45 0,-24.85281 20.14719,-45 45,-45 24.85281,0 45,20.14719 45,45 z"
        transform="matrix(0.78040162,0,0,0.78040162,-20.372735,466.35932)" />
     <text
        xml:space="preserve"
@@ -194,7 +187,7 @@
          id="tspan3799-9-79">People who know </tspan><tspan
          sodipodi:role="line"
          x="365.03882"
-         y="1083.2175"
+         y="1083.2177"
          id="tspan3252">MPI/CUDA</tspan></text>
     <path
        sodipodi:type="arc"
@@ -204,7 +197,57 @@
        sodipodi:cy="537.36218"
        sodipodi:rx="45"
        sodipodi:ry="45"
-       d="m 590,537.36218 a 45,45 0 1 1 -90,0 45,45 0 1 1 90,0 z"
+       d="m 590,537.36218 c 0,24.85282 -20.14719,45 -45,45 -24.85281,0 -45,-20.14718 -45,-45 0,-24.85281 20.14719,-45 45,-45 24.85281,0 45,20.14719 45,45 z"
        transform="matrix(0.78040162,0,0,0.78040162,-59.658434,657.78789)" />
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:LMRoman10;-inkscape-font-specification:LMRoman10"
+       x="-125"
+       y="872.36218"
+       id="text2985-0"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2987-2"
+         x="-125"
+         y="872.36218">People who use Factorial</tspan></text>
+    <path
+       transform="translate(-515.00001,369.99996)"
+       sodipodi:type="arc"
+       style="opacity:0.6;fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3823-9-0"
+       sodipodi:cx="430"
+       sodipodi:cy="542.36218"
+       sodipodi:rx="70"
+       sodipodi:ry="70"
+       d="m 500,542.36218 a 70,70 0 1 1 -140,0 70,70 0 1 1 140,0 z" />
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:LMRoman10;-inkscape-font-specification:LMRoman10"
+       x="-85"
+       y="937.36218"
+       id="text3059"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="-83.664062"
+         y="937.36218"
+         id="tspan3065">People who </tspan><tspan
+         sodipodi:role="line"
+         x="-85"
+         y="947.36218"
+         id="tspan3181">know the</tspan><tspan
+         sodipodi:role="line"
+         x="-85"
+         y="957.36218"
+         id="tspan3183">Gamma Function</tspan></text>
+    <path
+       transform="translate(-15,825.00338)"
+       sodipodi:type="arc"
+       style="opacity:0.6;fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path3067"
+       sodipodi:cx="-70"
+       sodipodi:cy="120"
+       sodipodi:rx="35"
+       sodipodi:ry="20"
+       d="m -35,120 a 35,20 0 1 1 -70,0 35,20 0 1 1 70,0 z" />
   </g>
 </svg>

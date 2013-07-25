@@ -1,4 +1,4 @@
-slides.tex: slides.md my.beamer kalman.f90
+slides.tex: slides.md my.beamer kalman.f90 images/*.svg
 	python scripts/include.py slides.md slides2.md
 	python scripts/dot2pdf.py
 	pandoc -t beamer slides2.md -o slides.tex --standalone --template=my.beamer --variable fontsize=8pt -H tex/preamble-extra.tex
