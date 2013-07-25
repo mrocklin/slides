@@ -35,8 +35,15 @@ This Talk
 
 ------------------------
 
-Slide on integration comparing trapezoid rule to simpsons rule to something
-exotic
+\begin{figure}[htbp]
+\centering
+\includegraphics<1>[width=.5\textwidth]{images/quadrature-22}
+\includegraphics<1>[width=.5\textwidth]{images/quadrature-13}
+\includegraphics<2>[width=.5\textwidth]{images/quadrature-62}
+\includegraphics<2>[width=.5\textwidth]{images/quadrature-13}
+\includegraphics<3>[width=.5\textwidth]{images/quadrature-62}
+\includegraphics<3>[width=.5\textwidth]{images/quadrature-14}
+\end{figure}
 
 
 ---------------------------------
@@ -93,6 +100,8 @@ int fact(int n){        int fact(int n){    int fact(int n){
 
 Automated Linear Algebra
 ========================
+
+include [Three parts](three-parts.md)
 
 Need for Arrray Compilers
 -------------------------
@@ -273,6 +282,8 @@ True
 Computations
 ============
 
+include [Three parts](three-parts.md)
+
 -----------
 
 Numeric libraries for dense linear algebra
@@ -343,11 +354,13 @@ RETURN
 END
 ~~~~~~~~~
 
-Automation
-==========
+Term Rewrite Systems
+====================
 
+include [Three parts](three-parts.md)
+
+Preview
 -------
-
 
 **Have**
 
@@ -371,57 +384,6 @@ Automation
 (alpha*A + B,        AXPY(alpha, A, B), True),
  ...
 ~~~~~~~~~~~
-
-
----------
-
-\begin{figure}[htbp]
-\centering
-\includegraphics<1->[width=.24\textwidth]{images/hat0}
-\includegraphics<2->[width=.24\textwidth]{images/hat1}
-\includegraphics<3->[width=.24\textwidth]{images/hat2}
-\includegraphics<4->[width=.24\textwidth]{images/hat3}
-\end{figure}
-
-~~~~~~~~~~~Python
-# Source Expression,  Target Computation,        Condition
-(alpha*A*B + beta*C, SYMM(alpha, A, B, beta, C), Q.symmetric(A) | Q.symmetric(B)),
-(alpha*A*B + beta*C, GEMM(alpha, A, B, beta, C), True),
-(A.I*B,              POSV(A, B),        Q.symmetric(A) & Q.positive_definite(A)),
-(A.I*B,              GESV(A, B),        True),
-(alpha*A + B,        AXPY(alpha, A, B), True),
-~~~~~~~~~~~
-
-Kalman Filter
--------------
-
-~~~~~~~~~~Python
-newmu       = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
-newSigma    = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
-
-assumptions = [Q.positive_definite(Sigma), Q.symmetric(Sigma), 
-               Q.positive_definite(R), Q.symmetric(R), Q.fullrank(H)]
-
-f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
-~~~~~~~~~~
-\vspace{-1em}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\textwidth]{images/kalman-math}
-\end{figure}
-
-
-Kalman Filter
--------------
-
-~~~~~~~~~~~Fortran
-include [Kalman](kalman.f90)
-~~~~~~~~~~~
-
-
-Terms Rewrite Systems
-=====================
 
 
 Pattern Matching
@@ -541,7 +503,38 @@ Rule Coordination
 \end{figure}
 
 
------------------
+Automated Numerical Linear Algebra
+==================================
+
+include [Three parts](three-parts.md)
+
+-------
+
+**Have**
+
+    expr  = (X.T*X).I*X.T*y
+    facts = Q.fullrank(X)
+
+**Want**
+
+    comp  = (GEMM(1, X.T, X, 0, 0) 
+           + GEMM(1, X.T, y, 0, 0)
+           + POSV(X.T*X, X.T*y))
+
+**Accomplish Using Pattern Matching**
+
+~~~~~~~~~~~Python
+# Source Expression,  Target Computation,        Condition
+(alpha*A*B + beta*C, SYMM(alpha, A, B, beta, C), Q.symmetric(A) | Q.symmetric(B)),
+(alpha*A*B + beta*C, GEMM(alpha, A, B, beta, C), True),
+(A.I*B,              POSV(A, B),        Q.symmetric(A) & Q.positive_definite(A)),
+(A.I*B,              GESV(A, B),        True),
+(alpha*A + B,        AXPY(alpha, A, B), True),
+ ...
+~~~~~~~~~~~
+
+
+---------
 
 \begin{figure}[htbp]
 \centering
@@ -549,6 +542,53 @@ Rule Coordination
 \includegraphics<2->[width=.24\textwidth]{images/hat1}
 \includegraphics<3->[width=.24\textwidth]{images/hat2}
 \includegraphics<4->[width=.24\textwidth]{images/hat3}
+\end{figure}
+
+~~~~~~~~~~~Python
+# Source Expression,  Target Computation,        Condition
+(alpha*A*B + beta*C, SYMM(alpha, A, B, beta, C), Q.symmetric(A) | Q.symmetric(B)),
+(alpha*A*B + beta*C, GEMM(alpha, A, B, beta, C), True),
+(A.I*B,              POSV(A, B),        Q.symmetric(A) & Q.positive_definite(A)),
+(A.I*B,              GESV(A, B),        True),
+(alpha*A + B,        AXPY(alpha, A, B), True),
+~~~~~~~~~~~
+
+Kalman Filter
+-------------
+
+~~~~~~~~~~Python
+newmu       = mu + Sigma*H.T * (R + H*Sigma*H.T).I * (H*mu - data)
+newSigma    = Sigma - Sigma*H.T * (R + H*Sigma*H.T).I * H * Sigma
+
+assumptions = [Q.positive_definite(Sigma), Q.symmetric(Sigma), 
+               Q.positive_definite(R), Q.symmetric(R), Q.fullrank(H)]
+
+f = fortran_function([mu, Sigma, H, R, data], [newmu, newSigma], *assumptions)
+~~~~~~~~~~
+\vspace{-1em}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\textwidth]{images/kalman-math}
+\end{figure}
+
+
+Kalman Filter
+-------------
+
+~~~~~~~~~~~Fortran
+include [Kalman](kalman.f90)
+~~~~~~~~~~~
+
+
+-----------------
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.24\textwidth]{images/hat0}
+\includegraphics[width=.24\textwidth]{images/hat1}
+\includegraphics[width=.24\textwidth]{images/hat2}
+\includegraphics[width=.24\textwidth]{images/hat3}
 \end{figure}
 
 ~~~~~~~~~~~Python
@@ -744,6 +784,108 @@ Blocking
 \includegraphics[width=\textwidth]{images/fblocked}
 \end{figure}
 
+Probability
+---------------------------------------------------------------
+
+
+~~~~~~~~~~~~Python
+>>> mu = Symbol('mu', real=True)
+>>> sigma = Symbol('sigma', positive=True)
+>>> X = Normal('X', mu, sigma)
+>>> P(X > y)
+~~~~~~~~~~~~
+
+$$\frac{1}{2} \operatorname{erf}{\left (\frac{\sqrt{2} \left(\mu - y\right)}{2 \sigma} \right )} + \frac{1}{2}$$
+
+Probability
+---------------------------------------------------------------
+
+
+~~~~~~~~~~~~Python
+>>> mu = Symbol('mu', real=True)
+>>> sigma = Symbol('sigma', positive=True)
+>>> X = Normal('X', mu, sigma)
+>>> P(X > y, evaluate=False)
+~~~~~~~~~~~~
+
+$$\int_{0}^{\infty} \frac{\sqrt{2} e^{- \frac{\left(z - \mu + y\right)^{2}}{2 \sigma^{2}}}}{2 \sqrt{\pi} \sigma}\, dz$$
+
+Probability
+---------------------------------------------------------------
+
+
+~~~~~~~~~~~~Python
+>>> mu = Symbol('mu', real=True)
+>>> sigma = Symbol('sigma', positive=True)
+>>> X = Normal('X', mu, sigma)
+>>> P(X**2 + 1 > y, evaluate=False)
+~~~~~~~~~~~~
+
+$$ \int_{0}^{\infty} \frac{\sqrt{2} \left(e^{2 \frac{\mu \sqrt{z + y - 1}}{\sigma^{2}}} + 1\right) e^{\frac{- z - \mu^{2} - 2 \mu \sqrt{z + y - 1} - y + 1}{2 \sigma^{2}}} \left\lvert{\frac{1}{\sqrt{z + y - 1}}}\right\rvert}{4 \sqrt{\pi} \sigma}\, dz $$
+
+------------------------------------
+
+~~~~~~~~~~~~Python
+>>> X = Normal('X', 0, 1)
+>>> Y = Normal('Y', 0, 1)
+~~~~~~~~~~~~
+
+~~~~~~~~~~~~Python
+>>> simplify(density(X+Y)(z))
+~~~~~~~~~~~~
+
+$$ \frac{e^{- \frac{1}{4} z^{2}}}{2 \sqrt{\pi}} $$
+
+------------------------------------
+
+~~~~~~~~~~~~Python
+>>> X = Normal('X', 0, 1)
+>>> Y = Normal('Y', 0, 1)
+~~~~~~~~~~~~
+
+~~~~~~~~~~~~Python
+>>> density(X**2)(z)
+~~~~~~~~~~~~
+
+$$ \frac{\sqrt{2} e^{- \frac{1}{2} z} \left\lvert{\frac{1}{\sqrt{z}}}\right\rvert}{2 \sqrt{\pi}} $$
+
+------------------------------------
+
+~~~~~~~~~~~~Python
+>>> X = Normal('X', 0, 1)
+>>> Y = Normal('Y', 0, 1)
+~~~~~~~~~~~~
+
+~~~~~~~~~~~~Python
+>>> density(X**2 + Y**2)(z)
+~~~~~~~~~~~~
+
+$$ \int_{-\infty}^{\infty} \frac{\sqrt{2} e^{- \frac{1}{2} X^{2}} \int_{-\infty}^{\infty} \frac{\sqrt{2} e^{- \frac{1}{2} Y^{2}} \delta\left(X^{2} + Y^{2} - z\right)}{2 \sqrt{\pi}}\, dY}{2 \sqrt{\pi}}\, dX $$
+
+------------------------------------
+
+~~~~~~~~~~~~Python
+>>> X = Normal('X', 0, 1)
+>>> Y = Normal('Y', 0, 1)
+~~~~~~~~~~~~
+
+~~~~~~~~~~~~Python
+>>> density(X**2 + Y**2)(z)
+~~~~~~~~~~~~
+
+$$ \frac{1}{2} e^{- \frac{1}{2} z} $$
+
+
+----------------------------------
+
+~~~~~~~~~~~~Python
+patterns = [
+    (Normal('X', 0, 1),                         StandardNormal('X'),    True),
+    (StandardNormal('X')**2,                    ChiSquared('X', 1),     True),
+    (ChiSquared('X', m) + ChiSquared('Y', n),   ChiSquared('X', n + m), True),
+    ...
+    ]
+~~~~~~~~~~~~
 
 Conclusion
 ==========
