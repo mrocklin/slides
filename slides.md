@@ -1,44 +1,76 @@
-% TITLE
-% AUTHOR
-% DATE
+% RECAP: Scan Statistics for the Online Detection of Locally Anomalous Subgraphs
+% LANL Groups
+% September 23rd, 2013
 
-Slide Title
+Paper in a Slide
+----------------
+
+**Goal** --  Identify anomalous/intrusive network events
+
+![Build model for behavior on each edge](images/edge-model.png)
+
+![Sum anomalous behavior over traditional attack traversals](images/traversal.png)
+
+Edge Models
 -----------
 
-Text
+![Build model for behavior on each edge](images/edge-model.png)
 
-Code
-----
+Two Phenomena:
 
-~~~~~~~~~C
-int main()
-{
-    printf("Hello, world!\n");
-    return 0;
-}
-~~~~~~~~~
+1.  Bursty behavior during the day
+2.  Long periods of inactivity
 
-List
------
+Two Models:
 
-*   Item 1
-*   Item 2
-*   Item 3
+*   Markov model with two states
+    *   Emission state - Emits 1
+    *   Quiet state - Emits 0
+*   Hidden Markov model with two layers
+    *   In office
+        *   Emission State - Emits 1
+        *   Quiet State - Emits 0
+    *   Out of office - Emits only 0's
 
-Math
-----
 
-$$ \int_0^1 x^2 dx = \frac{x^3}{3} $$
+Learn/Test for Detection
+------------------------
 
-Figure
-------
+Learn parameters for state transition probabilities from baseline data
 
-\begin{figure}[htbp]
+Edge Summation Patterns
+-----------------------
+
+![Sum anomalous behavior over traditional attack traversals](images/traversal.png)
+
+Two fundamental patterns
+
+1.  Star
+2.  Path
+
+Aggregating likelihoods across pattern requires
+
+1.  Independence
+2.  Computation (lots of 3 paths)
+
+Independence
+------------
+
+\begin{figure}
 \centering
-\includegraphics[width=.9\textwidth]{images/black.png}
+\includegraphics[height=.5\textheight, width=.4\textwidth]{images/independence.png}
 \end{figure}
 
-End
----
+Arguments for Independence
 
-Thanks!
+*   This layer of network protocol allows any pairwise connection
+*   Of 40 000 edges and 300 000 2-paths only 1 in 10 000 have correlations above 50%
+
+Independence assumption allows us to separate the likelihood and summation computations.
+
+Results
+-------
+
+Introduce fake events into real data
+
+![](images/results.png)
