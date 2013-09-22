@@ -7,14 +7,18 @@ Paper in a Slide
 
 **Goal** --  Identify anomalous/intrusive network events
 
-![Build model for behavior on each edge](images/edge-model.png)
+Model behavior on each edge
 
-![Sum anomalous behavior over traditional attack traversals](images/traversal.png)
+![](images/edge-model.png)
+
+Sum behavior over traversals/subgraphs common to attacks
+
+![](images/traversal.png)
 
 Edge Models
 -----------
 
-![Build model for behavior on each edge](images/edge-model.png)
+![Number of connections per minute between computers](images/edge-model.png)
 
 Two Phenomena:
 
@@ -33,15 +37,45 @@ Two Models:
     *   Out of office - Emits only 0's
 
 
-Learn/Test for Detection
-------------------------
+Learn Common Behavior
+---------------------
 
-Learn parameters for state transition probabilities from baseline data
+Given a string of events (connect, connect, don't connect, ...)
+
+And a model (two level "at work/at computer" model)
+
+Learn the following parameters
+
+*   Probability of connection given that user is at work
+*   Probability of transitioning from "at work" to "not at work" state
+*   Probability of transitioning from "not at work" to "at work" state
+
+Via Expectation-Maximization (iterative optimization scheme)
+
+
+Test for Anomalous Behavior
+---------------------------
+
+Given a string of events (connect, connect, don't connect, ...)
+
+And a model (two level "at work/at computer" model)
+
+Learn the following parameters
+
+*   Probability of connection given that user is at work
+*   Probability of transitioning from "at work" to "not at work" state
+*   Probability of transitioning from "not at work" to "at work" state
+
+Via Expectation-Maximization (iterative optimization scheme)
+
+Compute ratio of likelihoods under baseline parameters and newly trained parameters
+
+Look for increases in transition probabilities to emission states
 
 Edge Summation Patterns
 -----------------------
 
-![Sum anomalous behavior over traditional attack traversals](images/traversal.png)
+![A typical attack traversal](images/traversal.png)
 
 Two fundamental patterns
 
@@ -71,6 +105,35 @@ Independence assumption allows us to separate the likelihood and summation compu
 Results
 -------
 
-Introduce fake events into real data
+Introduce fake events into real data.  Measure likelihoods for each edge.
 
 ![](images/results.png)
+
+Results
+-------
+
+![](images/table.png)
+
+Paper then describes merits of searching for anomalies of type X using scanning
+subgraph of type Y.  E.g. 
+
+*   How well do path scans find star intrusions?  
+*   How well do path scans find path intrusions?
+
+Conclusion
+----------
+
+**Problems**
+
+*   New edges arose and had to be neglected
+*   Model misses obvious structure (daily, weekly schedules)
+*   Model does not attempt to learn node structure (sys-admin, server, ...)
+
+**Take aways**
+
+*   A significant portion of the signal resides in local behavior
+*   Complex models for local behavior encourage us to disconnect local measurements from network measurements
+
+**Real Results**
+
+*   System did detect an event.  Automatic reallocation of a machine to a new user at night caused the node to repeatedly hit administrative servers (e.g. calendar, mail)
