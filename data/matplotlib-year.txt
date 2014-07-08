@@ -1,0 +1,155 @@
+   341	Thomas A Caswell
+   329	Michael Droettboom
+   112	Phil Elson
+    67	Eric Firing
+    50	Paul Hobson
+    50	Tony S Yu
+    32	Tobias Megies
+    23	Cimarron Mittelsteadt
+    22	Matt Terry
+    21	Ben Root
+    18	Damon McDougall
+    17	Ian Thomas
+    14	Federico Ariza
+    14	Ryan May
+    14	sfroid
+    13	Ben Cohen
+    13	Peter Würtz
+    13	Rohan Walker
+    13	spiessbuerger
+    12	Varoquaux
+    11	Jouni K. Seppänen
+    11	Todd Jennings
+    10	Nelle Varoquaux
+    10	Nic Eggert
+     9	Gregory Ashton
+     8	Larry Bradley
+     8	Thomas Hisch
+     8	anykraus
+     8	pwuertz
+     8	xbtsw
+     7	Christoph Gohlke
+     7	Martin Spacek
+     7	Matěj Týč
+     7	syngron
+     6	Benjamin Reedlunn
+     6	Jae-Joon Lee
+     6	Joe Kington
+     6	Nicolas Rougier
+     6	Paul Ivanov
+     6	solvents
+     5	Adrian Price-Whelan
+     5	Aseem Bansal
+     5	Ben Gamari
+     5	Kevin Chan
+     5	Magnus Nord
+     5	Martin Fitzpatrick
+     5	RutgerK
+     5	Vlad Seghete
+     5	Wieland Hoffmann
+     5	chebee7i
+     5	endolith
+     4	Alistair Muldal
+     4	Andrea Bedini
+     4	Per Parker
+     4	Ricky
+     4	Sergey Kholodilov
+     3	Andreas Wallner
+     3	Andrew Dawson
+     3	Carwyn Pelley
+     3	Geoffroy Billotey
+     3	Hans Meine
+     3	JamesMakela
+     3	Leo Singer
+     3	Matthew Brett
+     3	Matthias BUSSONNIER
+     3	Michiel de Hoon
+     3	MinRK
+     3	Richard Hattersley
+     3	Simon Gibbons
+     3	Thomas Robitaille
+     3	Till Stensitzki
+     3	Timo Vanwynsberghe
+     3	Vadim Markovtsev
+     2	Andrew Merrill
+     2	CJ Carey
+     2	Chris Beaumont
+     2	Chris G
+     2	Daniel O'Connor
+     2	Dean Malmgren
+     2	Felipe
+     2	Francesco Montesano
+     2	Jake Vanderplas
+     2	Loïc Séguin-C
+     2	Manuel GOACOLOU
+     2	Matt Klein
+     2	Robert Johansson
+     2	Ryan D'Souza
+     2	Scott Lawrence
+     2	Valentin Haenel
+     2	Yaron de Leeuw
+     2	grdlok
+     2	limtaesu
+     2	pelson
+     1	Adam Heck
+     1	Alex Loew
+     1	Brandon Liu
+     1	Carissa Brittain
+     1	Christoph Hoffmann
+     1	Dara Adib
+     1	David Anderson
+     1	Dmitry Lupyan
+     1	DonaldSeo
+     1	Filipe
+     1	Gustavo Braganca
+     1	Hans Moritz Günther
+     1	Jan Schulz
+     1	Jason Grout
+     1	Jens H Nielsen
+     1	Jens Hedegaard Nielsen
+     1	José Ricardo
+     1	Julian Taylor
+     1	Kevin Keating
+     1	Maksym P
+     1	Markus Roth
+     1	Martin Dengler
+     1	Matthieu Caneill
+     1	Michael
+     1	Michka Popoff
+     1	Mikhail Korobov
+     1	Nicolas P. Rougier
+     1	Oliver Willekens
+     1	Patrick Marsh
+     1	Paul
+     1	Per
+     1	Peter Iannucci
+     1	Pierre Haessig
+     1	Roland Wirth
+     1	Scott Lasley
+     1	Scott Stevenson
+     1	Silviu Tantos
+     1	Tor Colvin
+     1	Viktor Kerkez
+     1	arokem
+     1	aszilagyi
+     1	blackw1ng
+     1	blah blah
+     1	captainwhippet
+     1	danielballan
+     1	davidovitch
+     1	daydreamt
+     1	donald
+     1	fardal
+     1	kcrisman
+     1	kelsiegr
+     1	khyox
+     1	kramer65
+     1	kshramt
+     1	marky
+     1	rahiel
+     1	rhoef
+     1	selasley
+     1	stahlous
+     1	ugurthemaster
+     1	vagrant
+     1	vbr

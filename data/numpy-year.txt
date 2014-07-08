@@ -1,0 +1,142 @@
+   533	Charles Harris
+   346	Julian Taylor
+   106	Sebastian Berg
+    62	Jay Bourque
+    60	Nathaniel J. Smith
+    51	Ralf Gommers
+    46	Pauli Virtanen
+    39	seberg
+    31	jaimefrio
+    28	Lars Buitinck
+    21	Arink Verma
+    13	Marten van Kerkwijk
+    13	Yaron de Leeuw
+    12	Blake Griffith
+    11	Mark Wiebe
+    10	Daniel da Silva
+    10	Olivier Grisel
+    10	endolith
+     8	Christoph Gohlke
+     8	David Cournapeau
+     8	Lev Abalkin
+     8	Warren Weckesser
+     8	Yoshiki Vázquez Baeza
+     8	alex
+     7	Chris Kerr
+     7	Jonathan Helmus
+     7	Max Sperlich
+     5	Bago Amirbekian
+     5	Sankarshan Mudkavi
+     5	dmuellner
+     4	Alex Stewart
+     4	Félix Hartmann
+     4	Hans Meine
+     4	Joseph Martinot-Lagarde
+     3	Daniel
+     3	David Freese
+     3	Frank Breitling
+     3	Gary Oberbrunner
+     3	Gaëtan de Menten
+     3	Luke Carmichael
+     3	Pascal Bugnion
+     3	Yury V. Zaytsev
+     3	jnothman
+     2	Arnaud Bergeron
+     2	Arun Persaud
+     2	Benjamin Root
+     2	Bernhard Spinnler
+     2	CJ Carey
+     2	Dimas Abreu Dutra
+     2	Erik M. Bray
+     2	Ilambharathi Kanniah
+     2	Josh Lawrence
+     2	K.-Michael Aye
+     2	LeoMao
+     2	Martin Spacek
+     2	Martin Teichmann
+     2	Matthew Brett
+     2	Skipper Seabold
+     2	Stefan van der Walt
+     2	Thomas Kluyver
+     2	Travis E. Oliphant
+     2	immerrr
+     2	jarondl
+     2	jess010
+     1	Adam Reeve
+     1	Ake Sandgren
+     1	Albert
+     1	Alex Barth
+     1	Alexander Belopolsky
+     1	Allen Riddell
+     1	Andreas Hilboll
+     1	Andreas Kloeckner
+     1	Andreas Schwab
+     1	Andrew Stromnov
+     1	Aron Ahmadia
+     1	Bastian Venthur
+     1	Cameron Bates
+     1	Charles G Waldman
+     1	Chris Ball
+     1	Christoph Dann
+     1	Christopher Dembia
+     1	Cimarron Mittelsteadt
+     1	David Froger
+     1	Diego Mesa
+     1	Eric Moore
+     1	Eric Price
+     1	Frederic
+     1	Frederik Rietdijk
+     1	Geert Barentsen
+     1	James Yu
+     1	Janani
+     1	Jason Madden
+     1	Jesús Gómez
+     1	Jez Ng
+     1	John Stechschulte
+     1	Jonathan L Long
+     1	Juan Luis Cano Rodríguez
+     1	Leif Denby
+     1	Marc-Alexandre Côté
+     1	Mark Dickinson
+     1	Markus Roth
+     1	Matthieu Dartiailh
+     1	Michael Aquilina
+     1	Michael Droettboom
+     1	Michael McNeil Forbes
+     1	Miguel de Val-Borro
+     1	Mike Kelly
+     1	Niklas Hambüchen
+     1	Niklas Koep
+     1	Nils Werner
+     1	Philip Eliot
+     1	Pontus Stenetorp
+     1	Richard Hattersley
+     1	Robert Franke
+     1	Robert Pröpper
+     1	Roman Nekhoroshev
+     1	Sascha Peilicke
+     1	Tim Burgess
+     1	Tomas Tomecek
+     1	Ulrich Seidl
+     1	Valentin Haenel
+     1	William Grant
+     1	Yaroslav Halchenko
+     1	Yoni Ben-Meshulam
+     1	astaric
+     1	bbudescu
+     1	brettrmurphy
+     1	danieljfarrell
+     1	eltjpm
+     1	ggventurini
+     1	hklemm
+     1	hpaulj
+     1	jeromekelleher
+     1	jspreston
+     1	jurnix
+     1	leaz
+     1	markdepristo
+     1	mosessky
+     1	mwtoews
+     1	ochoadavid
+     1	rhewett
+     1	szpy

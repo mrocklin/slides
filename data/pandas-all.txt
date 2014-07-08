@@ -1,0 +1,311 @@
+  3115	Wes McKinney
+  2323	jreback
+   943	y-p
+   629	Chang She
+   534	Phillip Cloud
+   327	Adam Klein
+   171	Joris Van den Bossche
+   156	Andy Hayden
+   122	Jeff Tratner
+   122	Jeffrey Tratner
+   109	Vytautas Jancauskas
+    85	Skipper Seabold
+    75	Wouter Overmeire
+    73	sinhrks
+    54	Thomas Kluyver
+    45	Tom Augspurger
+    42	Dieter Vandenbussche
+    40	Kieran O'Mahony
+    36	TomAugspurger
+    32	bwignall
+    28	Jeff Reback
+    25	Stephen Lin
+    21	Yaroslav Halchenko
+    19	Abraham Flaxman
+    19	Dan Birken
+    18	immerrr
+    16	danielballan
+    15	Tobias Brandt
+    14	Gábor Lipták
+    14	Spencer Lyon
+    14	locojaydev
+    13	Jonathan Chambers
+    13	Todd Jennings
+    12	Alex Rothberg
+    12	Luca Beltrame
+    12	PKEuS
+    12	Richard T. Guy
+    12	unutbu
+    11	Christopher Whelan
+    11	Keith Hughitt
+    10	Dale Jung
+    10	David Stephens
+    10	Garrett Drapala
+    10	Martin Blais
+     9	DSM
+     9	Damien Garaud
+     9	John McNamara
+     9	Viktor Kerkez
+     8	Jacob Schaer
+     8	K.-Michael Aye
+     7	Dan Allan
+     7	Takafumi Arakaki
+     7	nipunreddevil
+     6	Andrew Rosenfeld
+     6	Benedikt Sauer
+     6	Brad Buran
+     6	David Bew
+     6	Jason Sexauer
+     6	John W. O'Brien
+     6	Mike Kelly
+     6	Nicholaus E. Halecky
+     6	Stephan Hoyer
+     6	Steve
+     6	Vincent Arel-Bundock
+     6	lexual
+     6	rockg
+     6	timmie
+     5	Adam Obeng
+     5	Chapman Siu
+     5	Kelsey Jordahl
+     5	Marc Abramowitz
+     5	Mark Wiebe
+     5	Thierry Moisan
+     5	agijsberts
+     5	dieterv77
+     5	onesandzeroes
+     5	tshauck
+     4	Alvaro Tejero-Cantero
+     4	Andreas Würl
+     4	Brenda Moon
+     4	Clark Fitzgerald
+     4	Dan Miller
+     4	Daniel Waeber
+     4	Douglas McNeil
+     4	Dražen Lučanin
+     4	Goyo
+     4	Gregg Lind
+     4	Jacques Kvam
+     4	Jev Kuznetsov
+     4	Kevin Sheppard
+     4	Kevin Stone
+     4	Lars Buitinck
+     4	Loïc Estève
+     4	Paul Ivanov
+     4	Pietro Battiston
+     4	Shane Conway
+     4	benjamin
+     4	chapman siu
+     4	clham
+     4	gliptak
+     4	hugo
+     4	waitingkuo
+     3	Adam Greenhall
+     3	Caleb Epstein
+     3	Chris Billington
+     3	Jan Schulz
+     3	Joon Ro
+     3	Josh
+     3	Josh Klein
+     3	Karmel Allison
+     3	Kyle Meyer
+     3	Matt Wittmann
+     3	Mortada Mehyar
+     3	Nick Pentreath
+     3	Olivier Grisel
+     3	Patrick O'Brien
+     3	Richard Höchenberger
+     3	Roy Hyunjin Han
+     3	anomrake
+     3	cgohlke
+     3	davidshinn
+     3	dengemann
+     3	dsm054
+     3	duozhang
+     3	ischwabacher
+     3	joshuaar
+     3	ogiaquino
+     3	prossahl
+     3	zach powers
+     2	Adam Marcus
+     2	Alex Gaudio
+     2	Andrew Burrows
+     2	Antoine Mazières
+     2	Ben Alex
+     2	Benjamin Adams
+     2	Brian Wignall
+     2	Doran Deluz
+     2	Dražen Lučanin
+     2	Eric Chlebek
+     2	Guillaume Poulin
+     2	Ivan Smirnov
+     2	Jack Kelly
+     2	Jay Parlar
+     2	Jeff Mellen
+     2	John David Reaver
+     2	John-Colvin
+     2	Jonathan deWerd
+     2	Julia Evans
+     2	Justin Bozonier
+     2	Kamil Kisiel
+     2	Michael Schatzow
+     2	Nathan Pinger
+     2	Naveen Michaud-Agrawal
+     2	Paddy Mullen
+     2	Patrick O'Keeffe
+     2	Peter Prettenhofer
+     2	Robert Gieseke
+     2	Roman Pekar
+     2	RuiDC
+     2	SleepingPills
+     2	Tiago Requeijo
+     2	Todd DeLuca
+     2	Travis N. Vaught
+     2	Trent Hauck
+     2	Valentin Haenel
+     2	Vytautas Jančauskas
+     2	Will Furnass
+     2	akittredge
+     2	bashtage
+     2	elpres
+     2	jaimefrio
+     2	michaelws
+     2	phaebz
+     2	stonebig
+     2	tim smith
+     2	unknown
+     2	westurner
+     1	A. Flaxman
+     1	Acanthostega
+     1	Agustín Herranz
+     1	AllenDowney
+     1	Alok Singhal
+     1	Aman Thakral
+     1	Andreas H.
+     1	Andreas Klostermann
+     1	Anton I. Sipos
+     1	Bayle Shanks
+     1	Benjamin Gross
+     1	Benjamin M. Gross
+     1	Bjorn Arneson
+     1	Brian Granger
+     1	Brian Quistorff
+     1	Chase Albert
+     1	Chris Mulligan
+     1	Chris Withers
+     1	Christian Geier
+     1	Dan Davison
+     1	Daniel Shapiro
+     1	David Jung
+     1	David Rasch
+     1	David Wolever
+     1	David Zaslavsky
+     1	Donald Curtis
+     1	Doug Coleman
+     1	Douglas Rudd
+     1	Elliot S
+     1	Fabrizio Pollastri
+     1	Felix Lawrence
+     1	Fernando Perez
+     1	Gabi Davar
+     1	George Kuan
+     1	Gouthaman Balaraman
+     1	Graham Taylor
+     1	Greg Reda
+     1	Guillaume Gay
+     1	Illia Polosukhin
+     1	Jacob Howard
+     1	James Casbon
+     1	Jan Wagner
+     1	Jay Bourque
+     1	Jeff Hammerbacher
+     1	Jeffrey Starr
+     1	Jeremy Wagner
+     1	Johnny
+     1	Joshua Leahy
+     1	Julien Danjou
+     1	Juraj Niznan
+     1	Justin Berka
+     1	Justin C Johnson
+     1	Júlio
+     1	Katie Atkinson
+     1	Ken Van Haren
+     1	Kyle Hausmann
+     1	Kyle Kelley
+     1	Laurent Gautier
+     1	Lorenzo Bolla
+     1	Luke Lee
+     1	Mark O'Leary
+     1	Matthew Brett
+     1	Matthias Kuhn
+     1	Max Grender-Jones
+     1	Michael E. Gruen
+     1	Michael Mueller
+     1	MinRK
+     1	Nick Foti
+     1	Nipun Batra
+     1	Noah Spies
+     1	Olivier Harris
+     1	Ondřej Čertík
+     1	Peng Yu
+     1	Pierre Haessig
+     1	Ralph Bean
+     1	Randy Carnevale
+     1	Rob Levy
+     1	Robert Gibboni
+     1	Schaer, Jacob C
+     1	Senthil Palanisami
+     1	SplashDance
+     1	Stefan van der Walt
+     1	Sten
+     1	Taavi Burns
+     1	Thomas A Caswell
+     1	Thomas Wiecki
+     1	Thouis (Ray) Jones
+     1	Tim Akinbo
+     1	Tim Cera
+     1	Tim McNamara
+     1	Tom Farnbauer
+     1	Wes Turner
+     1	Weston Renoud
+     1	Zach Dwiel
+     1	acorbe
+     1	alex arsenovic
+     1	ankostis
+     1	anton-d
+     1	bmu
+     1	chappers
+     1	chebee7i
+     1	claudiobertoldi
+     1	conmai
+     1	d10genes
+     1	david
+     1	davidjameshumphreys
+     1	daydreamt
+     1	ejnens
+     1	engstrom
+     1	fabriziop
+     1	helger
+     1	herrfz
+     1	hshimizu77
+     1	jniznan
+     1	jsexauer
+     1	kdiether
+     1	lenolib
+     1	lgautier
+     1	lodagro
+     1	mikebailey
+     1	monicaBee
+     1	mwaskom
+     1	ojdo
+     1	ribonoous
+     1	sanguineturtle
+     1	seth-p
+     1	stephenwlin
+     1	svaksha
+     1	thauck
+     1	theandygross
+     1	thuske
+     1	vytas
+     1	yelite
+     1	Øystein S. Haaland

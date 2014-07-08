@@ -1,0 +1,111 @@
+   550	Sergey B Kirpichev
+   418	Aaron Meurer
+   369	Chris Smith
+   206	Julien Rioux
+   157	Rick Muller
+   127	Thilina Rathnayake
+   106	Matthew Rocklin
+    99	Ondřej Čertík
+    90	Jason Moore
+    88	Raoul Bourquin
+    87	Sudhanshu Mishra
+    74	Francesco Bonazzi
+    73	Sachin Joglekar
+    72	Kundan Kumar
+    60	Pablo Puente
+    57	Mary Clark
+    52	Sean Vig
+    51	Timothy Reluga
+    50	Robert Johansson
+    46	Björn Dahlgren
+    45	Manoj Kumar
+    45	Mario Pernici
+    41	Anurag Sharma
+    41	Mateusz Paprocki
+    38	Katja Sophie Hotz
+    36	Cristóvão Sousa
+    35	David Li
+    31	Harsh Gupta
+    31	Jim Crist
+    31	rathmann
+    26	Sahil Shekhawat
+    25	Akshay
+    24	Comer Duncan
+    23	Shipra Banga
+    22	Stephen Loo
+    22	hm
+    21	Gilbert Gede
+    19	Randy Heydon
+    17	Alkiviadis G. Akritas
+    17	Amit Saha
+    16	Alexander Hirzel
+    16	Avichal Dayal
+    14	Mike Boyle
+    14	Soumya Dipta Biswas
+    12	Mark Shoulson
+    12	Oliver Lee
+    11	Alexey U. Gudchenko
+    11	Joachim Durchholz
+     9	Chetna Gupta
+     9	Zamrath Nizam
+     8	Aditya Shah
+     8	Lennart Fricke
+     7	Rajat Aggarwal
+     6	Dammina Sahabandu
+     6	Peter Brady
+     6	Ramana Venkata
+     6	carstimon
+     5	David P. Sanders
+     5	richierichrawr
+     4	Ben Lucato
+     4	Pramod Ch
+     4	Stas Kelvich
+     4	Stefan Krastanov
+     4	Stefan van der Walt
+     4	Thomas Hisch
+     4	Zeel Shah
+     4	shashank-agg
+     3	Buck Shlegeris
+     3	Edward
+     3	Heiner Kirchhoffer
+     3	Ronan Lamy
+     3	Tuomas Airaksinen
+     3	Venkatesh Halli
+     2	Brian E. Granger
+     2	Christopher Dembia
+     2	Henry Gebhardt
+     2	James Fiedler
+     2	John Siratt
+     2	Juan Luis Cano Rodríguez
+     2	Kalevi Suominen
+     2	Kunal Arora
+     2	Maciej Baranski
+     2	QuaBoo
+     2	Rajath S
+     2	Sushant Hiray
+     1	Abhinav Chanda
+     1	Ambar Mehrotra
+     1	Benjamin Gudehus
+     1	Dhruvesh Vijay Parikh
+     1	Faisal Anees
+     1	James Goppert
+     1	Jeremy
+     1	John Connor
+     1	Jonathan Miller
+     1	Kaushik Varanasi
+     1	Khagesh Patel
+     1	Lars Buitinck
+     1	Markus Müller
+     1	Patrick Poitras
+     1	Paul Scott
+     1	Paul Strickland
+     1	Pierre Haessig
+     1	Ralph Bean
+     1	Sambuddha Basu
+     1	Saurabh Jha
+     1	Shukla
+     1	Tom Bachmann
+     1	Vinit Ravishankar
+     1	Vlad Seghete
+     1	sarwarc
+     1	sevaader

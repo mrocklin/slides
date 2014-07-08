@@ -1,0 +1,293 @@
+  1989	Travis Oliphant
+  1747	Charles Harris
+  1524	David Cournapeau
+  1061	Pearu Peterson
+   757	Mark Wiebe
+   651	Pauli Virtanen
+   423	Stefan van der Walt
+   396	Julian Taylor
+   336	Ralf Gommers
+   249	cookedm
+   248	Eric Jones
+   216	Sebastian Berg
+   202	Nathaniel J. Smith
+   199	pierregm
+   178	Robert Kern
+   127	Jarrod Millman
+   120	Jay Bourque
+    81	Alan McIntyre
+    74	Travis E. Oliphant
+    74	sasha
+    69	ovillellas
+    64	wfspotz@sandia.gov
+    54	seberg
+    52	Matthew Brett
+    52	Ondřej Čertík
+    39	Han Genuit
+    38	edschofield
+    32	Christoph Gohlke
+    31	Lars Buitinck
+    31	dhuard
+    31	endolith
+    31	jaimefrio
+    30	David Warde-Farley
+    30	m-d-w
+    29	Tim Leslie
+    25	chanley
+    25	mdroe
+    23	Arink Verma
+    22	Fernando Perez
+    21	Johannes Schönberger
+    21	Warren Weckesser
+    20	jmiller
+    18	Frederic
+    18	John Salvatier
+    16	Tim Hochberg
+    15	Aaron River
+    15	Thouis (Ray) Jones
+    14	chris.burns
+    13	Marten van Kerkwijk
+    13	Yaron de Leeuw
+    13	prabhu
+    12	Blake Griffith
+    12	Skipper Seabold
+    11	87
+    11	Chris Jordan-Squire
+    11	Michael Droettboom
+    11	Robert Cimrman
+    10	Christopher L. Farrow
+    10	Daniel da Silva
+    10	Eric Fode
+    10	Olivier Grisel
+    10	Thomas Robitaille
+    10	skip
+     9	Ben Walsh
+     9	Bill Spotz
+     9	Egor Zindy
+     9	Yaroslav Halchenko
+     8	Lev Abalkin
+     8	Yoshiki Vázquez Baeza
+     8	alex
+     7	Chris Kerr
+     7	Darren Dale
+     7	Denis Laxalde
+     7	Jonathan Helmus
+     7	Max Sperlich
+     7	Travis Vaught
+     7	aarchiba
+     6	Eric Moore
+     6	hangenuit@gmail.com
+     6	jayvius
+     6	patmiller
+     5	Bago Amirbekian
+     5	Bradley M. Froehle
+     5	Derek Homeier
+     5	Joe Kington
+     5	Sankarshan Mudkavi
+     5	dmuellner
+     4	Alex Stewart
+     4	Alok Singhal
+     4	Aron Ahmadia
+     4	Bryan Van de Ven
+     4	Daniel
+     4	Eric Firing
+     4	Félix Hartmann
+     4	Geoffrey Irving
+     4	Hans Meine
+     4	Joseph Martinot-Lagarde
+     4	Justin Peel
+     4	Nicolas Pinto
+     4	Paul Anton Letnes
+     4	Paul Ivanov
+     4	Valentin Haenel
+     4	dmorrill
+     3	Alex Ford
+     3	Ben Root
+     3	David Freese
+     3	Fabian Pedregosa
+     3	Fazlul Shahriar
+     3	Frank Breitling
+     3	GaelVaroquaux
+     3	Gary Oberbrunner
+     3	Gaëtan de Menten
+     3	Guillaume Gay
+     3	Luke Carmichael
+     3	Martin Spacek
+     3	Martin Teichmann
+     3	Pascal Bugnion
+     3	Scott Sinclair
+     3	Steve
+     3	Steve R. Hastings
+     3	Yury V. Zaytsev
+     3	argriffing
+     3	jnothman
+     3	peterjc
+     3	tim cera
+     2	Adam Ginsburg
+     2	Alexander Belopolsky
+     2	Andreas Hilboll
+     2	Arnaud Bergeron
+     2	Arun Persaud
+     2	Bartosz Telenczuk
+     2	Benjamin Root
+     2	Bernhard Spinnler
+     2	CJ Carey
+     2	Chris Barker
+     2	Dan Miller
+     2	Dimas Abreu Dutra
+     2	Edward Catmur
+     2	Erik M. Bray
+     2	Frank B
+     2	Gabriel
+     2	Ilambharathi Kanniah
+     2	Jason Grout
+     2	Josh Lawrence
+     2	Josh Warner (Mac)
+     2	Jostein Bø Fløystad
+     2	Juan Luis Cano Rodríguez
+     2	K.-Michael Aye
+     2	LeoMao
+     2	Luis Pedro Coelho
+     2	Marc Abramowitz
+     2	Michael McNeil Forbes
+     2	Nicolas Scheffer
+     2	Raul Cota
+     2	Robert Kende
+     2	Ronan Lamy
+     2	Sandro Tosi
+     2	Thomas Kluyver
+     2	abaecker
+     2	ahmadia
+     2	immerrr
+     2	jamestwebber
+     2	jarondl
+     2	jess010
+     2	joe
+     2	mwtoews
+     2	nobody
+     2	swalton
+     2	weathergod
+     1	Adam Griffiths
+     1	Adam Reeve
+     1	Ake Sandgren
+     1	Albert
+     1	Alex Barth
+     1	Allen Riddell
+     1	Andreas Kloeckner
+     1	Andreas Schwab
+     1	Andrew Horton
+     1	Andrew Stromnov
+     1	Arfrever Frehtes Taifersar Arahesis
+     1	Bastian Venthur
+     1	Brent Pedersen
+     1	Cameron Bates
+     1	Carlos Valiente
+     1	Carwyn Pelley
+     1	Charles G Waldman
+     1	Chris
+     1	Chris Ball
+     1	Christian Brueffer
+     1	Christoph Dann
+     1	Christoph Weidemann
+     1	Christopher Dembia
+     1	Cimarron Mittelsteadt
+     1	Dag Sverre Seljebotn
+     1	Dan Hipschman
+     1	David Froger
+     1	David Huard
+     1	Derek Homeir
+     1	Derek Homier
+     1	Diego Mesa
+     1	Eli Stevens
+     1	Eric Price
+     1	Francesc Alted
+     1	Frederik Rietdijk
+     1	Geert Barentsen
+     1	HaroldMills
+     1	Henry Gomersall
+     1	Hrvoje Niksic
+     1	Ilan Schnell
+     1	Jake Vanderplas
+     1	James Yu
+     1	Janani
+     1	Jason Madden
+     1	Jesús Gómez
+     1	Jez Ng
+     1	John Benediktsson
+     1	John Stechschulte
+     1	Jonathan L Long
+     1	Jonathan Waltman
+     1	Joon Ro
+     1	Joonas Paalasmaa
+     1	Jos de Kloe
+     1	Julien Phalip
+     1	Keith Goodman
+     1	Kumar Appaiah
+     1	Leif Denby
+     1	Leon Weber
+     1	Loftie Ellis
+     1	Marc-Alexandre Côté
+     1	Marcin Juszkiewicz
+     1	Mark Dickinson
+     1	Markus Roth
+     1	Martin Baeuml
+     1	Matt Davis
+     1	Matthieu Dartiailh
+     1	Maximilian Albert
+     1	Michael Aquilina
+     1	Miguel de Val-Borro
+     1	Mike Kelly
+     1	Neil Muller
+     1	Niklas Hambüchen
+     1	Niklas Koep
+     1	Nils Werner
+     1	Per A. Brodtkorb
+     1	Philip Eliot
+     1	Pontus Stenetorp
+     1	Raymond Roberts
+     1	Richard Hattersley
+     1	Rob Ruana
+     1	Robert Costa
+     1	Robert Franke
+     1	Robert Pröpper
+     1	Roman Nekhoroshev
+     1	Rui Pereira
+     1	Sascha Peilicke
+     1	Simon Blyth
+     1	Sveinung Gundersen
+     1	Takafumi Arakaki
+     1	Tim Burgess
+     1	Tim Cera
+     1	Timo Kluck
+     1	Tomas Tomecek
+     1	Tony S Yu
+     1	Ulrich Seidl
+     1	Vladimir Rutsky
+     1	William Grant
+     1	Yoni Ben-Meshulam
+     1	astaric
+     1	bbudescu
+     1	bebert218
+     1	brettrmurphy
+     1	danieljfarrell
+     1	daveydave400
+     1	eltjpm
+     1	ggventurini
+     1	hklemm
+     1	hpaulj
+     1	jeromekelleher
+     1	jmozmoz
+     1	jspreston
+     1	jswhit
+     1	jurnix
+     1	leaz
+     1	madhusudancs
+     1	markdepristo
+     1	martin
+     1	martingoodson
+     1	mosessky
+     1	ochoadavid
+     1	rhewett
+     1	szpy
+     1	zed
+     1	zindy
