@@ -2,6 +2,8 @@
 % Mark Wiebe, Matthew Rocklin - Continuum Analytics
 % Thursday July 10th, 2014
 
+# Introduction
+
 ## Motivation
 
 
@@ -14,24 +16,26 @@ They support an ecosystem
 
 But they are restricted to memory.
 
-TODO: expand
+This is ok for 95% of cases, what about the other 5%?
 
 
 ## Computational projects
 
-Lots of projects try to correct this
+Many excellent streaming, out-of-core, or distributed alternatives exist
 
 **NumPy-like**
 
-*   Distarray
-*   SciDB
+*   DistArray
+*   Sci-DB
+*   Elemental
+*   PETSc, Trillinos
 *   Biggus
 *   ...
 
 **Pandas-like**
 
 *   PyTables
-*   SQL (Postgres, SQLite, ...)
+*   SQLAlchemy (Postgres, SQLite, MySQL, ...)
 *   The HDFS world
     *   Hadoop (Pig, Hive, ...)
     *   Spark
@@ -43,16 +47,16 @@ Each approach is valid in a particular situation
 
 ## Data Projects
 
-Data storage has an analagous collection of storage techniques
+Analagous collection exists in data storage techniques
 
 *   CSV - Accessible
-*   JSON - Web transferrable
+*   JSON - Pervasive, human readable
 *   HDF5 - efficient access
 *   BLZ - efficient columnar access
 *   Parquet - efficient columnar access (HDFS)
-*   SQL - Robust
-*   HDFS - Big!
 *   PyTables HDF5 - HDF5 + indices
+*   HDFS - Big!
+*   SQL - SQL!
 *   ...
 
 Each approach is valid in a particular situation
@@ -65,22 +69,23 @@ Spinning up a new technology is expensive
 
 ## Challenge
 
-Adapting to this changing landscape frustrates data scientists
+Keeping up with changing landscapes frustrates data scientists
 
 
 ##  Foundation
 
-Future foundations can't be data structures/projects, must be interfaces to a
-variety of projects.
+Future foundations should be adaptable.
 
+
+# Computation/Expr
 
 ## What is Blaze?
 
-Blaze abstracts array and tablular computation
+Blaze abstracts array and tabular computation
 
-*   Blaze expressions abstract over compute systems
-*   Blaze data descriptors abstract over data storage
-*   DataShape abstracts over data type systems
+*   Blaze expressions abstract compute systems
+*   Blaze data descriptors abstract data storage
+*   Datashape abstracts data-type systems
 
 These abstractions enable interactions
 
@@ -140,7 +145,36 @@ Name: name, dtype: object
 
 ## Notebook Demo
 
-## Data
+# Data
+
+## Data Projects
+
+Data storage has an analagous collection of storage techniques
+
+*   CSV - Accessible
+*   JSON - Web transferrable
+*   HDF5 - efficient access
+*   BLZ - efficient columnar access
+*   Parquet - efficient columnar access (HDFS)
+*   SQL - Robust
+*   HDFS - Big!
+*   PyTables HDF5 - HDF5 + indices
+*   ...
+
+Each approach is valid in a particular situation
+
+
+## Challenge
+
+Spinning up a new technology is expensive
+
+
+## Challenge
+
+Keeping up with changing landscapes frustrates data scientists
+
+
+## CSV
 
 ~~~~~~
 $ cat accounts.csv
@@ -153,16 +187,16 @@ id, name, balance
 ~~~~~~
 
 ~~~~~~
->>> from blaze import *
 >>> csv = CSV('accounts.csv')
 >>> csv.columns
 ['id', 'name', 'balance']
+
 >>> csv[:3, ['name', 'balance']]
 [('Alice', 100), ('Bob', -200), ('Charlie', 300)]
 ~~~~~~
 
 
-## Data
+## HDF5
 
 ~~~~~~
 $ h5dump -H accounts.hdf5
@@ -185,7 +219,6 @@ GROUP "/" {
 ~~~~~~
 
 ~~~~~~
->>> from blaze import *
 >>> hdf5 = HDF5('accounts.hdf5', '/accounts')
 >>> hdf5.columns
 ['id', 'name', 'balance']
@@ -194,12 +227,11 @@ GROUP "/" {
 [('Alice', 100), ('Bob', -200), ('Charlie', 300)]
 ~~~~~~
 
-## Data
+## SQL
 
 empty space
 
 ~~~~~~
->>> from blaze.sql import *
 >>> sql = SQL('postgresql://user:pass@hostname/', 'accounts')
 >>> sql.columns
 ['id', 'name', 'balance']
@@ -215,13 +247,13 @@ Data Descriptors support native Python access
 
 *   Iteration: iter(csv)
 *   Extension: csv.extend(...)
-*   Item access:  csv.py[:, [column, column, column]]
+*   Item access:  csv.py[:, ['name', 'balance']]
 
 Data Descriptors support chunked access
 
 *   Iteration: csv.chunks()
 *   Extension: csv.extend_chunks(...)
-*   Item access:  csv.dynd[:, [column, column, column]]
+*   Item access:  csv.dynd[:, ['name', 'balance']]
 
 
 ## Data API
@@ -230,13 +262,14 @@ Data Descriptors support native Python access
 
 *   Iteration: iter(sql)
 *   Extension: sql.extend(...)
-*   Item access:  sql.py[:, [column, column, column]]
+*   Item access:  sql.py[:, ['name', 'balance']]
 
 Data Descriptors support chunked access
 
 *   Iteration: sql.chunks()
 *   Extension: sql.extend_chunks(...)
-*   Item access:  sql.dynd[:, [column, column, column]]
+*   Item access:  sql.dynd[:, ['name', 'balance']]
+
 
 ## Data descriptors enable interaction
 
@@ -257,7 +290,6 @@ Data Descriptors support chunked access
 **Data-Data interaction**
 
 ~~~~~
-# Migrate data from CSV file to SQL database
 >>> sql.extend(iter(csv))
 
 >>> hdf5.extend_chunks(sql.chunks())
