@@ -5,8 +5,9 @@
 ## Motivation
 
 
-The NumPy NDArray and Pandas DataFrame are foundational data structures
-for the numeric Python ecosystem.
+The NumPy NDArray and Pandas DataFrame are *foundational data structures*.
+
+They support an ecosystem
 
 
 ##
@@ -156,4 +157,109 @@ id, name, balance
 >>> csv = CSV('accounts.csv')
 >>> csv.columns
 ['id', 'name', 'balance']
+>>> csv[:3, ['name', 'balance']]
+[('Alice', 100), ('Bob', -200), ('Charlie', 300)]
 ~~~~~~
+
+
+## Data
+
+~~~~~~
+$ h5dump -H accounts.hdf5
+HDF5 "accounts.hdf5" {
+GROUP "/" {
+   DATASET "accounts" {
+      DATATYPE  H5T_COMPOUND {
+         H5T_STD_I64LE "id";
+         H5T_STRING {
+            STRSIZE H5T_VARIABLE;
+            STRPAD H5T_STR_NULLTERM;
+            CSET unknown_cset;
+            CTYPE H5T_C_S1;
+         } "name";
+         H5T_STD_I64LE "balance";
+      }
+      DATASPACE  SIMPLE { ( 5 ) / ( H5S_UNLIMITED ) }
+   }
+}
+~~~~~~
+
+~~~~~~
+>>> from blaze import *
+>>> hdf5 = HDF5('accounts.hdf5', '/accounts')
+>>> hdf5.columns
+['id', 'name', 'balance']
+
+>>> hdf5.py[:3, ['name', 'balance']]
+[('Alice', 100), ('Bob', -200), ('Charlie', 300)]
+~~~~~~
+
+## Data
+
+empty space
+
+~~~~~~
+>>> from blaze.sql import *
+>>> sql = SQL('postgresql://user:pass@hostname/', 'accounts')
+>>> sql.columns
+['id', 'name', 'balance']
+
+>>> sql.py[:3, ['name', 'balance']]
+[('Alice', 100), ('Bob', -200), ('Charlie', 300)]
+~~~~~~
+
+
+## Data API
+
+Data Descriptors support native Python access
+
+*   Iteration: iter(csv)
+*   Extension: csv.extend(...)
+*   Item access:  csv.py[:, [column, column, column]]
+
+Data Descriptors support chunked access
+
+*   Iteration: csv.chunks()
+*   Extension: csv.extend_chunks(...)
+*   Item access:  csv.dynd[:, [column, column, column]]
+
+
+## Data API
+
+Data Descriptors support native Python access
+
+*   Iteration: iter(sql)
+*   Extension: sql.extend(...)
+*   Item access:  sql.py[:, [column, column, column]]
+
+Data Descriptors support chunked access
+
+*   Iteration: sql.chunks()
+*   Extension: sql.extend_chunks(...)
+*   Item access:  sql.dynd[:, [column, column, column]]
+
+## Data descriptors enable interaction
+
+**User-Data interaction**
+
+~~~~~
+>>> csv.py[:3, ['name', 'balance']]
+[('Alice', 100), ('Bob', -200), ('Charlie', 300)]
+>>> json.py[:3, ['name', 'balance']]
+[('Alice', 100), ('Bob', -200), ('Charlie', 300)]
+>>> hdf5.py[:3, ['name', 'balance']]
+[('Alice', 100), ('Bob', -200), ('Charlie', 300)]
+>>> sql.py[:3, ['name', 'balance']]
+[('Alice', 100), ('Bob', -200), ('Charlie', 300)]
+~~~~~
+
+
+**Data-Data interaction**
+
+~~~~~
+# Migrate data from CSV file to SQL database
+>>> sql.extend(iter(csv))
+
+>>> hdf5.extend_chunks(sql.chunks())
+~~~~~
+
