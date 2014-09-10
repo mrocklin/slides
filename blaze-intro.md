@@ -171,7 +171,7 @@ It orchestrates functionality already in the Python ecosystem.
 Blaze separates the computations that we want to perform:
 
 ```python
->>> accounts = tablesymbol('accounts', '{id: int, name: string, amount: int}')
+>>> accounts = TableSymbol('accounts', '{id: int, name: string, amount: int}')
 
 >>> deadbeats = accounts[accounts['amount'] < 0]['name']
 ```
@@ -190,7 +190,7 @@ from the representation of data:
 and then combines the two explicitly
 
 ```python
->>> list(compute(deadbeats, L))
+>>> list(compute(deadbeats, L))  # Iterator in, Iterator out
 ['Bob', 'Edith']
 
 .
@@ -200,7 +200,7 @@ and then combines the two explicitly
 Separating expressions from data lets us switch backends
 
 ```python
->>> accounts = tablesymbol('accounts', '{id: int, name: string, amount: int}')
+>>> accounts = TableSymbol('accounts', '{id: int, name: string, amount: int}')
 
 >>> deadbeats = accounts[accounts['amount'] < 0]['name']
 ```
@@ -219,8 +219,37 @@ so we can drive Pandas instead
 getting the same result, but through different means
 
 ```python
->>> compute(deadbeats, df)
+>>> compute(deadbeats, df)  # DataFrame in, DataFrame out
 1      Bob
 4    Edith
 Name: name, dtype: object
+```
+
+
+We now have the freedom to reach out into the ecosystem
+
+```python
+>>> accounts = TableSymbol('accounts', '{id: int, name: string, amount: int}')
+
+>>> deadbeats = accounts[accounts['amount'] < 0]['name']
+```
+
+and write to newer technologies
+
+```python
+>>> import pyspark
+>>> sc = pyspark.SparkContext('local', 'Blaze-demo')
+
+>>> rdd = into(sc, L)  # migrate to Resilient Distributed Datastructure(RDD)
+>>> rdd
+ParallelCollectionRDD[0] at parallelize at PythonRDD.scala:315
+```
+
+evolving Blaze as the ecosystem evolves
+
+```python
+>>> compute(deadbeats, rdd)  # RDD in, RDD out
+PythonRDD[1] at RDD at PythonRDD.scala:43
+>>> compute(deadbeats, rdd).collect()
+['Bob', 'Edith']
 ```
