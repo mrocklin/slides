@@ -1,6 +1,13 @@
 
 # Blaze Server
 
+Blaze server exposes Python data through a JSON web API
+
+*  Easily spin up a data server
+*  Interact with that server through JSON
+*  Support many data resources (Lists, DataFrames, SQL databases, Hadoop clusters)
+*  Interact with server with Blaze on client side
+
 
 
 ### Server
@@ -79,6 +86,28 @@ Interact through Python (or any language)
   [4.6, 3.1, 1.5, 0.2, u'Iris-setosa'],
   [5.0, 3.6, 1.4, 0.2, u'Iris-setosa'],
 ...
+```
+
+
+
+### Server
+
+Host data with Blaze Server
+
+```Python
+>>> from blaze import *
+>>> csv = CSV('examples/data/iris.csv')
+
+>>> from blaze.server import Server
+>>> server = Server({'iris': csv})
+>>> server.app.run(host='0.0.0.0', port=5000)
+```
+
+### Client
+
+Interact from web applications
+
+![Iris with Bokeh](images/iris.png)
 ```
 
 
