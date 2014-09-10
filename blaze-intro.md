@@ -154,9 +154,9 @@ Blaze operates on various systems, like SQL
 
 
 
-Blaze organizes projects like Pandas, SQLAlchemy, PyTables, PySpark to achieve a cohesive and flexible data analytics engine
+Blaze organizes projects like Pandas, SQLAlchemy, and PySpark to achieve a cohesive and flexible data analytics engine
 
 </br></br>
 Blaze doesn't do any real work.
 
-It orchestrates functionality already in the Python ecosystem
+It orchestrates functionality already in the Python ecosystem.
