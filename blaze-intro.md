@@ -126,13 +126,9 @@ Blaze operates on various systems, like SQL
 ... and Spark
 
 ```Python
->>> from blaze import *
->>> csv = CSV('examples/data/iris.csv')
-
 >>> import pyspark
 >>> sc = pyspark.SparkContext("local", "blaze-demo")
 >>> rdd = into(sc, csv)  # handle data conversion
-
 >>> t = Table(rdd)
 >>> t.head(3)
     sepal_length  sepal_width  petal_length  petal_width      species
@@ -148,13 +144,25 @@ Blaze operates on various systems, like SQL
 ```
 
 
+### Currently supports the following
 
-Blaze organizes projects like Pandas, SQLAlchemy, and PySpark to achieve a cohesive and flexible data analytics engine
+*   Python -- (through `toolz`)
+*   NumPy
+*   Pandas
+*   SQL -- (through `sqlalchemy`)
+*   HDF5 -- (through `h5py`, `pytables`)
+*   MongoDB -- (through `pymongo`)
+*   Spark -- (through `pyspark`)
+*   Impala -- (through `impyla`, `sqlalchemy`)
+
+
+Blaze organizes other open source projects to achieve a cohesive and flexible data analytics engine
 
 </br></br>
 Blaze doesn't do any real work.
 
 It orchestrates functionality already in the Python ecosystem.
+
 
 
 # How does Blaze work?
