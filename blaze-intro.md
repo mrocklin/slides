@@ -165,7 +165,7 @@ It orchestrates functionality already in the Python ecosystem.
 
 
 
-# How does Blaze work?
+## How does Blaze work?
 
 
 Blaze separates the computations that we want to perform:

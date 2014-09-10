@@ -1,5 +1,5 @@
 
-# Blaze Server
+## Blaze Server
 
 Blaze server exposes Python data through a JSON web API
 
