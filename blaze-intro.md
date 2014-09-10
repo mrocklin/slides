@@ -245,7 +245,7 @@ and write to newer technologies
 ParallelCollectionRDD[0] at parallelize at PythonRDD.scala:315
 ```
 
-evolving Blaze as the ecosystem evolves
+evolving Blaze with the ecosystem
 
 ```python
 >>> compute(deadbeats, rdd)  # RDD in, RDD out
