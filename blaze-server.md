@@ -13,7 +13,7 @@ Blaze server exposes Python data through a JSON web API
 
 Host data with Blaze Server
 
-```Python
+```python
 >>> from blaze import *
 >>> csv = CSV('examples/data/iris.csv')
 
@@ -54,7 +54,7 @@ $ curl \
 
 Host data with Blaze Server
 
-```Python
+```python
 >>> from blaze import *
 >>> csv = CSV('examples/data/iris.csv')
 
@@ -67,7 +67,7 @@ Host data with Blaze Server
 
 Interact through Python (or any language)
 
-```Python
+```python
 >>> import json
 >>> import requests
 
@@ -91,7 +91,7 @@ Interact through Python (or any language)
 
 Host data with Blaze Server
 
-```Python
+```python
 >>> from blaze import *
 >>> csv = CSV('examples/data/iris.csv')
 
@@ -102,17 +102,16 @@ Host data with Blaze Server
 
 ### Client
 
-Interact from web applications
+Interact from web applications like Bokeh-JS plots
 
-![Iris with Bokeh](images/iris.png)
-```
+<img src="images/iris.png" height="350px" alt="Iris with Bokeh">
 
 
 ### Server
 
 Host data with Blaze Server
 
-```Python
+```python
 >>> from blaze import *
 >>> csv = CSV('examples/data/iris.csv')
 
@@ -125,10 +124,11 @@ Host data with Blaze Server
 
 Send computations to the server
 
-```Python
+```python
 >>> import json
 >>> import requests
 
+>>> # Ask for petal_length column:  t.petal_length
 >>> query = {'expr': {'op': 'Column', 'args': ['iris', 'petal_length']}}
 
 >>> response = requests.get('http://localhost:5000/compute/iris.json',
@@ -150,7 +150,7 @@ Send computations to the server
 
 Host data with Blaze Server
 
-```Python
+```python
 >>> from blaze import *
 >>> csv = CSV('examples/data/iris.csv')
 
@@ -163,7 +163,7 @@ Host data with Blaze Server
 
 Generate computations with symbolic Blaze
 
-```Python
+```python
 >>> from blaze import *
 >>> t = TableSymbol('t', '{ sepal_length : ?float64, sepal_width : ?float64, petal_length : ?float64, petal_width : ?float64, species : string }')
 
@@ -171,8 +171,8 @@ Generate computations with symbolic Blaze
 ...           min=t.petal_length.min(),
 ...           max=t.petal_length.max())
 
->>> from blaze.server import to_tree
->>> to_tree(expr, names={t: 'iris'})
+>>> query = to_tree(expr, names={t: 'iris'})
+>>> query
 {'args': [{'args': ['iris', 'species'], 'op': 'Column'},
   {'args': [{'args': ['iris', 'petal_length'], 'op': 'Column'},
     ['max', 'min'],
@@ -191,7 +191,7 @@ Generate computations with symbolic Blaze
 
 Host data with Blaze Server
 
-```Python
+```python
 >>> from blaze import *
 >>> csv = CSV('examples/data/iris.csv')
 
@@ -204,11 +204,11 @@ Host data with Blaze Server
 
 Or drive a remote server from a Python Client
 
-```Python
+```python
 >>> from blaze import *
 >>> from blaze.server import *
 
->>> t = Table('blaze://localhost:5000::iris')
+>>> t = Table('blaze://localhost:5000::iris')  # Drive remote dataset
 >>> t.head(3)
     sepal_length  sepal_width  petal_length  petal_width      species
 0            5.1          3.5           1.4          0.2  Iris-setosa
@@ -227,10 +227,9 @@ Or drive a remote server from a Python Client
 
 Operate on any Blaze supported type
 
-```Python
+```python
 >>> from blaze import *
->>> csv = CSV('examples/data/iris.csv')
->>> df = into(DataFrame, csv)
+>>> df = into(DataFrame, CSV('examples/data/iris.csv'))
 
 >>> from blaze.server import Server
 >>> server = Server({'iris': df})
@@ -241,11 +240,11 @@ Operate on any Blaze supported type
 
 Or just drive a remote server
 
-```Python
+```python
 >>> from blaze import *
 >>> from blaze.server import *
 
->>> t = Table('blaze://localhost:5000::iris')
+>>> t = Table('blaze://localhost:5000::iris')  # Drive remote dataset
 >>> t.head(3)
     sepal_length  sepal_width  petal_length  petal_width      species
 0            5.1          3.5           1.4          0.2  Iris-setosa
@@ -264,7 +263,7 @@ Or just drive a remote server
 
 Operate on any Blaze supported type
 
-```Python
+```python
 >>> from blaze import *
 >>> import pymongo
 >>> db = pymongo.MongoClient().db
@@ -278,11 +277,11 @@ Operate on any Blaze supported type
 
 Or just drive a remote server
 
-```Python
+```python
 >>> from blaze import *
 >>> from blaze.server import *
 
->>> t = Table('blaze://localhost:5000::iris')
+>>> t = Table('blaze://localhost:5000::iris')  # Drive remote dataset
 >>> t.head(3)
     sepal_length  sepal_width  petal_length  petal_width      species
 0            5.1          3.5           1.4          0.2  Iris-setosa
