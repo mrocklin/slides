@@ -9,7 +9,6 @@ Blaze server exposes Python data through a JSON web API
 *  Interact with server with Blaze on client side
 
 
-
 ### Server
 
 Host data with Blaze Server
