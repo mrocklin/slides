@@ -51,7 +51,6 @@ $ curl \
 ```
 
 
-
 ### Server
 
 Host data with Blaze Server
@@ -89,7 +88,6 @@ Interact through Python (or any language)
 ```
 
 
-
 ### Server
 
 Host data with Blaze Server
@@ -109,7 +107,6 @@ Interact from web applications
 
 ![Iris with Bokeh](images/iris.png)
 ```
-
 
 
 ### Server
@@ -148,7 +145,6 @@ Send computations to the server
   1.7,
 ...
 ```
-
 
 
 ### Server
@@ -192,7 +188,6 @@ Generate computations with symbolic Blaze
 ```
 
 
-
 ### Server
 
 Host data with Blaze Server
@@ -227,7 +222,6 @@ Or drive a remote server from a Python Client
 1      Iris-setosa  1.9  1.0
 2  Iris-versicolor  5.1  3.0
 ```
-
 
 
 ### Server
@@ -265,7 +259,6 @@ Or just drive a remote server
 1      Iris-setosa  1.9  1.0
 2  Iris-versicolor  5.1  3.0
 ```
-
 
 
 ### Server
