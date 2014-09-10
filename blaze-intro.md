@@ -160,3 +160,64 @@ Blaze organizes projects like Pandas, SQLAlchemy, and PySpark to achieve a cohes
 Blaze doesn't do any real work.
 
 It orchestrates functionality already in the Python ecosystem.
+
+
+# How does Blaze work?
+
+
+Blaze separates the computations that we want to perform:
+
+```python
+>>> accounts = tablesymbol('accounts', '{id: int, name: string, amount: int}')
+
+>>> deadbeats = accounts[accounts['amount'] < 0]['name']
+```
+
+from the representation of data:
+
+```python
+>>> L = [[1, 'Alice',   100],
+...      [2, 'Bob',    -200],
+...      [3, 'Charlie', 300],
+...      [4, 'Dennis',   400],
+...      [5, 'Edith',  -500]]
+...
+```
+
+and then combines the two explicitly
+
+```python
+>>> list(compute(deadbeats, L))
+['Bob', 'Edith']
+
+.
+```
+
+
+Separating expressions from data lets us switch backends
+
+```python
+>>> accounts = tablesymbol('accounts', '{id: int, name: string, amount: int}')
+
+>>> deadbeats = accounts[accounts['amount'] < 0]['name']
+```
+
+so we can drive Pandas instead
+
+```python
+>>> df = DataFrame([[1, 'Alice',   100],
+...                 [2, 'Bob',    -200],
+...                 [3, 'Charlie', 300],
+...                 [4, 'Dennis',   400],
+...                 [5, 'Edith',  -500]],
+...                 columns=['id', 'name', 'amount'])
+```
+
+getting the same result, but through different means
+
+```python
+>>> compute(deadbeats, df)
+1      Bob
+4    Edith
+Name: name, dtype: object
+```
