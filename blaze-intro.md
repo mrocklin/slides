@@ -1,6 +1,4 @@
-# Blaze
-
-## Foundations of Array Computing
+## Blaze: Foundations of Array Computing
 
 
 
@@ -74,9 +72,7 @@ Each appraoch is valid in a particular situation
 
 
 
-# Blaze
-
-## Connects familiar interfaces to a variety of backends
+### Blaze connects familiar interfaces to a variety of backends
 
 Three parts
 
@@ -97,7 +93,6 @@ Blaze looks and feels like Pandas
 0            5.1          3.5           1.4          0.2  Iris-setosa
 1            4.9          3.0           1.4          0.2  Iris-setosa
 2            4.7          3.2           1.3          0.2  Iris-setosa
-3            4.6          3.1           1.5          0.2  Iris-setosa
 
 >>> t.species.distinct()
            species
@@ -132,11 +127,11 @@ Blaze operates on various systems, like SQL
 
 ```Python
 >>> from blaze import *
->>> iris = SQL('sqlite:///examples/data/iris.db', 'iris')
+>>> csv = CSV('examples/data/iris.csv')
 
 >>> import pyspark
 >>> sc = pyspark.SparkContext("local", "blaze-demo")
->>> rdd = into(sc, iris) # handle data conversion
+>>> rdd = into(sc, csv)  # handle data conversion
 
 >>> t = Table(rdd)
 >>> t.head(3)
