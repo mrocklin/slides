@@ -25,7 +25,7 @@ Excellent streaming, out-of-core, and distributed alternatives exist
 *   Biggus
 *   ...
 
-Each appraoch is valid in a particular situation
+Each approach is valid in a particular situation
 
 
 ## Computational Projects
@@ -42,12 +42,12 @@ Excellent streaming, out-of-core, and distributed alternatives exist
     * Impala
 *   ...
 
-Each appraoch is valid in a particular situation
+Each approach is valid in a particular situation
 
 
 ## Data Storage
 
-Analgous variety of data storage techniques
+Analagous variety of data storage techniques
 </br>
 
 - CSV - Accessible
@@ -59,7 +59,7 @@ Analgous variety of data storage techniques
 - SQL - SQL!
 
 </br>
-Each appraoch is valid in a particular situation
+Each approach is valid in a particular situation
 
 
 ## Spinning up a new technology is expensive
