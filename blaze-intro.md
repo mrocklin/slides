@@ -182,7 +182,7 @@ from the representation of data:
 >>> L = [[1, 'Alice',   100],
 ...      [2, 'Bob',    -200],
 ...      [3, 'Charlie', 300],
-...      [4, 'Dennis',   400],
+...      [4, 'Dennis',  400],
 ...      [5, 'Edith',  -500]]
 ...
 ```
@@ -211,7 +211,7 @@ so we can drive Pandas instead
 >>> df = DataFrame([[1, 'Alice',   100],
 ...                 [2, 'Bob',    -200],
 ...                 [3, 'Charlie', 300],
-...                 [4, 'Dennis',   400],
+...                 [4, 'Dennis',  400],
 ...                 [5, 'Edith',  -500]],
 ...                 columns=['id', 'name', 'amount'])
 ```
