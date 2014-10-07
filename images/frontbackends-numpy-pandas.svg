@@ -1,187 +1,53 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="1255.1272"
-   height="706.18713"
-   id="svg2"
-   version="1.1"
-   inkscape:version="0.48.4 r9939"
-   sodipodi:docname="frontbackends-full.svg">
-  <defs
-     id="defs4" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="609.47501"
-     inkscape:cy="246.68626"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1680"
-     inkscape:window-height="1026"
-     inkscape:window-x="2880"
-     inkscape:window-y="41"
-     inkscape:window-maximized="1"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0">
-    <inkscape:grid
-       type="xygrid"
-       id="grid3800"
-       empspacing="5"
-       visible="true"
-       enabled="true"
-       snapvisiblegridlinesonly="true"
-       originx="3.1243305px"
-       originy="8.3571867px" />
-  </sodipodi:namedview>
-  <metadata
-     id="metadata7">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(3.1243305,-354.53222)">
-    <rect
-       style="fill:#b4e6e6;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.95033097px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       id="rect2985"
-       width="291.47824"
-       height="70.024834"
-       x="309.62366"
-       y="490.72168" />
-    <rect
-       style="fill:#e6e6e6;fill-rule:evenodd;stroke:#000000;stroke-width:0.95033097px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       id="rect2985-8"
-       width="291.47824"
-       height="70.024834"
-       x="309.62366"
-       y="560.74646" />
-    <text
-       xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Courier;-inkscape-font-specification:Courier"
-       x="360"
-       y="532.36218"
-       id="text3773"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan3775"
-         x="360"
-         y="532.36218">numpy.py</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Courier;-inkscape-font-specification:Courier"
-       x="359.6485"
-       y="600.03223"
-       id="text3773-8"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan3775-5"
-         x="359.6485"
-         y="600.03223">numpy.c</tspan></text>
-    <rect
-       style="fill:#b4e6e6;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.94739479px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       id="rect2985-1"
-       width="289.6738"
-       height="70.026299"
-       x="659.62219"
-       y="490.72021" />
-    <rect
-       style="fill:#e6e6e6;fill-rule:evenodd;stroke:#000000;stroke-width:0.94739479px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       id="rect2985-8-2"
-       width="289.6738"
-       height="70.026299"
-       x="659.62219"
-       y="560.74646" />
-    <text
-       xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Courier;-inkscape-font-specification:Courier"
-       x="700"
-       y="532.36218"
-       id="text3773-81"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan3775-0"
-         x="700"
-         y="532.36218">pandas.py</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Courier;-inkscape-font-specification:Courier"
-       x="699.6485"
-       y="600.03223"
-       id="text3773-8-6"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan3775-5-8"
-         x="699.6485"
-         y="600.03223">pandas.pyx</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Courier;-inkscape-font-specification:Courier"
-       x="243.6524"
-       y="520.03223"
-       id="text3835"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         x="243.6524"
-         y="520.03223"
-         style="text-align:center;text-anchor:middle;-inkscape-font-specification:Latin Modern Roman;font-family:Latin Modern Roman;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal"
-         id="tspan4320">High-level</tspan><tspan
-         sodipodi:role="line"
-         x="243.6524"
-         y="545.03223"
-         id="tspan3839"
-         style="text-align:center;text-anchor:middle;-inkscape-font-specification:Latin Modern Roman;font-family:Latin Modern Roman;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal">interface</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Courier;-inkscape-font-specification:Courier"
-       x="243.6524"
-       y="590.03223"
-       id="text3835-5"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         x="243.6524"
-         y="590.03223"
-         id="tspan3839-5"
-         style="text-align:center;text-anchor:middle;-inkscape-font-specification:Latin Modern Roman;font-family:Latin Modern Roman">Low-level</tspan><tspan
-         sodipodi:role="line"
-         x="243.6524"
-         y="615.03223"
-         style="text-align:center;text-anchor:middle;-inkscape-font-specification:Latin Modern Roman;font-family:Latin Modern Roman"
-         id="tspan3869">fast code</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Courier;-inkscape-font-specification:Courier"
-       x="559.99994"
-       y="842.36218"
-       id="text3773-8-2-9-7-6"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan3775-5-6-8-1-6"
-         x="559.99994"
-         y="842.36218" /></text>
-  </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+	 id="svg2" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" sodipodi:docname="frontbackends-without-blaze.svg" inkscape:version="0.48.4 r9939"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1499.992px"
+	 height="845px" viewBox="-379.933 41.094 1499.992 845" enable-background="new -379.933 41.094 1499.992 845"
+	 xml:space="preserve">
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="370.564" y1="886.5938" x2="370.5639" y2="40.5942">
+	<stop  offset="0" style="stop-color:#FFFFFF"/>
+	<stop  offset="1" style="stop-color:#E5EEFA"/>
+</linearGradient>
+<rect x="-378.937" y="40.594" fill="url(#SVGID_1_)" width="1499" height="846"/>
+<sodipodi:namedview  id="base" inkscape:cy="246.68626" showgrid="false" inkscape:zoom="0.7" fit-margin-left="0" borderopacity="1.0" fit-margin-top="0" inkscape:cx="609.47501" pagecolor="#ffffff" bordercolor="#666666" fit-margin-right="0" inkscape:pageshadow="2" inkscape:window-x="2880" inkscape:window-maximized="1" inkscape:window-y="41" inkscape:document-units="px" inkscape:window-width="1680" inkscape:current-layer="layer1" fit-margin-bottom="0" inkscape:window-height="1026" inkscape:pageopacity="0.0">
+	
+		<inkscape:grid  id="grid3800" type="xygrid" enabled="true" visible="true" empspacing="5" originy="8.3571867px" originx="3.1243305px" snapvisiblegridlinesonly="true">
+		</inkscape:grid>
+</sodipodi:namedview>
+<g>
+	
+		<image overflow="visible" opacity="0.2" width="280" height="128" xlink:href="66C22E8019780DBF.png"  transform="matrix(1 0 0 1 90.0635 239.5938)">
+	</image>
+	<g>
+		<path fill="#FFFFFF" d="M363.325,352.947c0,3.312-2.687,5.998-6,5.998H102.802c-3.313,0-6-2.687-6-5.998V250.942
+			c0-3.312,2.687-5.997,6-5.997h254.522c3.313,0,6,2.685,6,5.997V352.947z"/>
+		<path fill="none" stroke="#999999" stroke-miterlimit="10" d="M363.325,352.947c0,3.312-2.687,5.998-6,5.998H102.802
+			c-3.313,0-6-2.687-6-5.998V250.942c0-3.312,2.687-5.997,6-5.997h254.522c3.313,0,6,2.685,6,5.997V352.947z"/>
+	</g>
+</g>
+<path fill="#AAD4F9" stroke="#999999" stroke-miterlimit="10" d="M357.325,244.945H102.802c-3.313,0-6,2.609-6,5.827v1.087v5.179
+	v44.908h266.522v-44.908v-5.179v-1.087C363.325,247.554,360.638,244.945,357.325,244.945z"/>
+<g>
+	
+		<image overflow="visible" opacity="0.2" width="280" height="128" xlink:href="66C22E8019780DBA.png"  transform="matrix(1 0 0 1 370.0635 239.5938)">
+	</image>
+	<g>
+		<path fill="#FFFFFF" d="M643.325,352.947c0,3.312-2.688,5.998-6,5.998H382.802c-3.313,0-6-2.687-6-5.998V250.942
+			c0-3.312,2.687-5.997,6-5.997h254.523c3.312,0,6,2.685,6,5.997V352.947z"/>
+		<path fill="none" stroke="#999999" stroke-miterlimit="10" d="M643.325,352.947c0,3.312-2.688,5.998-6,5.998H382.802
+			c-3.313,0-6-2.687-6-5.998V250.942c0-3.312,2.687-5.997,6-5.997h254.523c3.312,0,6,2.685,6,5.997V352.947z"/>
+	</g>
+</g>
+<path fill="#AAD4F9" stroke="#999999" stroke-miterlimit="10" d="M637.325,244.945H382.802c-3.313,0-6,2.609-6,5.827v1.087v5.179
+	v44.908h266.523v-44.908v-5.179v-1.087C643.325,247.554,640.638,244.945,637.325,244.945z"/>
+<g>
+	<text transform="matrix(1 0 0 1 126.2432 285.3301)" font-family="'Gotham-Book'" font-size="38">numpy.py</text>
+	<text transform="matrix(1 0 0 1 139.2383 342)" font-family="'Gotham-Book'" font-size="38">numpy.c</text>
+	<text transform="matrix(1 0 0 1 413.165 285.3301)" font-family="'Gotham-Book'" font-size="38">pandas.py</text>
+	<text transform="matrix(1 0 0 1 402.2593 342)" font-family="'Gotham-Book'" font-size="38">pandas.pyx</text>
+	<text transform="matrix(1 0 0 1 -9.9321 271)" enable-background="new    "><tspan x="0" y="0" fill="#6B6B6B" font-family="'Gotham-Book'" font-size="18">High-level</tspan><tspan x="0" y="20" fill="#6B6B6B" font-family="'Gotham-Book'" font-size="18">interface</tspan></text>
+	<text transform="matrix(1 0 0 1 -9.9331 328)" enable-background="new    "><tspan x="0" y="0" fill="#6B6B6B" font-family="'Gotham-Book'" font-size="18">Low-level</tspan><tspan x="0" y="20" fill="#6B6B6B" font-family="'Gotham-Book'" font-size="18">fast code</tspan></text>
+</g>
 </svg>
