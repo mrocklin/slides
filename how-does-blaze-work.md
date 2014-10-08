@@ -3,9 +3,9 @@
 At its core, Blaze is the following:
 
 1.  Symbolic expression system -- Mathematica for data
-2.  Interpretters to various backends
+2.  Interpreters to various backends
 3.  User interface to make expression system accessible
-4.  Dispatch system to make interpretters feasible
+4.  Dispatch system to make interpreters feasible
 
 <br>
 
