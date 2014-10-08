@@ -1,10 +1,8 @@
 ## Blaze - Current Status
 
-Blaze *usually* works for *moderately* complex problems
-
-Ready for patient and vocal users
-
-Expect API breaks
+* Blaze *usually* works for *moderately* complex problems
+* Ready for patient and vocal users
+* Expect API breaks
 
 Backends:
 [http://blaze.pydata.org/docs/latest/backends.html](http://blaze.pydata.org/docs/latest/backends.html)

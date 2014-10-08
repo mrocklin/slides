@@ -9,7 +9,7 @@ Blaze uses a handful of functions:
 5.  ... `drop`, `create_index`, `chunks`, ...
 
 
-## `discover`
+### `discover`
 
 Discover metadata.  Returns datashape, Blaze's internal data type system.
 
@@ -32,7 +32,7 @@ dshape("150 * { sepal_length : float64, sepal_width : float64,
 ```
 
 
-## `compute`
+### `compute`
 
 Execute expression against data
 
@@ -57,7 +57,7 @@ Execute expression against data
 ```
 
 
-## `into`
+### `into`
 
 migrate data between containers
 
@@ -82,7 +82,7 @@ Collection(Database(MongoClient('localhost', 27017), u'db'), u'mycoll')
 ```
 
 
-## `resource`
+### `resource`
 
 find data from uri
 
@@ -95,13 +95,22 @@ find data from uri
 
 >>> resource('mongodb://localhost:27017/db::mycoll')
 Collection(Database(MongoClient('localhost', 27017), u'db'), u'mycoll')
+
+>>> resource('accounts.h5::/accounts')
+/accounts (Table(5,)) ''
+  description := {
+   "id": Int64Col(shape=(), dflt=0, pos=0),
+   "name": StringCol(itemsize=7, shape=(), dflt='', pos=1),
+   "balance": Int64Col(shape=(), dflt=0, pos=2)}
+   byteorder := 'little'
+   chunkshape := (2849,)
 ```
 
 
-# Extending Blaze
+## Extending Blaze
 
-Extending Blaze is easy and can be done from outside of the Blaze codebase (you
-don't need our permission)
+You can extend these functions from outside of the Blaze codebase
+(you don't need our permission)
 
 ```python
 from blaze import dispatch, resource
