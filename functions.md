@@ -9,9 +9,12 @@ Blaze uses a handful of functions:
 5.  ... `drop`, `create_index`, `chunks`, ...
 
 
+### We implement these functions for many different types/backends
+
 ### `discover`
 
-Discover metadata.  Returns datashape, Blaze's internal data type system.
+Discover metadata.  <br>
+Returns datashape, Blaze's internal data type system.
 
 ```python
 >>> from datashape import discover

@@ -45,5 +45,3 @@ Funded by DARPA, Built by Continuum
          1  Milos Popovic
          1  Robert Gieseke
          1  Wesley Emeneker
-
-
