@@ -1,4 +1,4 @@
-# Blaze
+## Blaze - an interface
 
 While we're waiting you may want to try the following
 <hr>
