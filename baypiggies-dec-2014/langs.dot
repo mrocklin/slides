@@ -1,0 +1,71 @@
+strict digraph{
+    height=6
+    width=8
+    Lisp [color="red" shape="diamond"]
+    FORTRAN [color="red" shape="box"]
+    ALGOL [color="red" shape="box"]
+    COBOL [color="red" shape="box"]
+    ML [color="red" shape="diamond"]
+    Prolog [color="red"]
+    SmallTalk [color="red"]
+    SQL [color="red"]
+    Python [color="DarkGreen" width=2 height=1 penwidth=4 fontsize=20]
+
+    C [shape="box"]
+    "C++" [shape="box"]
+    Java [shape="box"]
+    "C#" [shape="box"]
+
+    OCaml [shape="diamond"]
+    "F#" [shape="diamond"]
+    Haskell [shape="diamond"]
+    Clojure [shape="diamond"]
+    Scheme [shape="diamond"]
+    Racket [shape="diamond"]
+    CommonLisp [shape="diamond"]
+    Hy [shape="diamond"]
+
+    ALGOL -> C
+    FORTRAN -> C
+
+    C -> "C++"
+    C -> "C#"
+    COBOL -> "C#"
+
+    COBOL -> SQL
+
+    Lisp -> Scheme
+    Lisp -> CommonLisp 
+    Scheme -> Racket
+    Scheme -> Clojure
+
+    ML -> Haskell
+    ML -> OCaml
+    ML -> Scala
+    ML -> "F#"
+
+    C -> Java
+    COBOL -> Java
+    Java -> Clojure
+    Java -> Scala
+
+    Prolog -> Erlang
+    Prolog -> WolframLang
+
+    C -> Python [penwidth=4]
+    Scheme -> Python
+    SmallTalk -> Python  [penwidth=3]
+
+    "C++" -> R
+    Scheme -> R
+
+    Python -> Hy
+    Clojure -> Hy
+    Python -> Mochi 
+    Erlang -> Mochi
+
+    "C++" -> JavaScript
+    Scheme -> JavaScript
+}
+
+
