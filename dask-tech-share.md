@@ -5,7 +5,7 @@
 2.  Simple task scheduling with [`dask`](http://dask.readthedocs.org/en/latest/)
 3.  Build simple OOC-NumPy operations with dask by hand [notebook](http://nbviewer.ipython.org/github/ContinuumIO/dask/blob/master/notebooks/simple-numpy-sum.ipynb)
 4.  Blaze builds these for us
-.  Running schedules efficiently
+5.  Running schedules efficiently
     [blog 1](http://mrocklin.github.com/blog/work/2014/12/27/Towards-OOC)
     [blog 2](http://mrocklin.github.com/blog/work/2014/12/30/Towards-OOC-Frontend)
     [blog 3](http://mrocklin.github.com/blog/work/2015/01/06/Towards-OOC-Scheduling)
