@@ -88,7 +88,22 @@ We pull the data in chunk by chunk, do an operation on each chunk, concatenate t
 
 
 
-### Avoid Temporaries
+### Schedulers
+
+There are many ways to execute a schedule
+
+*   20-line reference implementation
+*   ...
+*   Large-team research projects (Dryad, Spark?)
+
+We build a scheduler with the following properties
+
+1.  Shared-memory / single machine
+2.  Multi-threaded
+3.  Minimizes in-memory storage
+
+
+### Goal: Avoid Temporaries
 
 A lot of logic goes in to keeping our memory footprint small
 
@@ -99,7 +114,8 @@ We do this through two optimizations
 
 <hr>
 
-The goal here isn't to teach you these things, but to give a flavor of the relevant issues.
+The goal here isn't to teach you these topics, but to give a flavor of the
+relevant issues.
 
 
 ### Dask inlining and avoiding temporaries
