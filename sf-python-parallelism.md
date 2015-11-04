@@ -1,9 +1,9 @@
 Python and Parallelism
----------------
+----------------------
 
 *Matthew Rocklin*
 
-Continuum Analytics
+[Continuum Analytics](https://www.continuum.io/)
 
 
 ### Python has a sophisticated analytics stack
@@ -128,6 +128,15 @@ Outline
 
 
 
+## dask
+
+### Large NumPy/Pandas collections
+
+<hr>
+
+### Dynamic Task Scheduling
+
+
 ### Dask executes task graphs nicely
 
 *   Dynamic task scheduler
@@ -142,29 +151,31 @@ Outline
     *  Custom work
 
 
-### dask.array/dataframe build graphs
+### dask.array
 
-*  Provides
-    *  API compatible with numpy/pandas
-    *  Limited by disk size not RAM
-    *  Parallel execution on your laptop
-    *  Comfortable into the 100s GB range
-*  How it works
-    *  Global operations break into many small operations
-    *  Numpy/Pandas perform local operations
-    *  Task graphs coordinate recipes
+*   Copies the NumPy interface
+
+        >>> x.dot(y.T) - y.mean(axis=0)
+*   Supports larger-than-memory data.  Limited by disk size, not RAM.
+
+        >>> x.nbytes
+        100000000000
+*  Parallel execution, small memory footprint
+
+    ![](images/350percent-cpu-usage-alpha.png)
+*  Break large operations into many small numpy operations
 
 
 ### Dask collections build graphs
 
-    (2*x + 1) **2
+    (2*x + 1) ** 2
 
 ![](images/embarrassing.png)
 
 
 ### Dask Schedulers Execute Graphs
 
-    (2*x + 1) **2
+    (2*x + 1) ** 2
 
 ![](images/embarrassing.gif)
 
@@ -174,3 +185,40 @@ Outline
 (but that's ok)
 
 ![](images/fail-case.gif)
+
+
+
+### Distributed
+
+*  Hadoop/Spark/Storm/...
+    *   Built by data engineers
+    *   Java Virtual Machine (JVM) based
+
+![](images/apache-numfocus-goldilocks.png)
+
+*  Native code (C/Fortran/Python/R/Julia)
+    *   Built by scientists / academics / analysts
+    *   Native code based
+
+
+### distributed prototype
+
+*   Grew out of dask
+    *  Full dynamic task scheduler for data dependencies
+    *  1ms overhead per task
+*   Concurrent.futures and dask APIs
+*   Data local, resilient (mostly), easy to deploy
+*   Peer-to-peer communication of data betwee workers
+
+
+
+### Questions?
+
+<img src="images/fail-case.gif" width=70%>
+
+* Dask: [dask.pydata.org](http://dask.pydata.org/en/latest/)
+* Distributed: [distributed.readthedocs.org](http://distributed.readthedocs.org/en/latest/)
+* Blog: [matthewrocklin.com/blog](http://matthewrocklin.com/blog/)
+* Blaze Blog: [blaze.pydata.org](http://blaze.pydata.org/)
+
+[@mrocklin](https://twitter.com/mrocklin)
