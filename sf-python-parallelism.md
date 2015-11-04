@@ -17,61 +17,70 @@ Outline
 -------
 
 0.  Don't use parallelism
-1.  Multiprocessing and log files
-2.  Threading and numpy arrays
+1.  Multiprocessing
+2.  Threading
 3.  Complex analytic workloads
-4.  Dynamic task scheduling and Dask
+4.  Dynamic task scheduling (`dask`)
 5.  Larger than memory arrays / dataframes
-6.  Distributed Computing
+6.  Distributed
 
 
-0.  Don't use parallelism
--------------------------
+### Don't use parallelism
 
 *  Explore APIs
 *  Write C/Cython/Numba
-*  Store your data in nice formats
+*  Store data in nice formats
 *  Use smarter algorithms
+*  Sample
 
 
-### 1.  Multiprocessing log files
+
+### Multiprocessing log files
 
     def process(filename):
-        with open(filename) as f:
+        with open(filename) as f:               # Load from file
             lines = f.readlines()
 
-        output = ...  # do work here
+        output = ...                            # do work
 
         with open(filename.replace('.log', '.out'), 'w') as f:
             for line in output:
-                f.write(line)
+                f.write(line)                   # Write to file
 
     import multiprocessing
     pool = multiprocessing.Pool()
 
-    filenames = glob('2014-*-*.log')
-    # [process(fn) for fn in filenames]
-    pool.map(process, filenames)
+    filenames = glob('2014-*-*.log')            # Collect all filenames
+    # [process(fn) for fn in filenames]         # Single-core processing
+    pool.map(process, filenames)                # Multi-core processing
 
 
 ![](images/embarrassing-process.png)
 
 
-### 1.  Multiprocessing log files
+### Multiprocessing log files
 
 *   Benefits
     *  Dead simple
     *  Handles 80% of all cases
+    *  Many software solutions
 *   Drawbacks
     *  Dead simple
     *  Hard to share data between processes
+    *  Function serialization
 
 
-### 2.  Threading and NumPy Arrays
+### Threads vs Processes
 
-    timeseries = [np.load(fn) for fn in glob('2014-*.*.npy')]
+![](images/threads-procs.png)
+
+
+### Threading and Numeric Data
 
     pool = multiprocessing.pool.ThreadPool()
+    filenames = glob('2014-*.*.npy')
+
+    timeseries_list = pool.map(np.load, filenames)
 
     # correlations = [np.correlate(a, b) for a in timeseries_list
     #                                    for b in timeseries_list]
@@ -84,55 +93,84 @@ Outline
 ![](images/correlation.png)
 
 
-### 2.  Threading and NumPy Arrays
+### Threading and Numeric Data
 
 *   Benefits
     *   Seamlessly share data between threads
-    *   Avoid GIL with C/Fortran code
+    *   Avoid GIL with NumPy/Pandas/Sci*
 *   Drawbacks
     *   A bit more complex (`apply_async`, `get`)
     *   Doesn't accelerate Pure Python
-    *   All data in memory
 
 
-### 3.  Complex analytic workloads
+### Complex data dependencies (analysis)
 
-### Data churn -- Analytics
+<img src="images/correlation.png" align=center width=60%>
 
-* Bulk data ingest
+### Embarrassingly Parallel (data ingest)
 
-    <img src="images/embarrassing-process.png" align=center width=60%>
-
-*  Analysis
-
-    <img src="images/correlation.png" align=center width=60%>
+<img src="images/embarrassing-process.png" align=center width=60%>
 
 
-### 3.  Complex analytic workloads
+### Complex workloads -- GridSearch, CV, Pipeline
+
+    pipeline = Pipeline([('cnt', CountVectorizer()), ..., ('svm', LinearSVC())])
+    gridsearch = GridSearch(pipeline, {'svm__C': np.logspace(-3, 2, 10), ...})
 
 <img src="images/grid-search.png">
 
 
-### 3.  Complex analytic workloads
+### Complex workloads -- Larger-than-memory SVD
+
+    u, s, v = da.linalg.svd(X)
 
 <img src="images/dask-svd.png" width=50%>
 
 
-### 4.  Dynamic task scheduling and Dask
 
-*   Dynamic task scheduler (run graphs)
-    *  1 ms latency
-    *  keeps a small amount of data in memory
+### Dask executes task graphs nicely
+
+*   Dynamic task scheduler
+    *  Executes task graphs in parallel
+    *  Respects data dependencies
+    *  1 ms latency per task
+    *  Minimizes intermediate data in memory
 *   Parallel larger-than-memory collections
-    *  Arrays
-    *  DataFrames
+    *  Large Arrays
+    *  Large DataFrames
+    *  Large Python Lists
     *  Custom work
 
 
-### 5.  `dask.array/dataframe`
+### dask.array/dataframe build graphs
 
-*   Dask.array supports larger-than-memory arrays
-    *  Break large dask.array operations into many small numpy operations
+*  Provides
+    *  API compatible with numpy/pandas
+    *  Limited by disk size not RAM
+    *  Parallel execution on your laptop
+    *  Comfortable into the 100s GB range
+*  How it works
+    *  Global operations break into many small operations
+    *  Numpy/Pandas perform local operations
+    *  Task graphs coordinate recipes
 
-*   Dask.dataframe supports larger-than-memory dataframes
-    *  Break large dask.array operations into many small numpy operations
+
+### Dask collections build graphs
+
+    (2*x + 1) **2
+
+![](images/embarrassing.png)
+
+
+### Dask Schedulers Execute Graphs
+
+    (2*x + 1) **2
+
+![](images/embarrassing.gif)
+
+
+### Sometimes this fails
+
+(but that's ok)
+
+![](images/fail-case.gif)
