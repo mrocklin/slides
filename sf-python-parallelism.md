@@ -105,7 +105,7 @@ Outline
     timeseries_list = pool.map(np.load, filenames)
 
     # correlations = [[np.correlate(a, b) for a in timeseries_list]
-     #                                    for b in timeseries_list]
+    #                                     for b in timeseries_list]
 
     futures = [[pool.apply_async(np.correlate, (a, b)) for a in timeseries_list]
                                                        for b in timeseries_list]
@@ -140,6 +140,9 @@ Outline
 *   Drawbacks
     *   A bit more complex (`submit`, `result`)
     *   Doesn't accelerate Pure Python
+
+
+### The GIL is mostly a non-issue for PyData
 
 
 ### Complex data dependencies (analysis)
