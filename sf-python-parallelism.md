@@ -37,6 +37,8 @@ Outline
 
 ### Multiprocessing log files
 
+    filenames = glob('2014-*-*.log')            # Collect all filenames
+
     def process(filename):
         with open(filename) as f:               # Load from file
             lines = f.readlines()
@@ -47,12 +49,32 @@ Outline
             for line in output:
                 f.write(line)                   # Write to file
 
+    # [process(fn) for fn in filenames]         # Single-core processing
+
     import multiprocessing
     pool = multiprocessing.Pool()
+    pool.map(process, filenames)                # Multi-core processing
+
+
+### Multiprocessing log files
 
     filenames = glob('2014-*-*.log')            # Collect all filenames
+
+    def process(filename):
+        with open(filename) as f:               # Load from file
+            lines = f.readlines()
+
+        output = ...                            # do work
+
+        with open(filename.replace('.log', '.out'), 'w') as f:
+            for line in output:
+                f.write(line)                   # Write to file
+
     # [process(fn) for fn in filenames]         # Single-core processing
-    pool.map(process, filenames)                # Multi-core processing
+
+    from concurrent.futures import ProcessPoolExecutor
+    executor = ProcessPoolExecutor()
+    executor.map(process, filenames)            # Multi-core processing
 
 
 ![](images/embarrassing-process.png)
@@ -82,12 +104,29 @@ Outline
 
     timeseries_list = pool.map(np.load, filenames)
 
-    # correlations = [np.correlate(a, b) for a in timeseries_list
-    #                                    for b in timeseries_list]
+    # correlations = [[np.correlate(a, b) for a in timeseries_list]
+     #                                    for b in timeseries_list]
 
-    futures = [pool.apply_async(np.correlate, (a, b)) for a in timeseries_list
+    futures = [[pool.apply_async(np.correlate, (a, b)) for a in timeseries_list]
+                                                       for b in timeseries_list]
+    results = [[f.get() for f in L]
+                        for L in futures]
+
+
+### Threading and Numeric Data
+
+    executor = ThreadPoolExecutor()
+    filenames = glob('2014-*.*.npy')
+
+    timeseries_list = executor.map(np.load, filenames)
+
+    # correlations = [[np.correlate(a, b) for a in timeseries_list]
+    #                                     for b in timeseries_list]
+
+    futures = [[executor.submit(np.correlate, (a, b)) for a in timeseries_list]
                                                       for b in timeseries_list]
-    results = [f.get() for f in futures]
+    results = [[f.result() for f in L]
+                           for L in futures]
 
 
 ![](images/correlation.png)
@@ -99,7 +138,7 @@ Outline
     *   Seamlessly share data between threads
     *   Avoid GIL with NumPy/Pandas/Sci*
 *   Drawbacks
-    *   A bit more complex (`apply_async`, `get`)
+    *   A bit more complex (`submit`, `result`)
     *   Doesn't accelerate Pure Python
 
 
