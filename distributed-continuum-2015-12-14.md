@@ -3,6 +3,8 @@
 
 *Matthew Rocklin*
 
+[distributed.readthedocs.org](http://distributed.readthedocs.org/en/latest/)
+
 
 ### Dynamic distributed task scheduler
 
@@ -11,14 +13,24 @@
 ### with dask and concurrent.futures user interfaces
 
 
+### call many python functions on a cluster
+
+<hr>
+
+### moving data as necessary
+
+
 ### Why we care -- as a community
 
-*  Some people have large problems
-   (big data, or big computation)
-*  Complex analytics (ndarrays, machine learning, statistics) don't easily
-   fit existing abstractions (MapReduce/Spark)
-*  Few high level distributed computing abstractions exist outside of the JVM
-   (but most analytics do!)
+*   Some people have large problems
+
+    (big data, or big computation)
+*   Complex analytics (ndarrays, machine learning, statistics)
+
+    don't easily fit existing abstractions (MapReduce/Spark)
+*   Few distributed abstractions exist outside the JVM
+
+    (but most analytics do!)
 
 <hr>
 
@@ -44,16 +56,6 @@
 
 ### Task Scheduling
 
-![](images/dasklearn-small.png)
-
-
-### Task Scheduling
-
-![](images/dasklearn-large.png)
-
-
-### Task Scheduling
-
 ![](images/fail-case.png)
 
 
@@ -62,12 +64,19 @@
 ![](images/fail-case.gif)
 
 
+### call many python functions on a cluster
+
+<hr>
+
+### moving data as necessary
+
+
 ### Schedulers execute task graphs
 
-*  Single Machine -- (dask.threaded)
+*  **Single Machine:** `dask.threaded`
     *  Fit in memory  (hard)
     *  Use all of our cores  (easy)
-*  Distributed Machine -- (distributed.scheduler)
+*  **Distributed Machine:** `distributed.scheduler`
     *  Fit in memory  (easy)
     *  Use all of our cores  (medium)
     *  Avoid communication  (hard)
@@ -79,7 +88,7 @@
     *  Can add new tasks during computation
     *  A bit smoother user experience
 *  Multi-user support
-*  Immediate non-lazy `concurrent.futures` API
+*  Non-lazy `concurrent.futures` API
 *  Base to build other distributed projects
 
 
@@ -139,6 +148,7 @@ Verify that the center and workers shake hands in log messages
 
     filenames = glob('INET-*.csv')
     timeseries_list = executor.map(pd.read_csv, filenames)
+
     def func(df1, df2):
         return df1.volume.corr(df2.volume)
 
@@ -197,6 +207,25 @@ We would prefer to ignore this step
     c.result()
 
 
+### Full API
+
+    e = Executor(address)
+
+    future  = e.submit(func, *args, **kwargs)    # Single function call
+    futures = e.map(func, *iterables, **kwargs)  # Multiple function calls
+
+    futures = e.scatter(data)                    # Send data out to network
+    data    = e.gather(futures)                  # Gather data back to local process
+
+    data    = e.get(dsk, keys)                   # Dask compatible get function
+    futures = e.compute(dask_collections)        # Asynchronous dask compute function
+
+    e.restart()
+    e.upload_file(filename)
+    progress(futures)
+    wait(futures)
+
+
 ### Use Distributed: dask
 
     >>> from distributed import Executor
@@ -212,3 +241,94 @@ We would prefer to ignore this step
     >>> executor.compute(y)  # Asynchronous execution
     [<Future: status: finished, key: finalize-4fcca230d2098922b342>]
 
+
+
+## Internals
+
+
+### Internals - Network
+
+<img src="images/network-inverse.svg" border=0>
+
+
+### Distributed
+
+*   **Event driven:** responds to and recovers from stimuli
+*   **Centralized control:** sophisticated scheduler, dumb workers
+*   **Low latency:** operations run in linear time, 1ms overhead
+*   **Asynchronous:** user API rarely blocks
+
+
+### Internals - Communication
+
+*   Everything is a TCP Server
+*   Raw sockets wrapped by tornado streams
+*   Tornado coroutines for concurrency (like safe threads)
+*   Cloudpickle Python dicts
+
+        {'op': 'compute', 'func': inc, 'args': (1,)}
+
+    separated by sentinel bytestring
+
+### [example](http://distributed.readthedocs.org/en/latest/foundations.html#example)
+
+
+### Relevant state and operations
+
+*  Center:
+    * who_has:: `{key: [workers]}`
+    * has_what:: `{worker: [keys]}`
+    * Information about workers
+*  Worker
+    * data:: ``{key: object}``
+    * ThreadPool
+    * compute()
+*  Nanny
+    * Worker process
+    * kill()
+    * monitor_resources()
+*  Scheduler
+    * [... see docs](http://distributed.readthedocs.org/en/latest/scheduler.html)
+
+
+### [Scheduler](http://distributed.readthedocs.org/en/latest/scheduler.html)
+
+
+### User Feedback - Michael Broxton
+
+*  Good
+    *   dask + distributed transitions smoothly from shared-memory threads to
+        cluster
+    *   Documentation and test coverage are great
+    *   asynchronous execution is innovative, hopes it spreads to other parts
+        of PyData
+*  Bad
+    *   Networking and errors don't seem completely reliable.  Errors aren't
+        always graceful.  Hesitate to fully replace Spark toolchain.
+    *   Diagnostics not ready.  Excited about granular reporting though.
+    *   Will probably eventually require a shuffle
+*  Surprising
+    *   Surprised to need a separate project (dask) to write down complex
+        lazy computations
+    *   Tripped up in dask.imperative syntax once
+
+
+### Ongoing work
+
+*   Diagnostics and visualizations
+*   Clean error reporting
+*   Refactor Scheduler
+    *   Multi-user
+    *   Remote Scheduler
+    *   Remove dead code
+*   Message compression, headers, protocol
+*   Work stealing / rebalancing
+*   Need a new name
+*   Find next round of proto-users
+
+
+### Potential work
+
+*   Distributed shuffle (needed for fancy database operations)
+*   Language agnostic Scheduler (R workers or Go scheduler)
+*   Fancier scheduling (many possibilities)
