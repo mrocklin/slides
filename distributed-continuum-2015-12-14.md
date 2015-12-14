@@ -215,10 +215,10 @@ We would prefer to ignore this step
     futures = e.map(func, *iterables, **kwargs)  # Multiple function calls
 
     futures = e.scatter(data)                    # Send data out to network
-    data    = e.gather(futures)                  # Gather data back to local process
+    data    = e.gather(futures)                  # Gather data to local process
 
     data    = e.get(dsk, keys)                   # Dask compatible get function
-    futures = e.compute(dask_collections)        # Asynchronous dask compute function
+    futures = e.compute(dask_collections)        # Asynchronous dask function
 
     e.restart()
     e.upload_file(filename)
