@@ -1,4 +1,4 @@
-`distributed`
+`Distributed`
 -------------
 
 *Matthew Rocklin*
@@ -18,6 +18,13 @@
 <hr>
 
 ### moving data as necessary
+
+
+### distributed networked tornado application
+
+<hr>
+
+### natural extension of dask project
 
 
 ### Why we care -- as a community
