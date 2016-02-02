@@ -501,7 +501,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -553,28 +553,6 @@
          x="908.25818"
          y="511.33051"
          style="font-size:37.22355652px">Worker</tspan></text>
-    <path
-       transform="matrix(2.0679751,0,0,2.0679751,121.15088,448.5423)"
-       sodipodi:type="arc"
-       style="opacity:0.59999999999999998;fill:#a8ff00;fill-opacity:0.21568627000000001;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:0.44292238000000000;stroke-dasharray:none;stroke-dashoffset:0;filter:url(#filter7331)"
-       id="path6372"
-       sodipodi:cx="220"
-       sodipodi:cy="-97.637817"
-       sodipodi:rx="60"
-       sodipodi:ry="30"
-       d="m 280,-97.637817 c 0,16.568542 -26.86292,30 -60,30 -33.13708,0 -60,-13.431458 -60,-30 0,-16.568543 26.86292,-30.000003 60,-30.000003 33.13708,0 60,13.43146 60,30.000003 z" />
-    <text
-       xml:space="preserve"
-       style="font-size:24.81571197999999967px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:ubuntu;-inkscape-font-specification:ubuntu;filter:url(#filter7337)"
-       x="577.38208"
-       y="250.05965"
-       id="text6374"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan6376"
-         x="577.38208"
-         y="250.05965"
-         style="font-size:37.22355652px">Center</tspan></text>
     <path
        transform="matrix(2.0679751,0,0,2.0679751,20.65453,276.15454)"
        sodipodi:type="arc"
