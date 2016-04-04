@@ -6,14 +6,14 @@ Dask: Parallel PyData
 
 <hr>
 
-### Want to extend to multiple cores for speed and scale
+### Dask extends to multiple cores for speed and scale
 
 
 ### Dask
 
 *  Native Python library for parallel computation
-*  Supports familiar NumPy/Pandas interfaces
 *  Scales up to clusters and down to laptops
+*  Supports familiar NumPy/Pandas interfaces
 *  Fast with low overhead
 *  Flexible for messy situations
 
@@ -22,13 +22,13 @@ Dask: Parallel PyData
 
 *  Dataframes on a cluster
     *  Demonstrate Pandas at scale
-    *  Responsive user interface
+    *  Observe responsive user interface
 *  Arrays on a laptop
     *  Visualize complex algorithms
-    *  Dive into how dask collections operate
+    *  Learn about dask collections and tasks
 *  Custom code
-    *  How to deal with messy situations
-    *  Learn a bit about scheduling
+    *  Deal with messy situations
+    *  Learn about scheduling
 
 
 ### Example 1
@@ -37,15 +37,11 @@ Dask: Parallel PyData
 
 ### Dask.DataFrame on a Cluster with CSV/S3 data
 
-
-### Dask.DataFrame on a Cluster with CSV/S3 data
-
 <div>
 <ul style="float: left;">
 <li> Built from Pandas DataFrames
-<li> Match Pandas Interface (subset)</li>
-<li> Access data stores like S3/HDFS </li>
-<li> Use lazily locally from disk </li>
+<li> Match Pandas Interface</li>
+<li> Access data from Local/S3/HDFS </li>
 <li> Fast, low latency </li>
 <li> Responsive user interface </li>
 </ul>
