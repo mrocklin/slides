@@ -22,7 +22,7 @@ Flexible analytics through task scheduling
 ### Confined to memory and a single core
 
 
-### How do we parallelize an ecosystem of numeric software?
+### How do we parallelize an existing ecosystem of software?
 
 *  Lists, map, filter, reduce, for loops
 *  NumPy: n-dimensional arrays
@@ -34,6 +34,13 @@ Flexible analytics through task scheduling
 *  GeoPandas: ...
 *  Scikit-Bio: ...
 *  Scikit-Image: ...
+
+
+### Wide variety of applications
+
+<hr>
+
+### Wide variety of algorithms
 
 
 ### Algorithm Types
@@ -79,14 +86,16 @@ Flexible analytics through task scheduling
 ### Sophisticated algorithms take a wide variety of forms
 
 
-### Dask
+### Dask for flexible parallel computing
 
 *  Library for parallel computing
 *  Complements the existing ecosystem (not a reinvention)
 *  Works well on a single machine and a cluster
 *  Two interfaces
-    *  "Big data" NumPy and Pandas interfaces
-    *  Flexible task scheduling (like `make`, but interactive)
+    *  **High Level:** "Big data" NumPy and Pandas interfaces
+    *  **Low Level:** Flexible task scheduling
+
+        (like `make`, but interactive)
 
 
 *Demonstrate dask.dataframe on a cluster*
@@ -95,9 +104,9 @@ Flexible analytics through task scheduling
 
 ### Dask Core
 
-*  Dynamic task scheduler - 200us overhead
+*  Dynamic asynchronous task scheduler
 *  Scales up to a cluster and down to a laptop
-*  Asynchronous and responsive
+*  Exposes scheduling internals to user
 
 ### Dask Collections
 
@@ -112,10 +121,6 @@ Flexible analytics through task scheduling
 *  Dask.dataframe (mimics Pandas)
 
         df.groupby(df.name).balance.mean()
-
-*  Custom
-
-        future = e.submit(function, *args, **kwargs)
 
 
 Task Scheduling
@@ -151,13 +156,25 @@ Task Scheduling
 
 <hr>
 
-### Turned out to be valuable for general computation
-
-### analysts consume unbounded flexibility
+### Found that analysts value flexibility for general computation
 
 
 *Demonstration: small run tasks directly on cluster*
 
+    # Minimal API
+    e = Executor('scheduler-address')  # connect to cluster
+    future = e.submit(function, *args, **kwargs)  # submit single task
+    future = e.submit(function, future, future)   # submit dependent tasks
+    data = e.gather(futures)                      # Gather data locally
+
+    # Minimal API
+    futures = e.map(function, sequence, **kwargs) # submit many tasks
+    future = e.compute(collection)                # Submit full graph
+    futures = e.scatter(data)                     # Scatter data out to cluster
+    e.rebalance(futures)                          # Move data around
+    e.replicate(futures)                          # Move data around
+    e.cancel(futures)                             # Cancel tasks
+    e.upload_file('myscript.py')                  # Send code or files
 
 
 ### Flexibility enables Sophisticated Algorithms
@@ -169,7 +186,7 @@ Task Scheduling
 
 ### Flexibility enables Sophisticated Algorithms
 
-*  Parametrized machine learning pipeline + gridsearch
+*  Embarrassingly parallel gridsearch
 
 <img src="images/pipeline.svg" alt="Dask machine learning pipeline">
 
@@ -180,7 +197,7 @@ Task Scheduling
 
 ### Flexibility enables Sophisticated Algorithms
 
-*  Parametrized machine learning pipeline + gridsearch
+*  Efficient gridsearch
 
 <a href=images/gridsearch-lr-black-on-white.pdf>
 <img src="images/gridsearch-lr.svg"
@@ -271,16 +288,6 @@ Dask is not...
     *  100s of microseconds overhead per task
 
 
-Lessons learned
----------------
-
-*   Task scheduling complements existing ecosystems well
-
-    Users can handle more control if you give it to them
-
-*   Move quickly by embracing existing projects and communities
-
-
 How dask is used in practice
 ----------------------------
 
@@ -292,6 +299,18 @@ How dask is used in practice
 <hr>
 
 *  Roughly equal mix of academic/research and corporate
+
+
+Lessons learned
+---------------
+
+*   Task scheduling complements existing ecosystems well
+
+    Users can handle more control if you give it to them
+
+*   Move quickly by embracing existing projects and communities
+
+*   Wide variety of parallel computing problems out there
 
 
 Precursors to Parallelism
