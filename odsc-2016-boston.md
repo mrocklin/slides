@@ -15,18 +15,18 @@ Flexible analytics through task scheduling
 
 
 
-### Python ecosystem encompasses wealth of sophisticated, fast algorithms
+### Python ecosystem encompasses wealth of fast, sophisticated algorithms
 
 <hr>
 
-### Confined to work in memory on a single core
+### Confined to memory and a single core
 
 
-### How do we parallelize an existing ecosystem of numeric software?
+### How do we parallelize an ecosystem of numeric software?
 
 *  Lists, map, filter, reduce, for loops
-*  Pandas: tabular computations
 *  NumPy: n-dimensional arrays
+*  Pandas: tabular computations
 *  Scikit Learn: Machine learning
 *  Statsmodels: statistical computations
 *  gensim, nltk: text processing
@@ -41,7 +41,7 @@ Flexible analytics through task scheduling
 <table>
 <tr>
   <td>
-    Parallel map
+    Map
 
     <img src="images/embarrassing.svg">
   </td>
@@ -51,7 +51,7 @@ Flexible analytics through task scheduling
     <img src="images/shuffle.svg">
   </td>
   <td>
-    Reduction
+    Reduce
 
     <img src="images/reduction.svg">
   </td>
@@ -74,6 +74,19 @@ Flexible analytics through task scheduling
   </td>
 </tr>
 </table>
+
+
+### Sophisticated algorithms take a wide variety of forms
+
+
+### Dask
+
+*  Library for parallel computing
+*  Complements the existing ecosystem (not a reinvention)
+*  Works well on a single machine and a cluster
+*  Two interfaces
+    *  "Big data" NumPy and Pandas interfaces
+    *  Flexible task scheduling (like `make`, but interactive)
 
 
 *Demonstrate dask.dataframe on a cluster*
@@ -100,13 +113,9 @@ Flexible analytics through task scheduling
 
         df.groupby(df.name).balance.mean()
 
-*  Dask.delayed (wraps custom code)
+*  Custom
 
-        future = e.submit(function, *args)
-
-        @dask.delayed
-        def my_function(*args):
-            ...
+        future = e.submit(function, *args, **kwargs)
 
 
 Task Scheduling
@@ -276,8 +285,8 @@ How dask is used in practice
 ----------------------------
 
 *  Large arrays for climate and atmospheric science (HDF5 data)
-*  Single machine lightweight PySpark clone
-*  Pile of CSVs
+*  Single machine lightweight PySpark clone for logs and JSON
+*  Dataframes on piles of CSV data
 *  Custom applications
 
 <hr>
@@ -290,7 +299,7 @@ Precursors to Parallelism
 
 *  Consider the following approaches first:
     1.  Use better algorithms
-    2.  Try Numba or C/Cython
+    2.  Try C/Cython/Numba
     3.  Store data in efficient formats
     4.  Subsample
 *  If you have to parallelize:
@@ -318,5 +327,6 @@ Start on a single machine
 Start a cluster on EC2
 
     $ pip install dask distributed dec2
-    $ dec2 --keyname mrocklin --keypair ~/.ssh/keypair.pem \\
+    $ dec2 --keyname mrocklin
+           --keypair ~/.ssh/keypair.pem
            --count 20 --type m4.2xlarge
