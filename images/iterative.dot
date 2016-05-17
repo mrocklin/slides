@@ -6,15 +6,16 @@ digraph {
     node [color=white, fontcolor="#FFFFFF"];
     edge [color=white];
 
-    1 [shape=box];
-    2 [shape=box];
-    x [shape=box];
-    y [shape=box];
-    z [shape=box];
+    x1 [label="", shape=box];
+    x2 [label="", shape=box];
+
     f1 [label="f", shape=circle];
     f2 [label="f", shape=circle];
-    g [shape=circle];
+    
+    y1 [label="", shape=box];
+    y2 [label="", shape=box];
 
-    1 -> f1 -> x -> g -> z;
-    2 -> f2 -> y -> g;
+    x1 -> f1 -> y1;
+    x2 -> f2 -> y2;
+    y1 -> f2;
 }

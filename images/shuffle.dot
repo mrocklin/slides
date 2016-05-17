@@ -1,0 +1,20 @@
+digraph {
+    graph [
+        bgcolor="#00000000",
+        rankdir=LR,
+        ];
+    node [color=white, fontcolor="#FFFFFF"];
+    edge [color=white];
+
+    x1 [label="", shape=box];
+    x2 [label="", shape=box];
+    x3 [label="", shape=box];
+    y1 [label="", shape=box];
+    y2 [label="", shape=box];
+    y3 [label="", shape=box];
+    f [label="f", shape=diamond];
+
+    x1 -> f -> y1;
+    x2 -> f -> y2;
+    x3 -> f -> y3;
+}

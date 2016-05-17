@@ -1,0 +1,36 @@
+digraph {
+    graph [
+        bgcolor="#00000000",
+        rankdir=LR,
+        ];
+    node [color=white, fontcolor="#FFFFFF"];
+    edge [color=white];
+
+    a [label="", shape=box];
+    b [label="", shape=box];
+    c [label="", shape=box];
+    e [label="", shape=box];
+
+    f [shape=circle];
+    g [shape=circle];
+    
+    a -> f -> c;
+    b -> f;
+    c -> g -> e;
+    b -> g;
+
+    x [label="", shape=box];
+    y [label="", shape=box];
+    xx [label="", shape=box];
+    yy [label="", shape=box];
+    zz [label="", shape=box];
+    ff [label="f", shape=circle];
+    h [shape=circle];
+    h2 [label="h", shape=circle];
+
+    x -> ff -> y;
+    y -> g;
+
+    xx -> h -> yy -> h2 -> zz;
+
+}
