@@ -1,0 +1,36 @@
+digraph {
+    graph [
+        bgcolor="#00000000",
+        rankdir=LR,
+        ];
+    node [color=white, fontcolor="#FFFFFF"];
+    edge [color=white];
+
+    df1 [label="df-1", shape=box];
+    df2 [label="df-2", shape=box];
+    df3 [label="df-3", shape=box];
+    df4 [label="df-4", shape=box];
+    df5 [label="df-5", shape=box];
+
+    f1 [label="len", shape=circle];
+    f2 [label="len", shape=circle];
+    f3 [label="len", shape=circle];
+    f4 [label="len", shape=circle];
+    f5 [label="len", shape=circle];
+    
+    l1 [label="", shape=box];
+    l2 [label="", shape=box];
+    l3 [label="", shape=box];
+    l4 [label="", shape=box];
+    l5 [label="", shape=box];
+
+    sum [label="sum", shape=circle];
+
+    out [label="result", shape=box];
+
+    df1 -> f1 -> l1 -> sum -> out;
+    df2 -> f2 -> l2 -> sum;
+    df3 -> f3 -> l3 -> sum;
+    df4 -> f4 -> l4 -> sum;
+    df5 -> f5 -> l5 -> sum;
+}

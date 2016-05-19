@@ -6,44 +6,83 @@ Parallelizing Python with Dask
 Continuum Analytics
 
 
-tl;dr
------
-
-Tools talk for Dask, a parallel computing library for Python
-
-Flexible analytics through task scheduling
-
-
-
-### Python ecosystem encompasses wealth of fast, sophisticated algorithms
+### Python has blazingly fast data science ecosystem
 
 <hr>
 
-### Confined to memory and a single core
+### ... restricted to a single core
 
 
-### How do we parallelize an existing ecosystem of software?
+### How do we parallelize an ecosystem?
 
-*  Lists, map, filter, reduce, for loops
-*  NumPy: n-dimensional arrays
-*  Pandas: tabular computations
-*  Scikit Learn: Machine learning
-*  Statsmodels: statistical computations
-*  gensim, nltk: text processing
+*  **NumPy**: arrays
+*  **Pandas**: in-memory tables
+*  **Scikit Learn**: machine learning
 *  ...
-*  GeoPandas: ...
-*  Scikit-Bio: ...
-*  Scikit-Image: ...
+*  ...
+*  **Statsmodels**: statistics
+*  **GeoPandas**: geo-spatial
+*  **Scikit-Image**: image analysis
+*  **Scikit-Bio**:
 
 
-### Wide variety of applications
+### How do we parallelize a complex ecosystem?
 
 <hr>
 
-### Wide variety of algorithms
+### ... without rewriting everything?
 
 
-### Algorithm Types
+<img src="images/gridsearch-lr.svg"
+     alt="Dask machine learning gridsearch"
+     align="right"
+     width="25%">
+
+### Dask core
+
+*  Task scheduler (like airflow)
+*  Designed for flexible algorithms
+*  On a single machine or a cluster
+
+### Dask collections
+
+*  NumPy + dask = dask.array
+
+        x.T - x.mean(axis=0)
+
+*  Pandas + dask = dask.dataframe
+
+        df.groupby(df.name).balance.mean()
+
+*  Lists + dask = dask.bag
+
+        b.map(json.loads).filter(...)
+
+
+### Dask DataFrame
+
+<img src="images/dask-dataframe-inverted.svg" align="right" width=30%>
+
+*  Borrows heavily from Pandas
+    *  Composed of Pandas DataFrames
+    *  Matches the Pandas interface
+*  Accesses data from HDFS, S3, local disk
+*  Fast, low latency
+*  Responsive user interface
+
+
+### From queries to task graphs
+
+<img src="images/df-len.svg" align="right" width=40%>
+
+`len(df) -> `
+
+*   Task scheduling is ubiquitous in parallel computing
+
+    Examples: MapReduce, Spark, SQL, TensorFlow, Plasma
+
+
+### Wide variety of algorithm types
 
 <table>
 <tr>
@@ -70,9 +109,7 @@ Flexible analytics through task scheduling
     <img src="images/structured.svg">
   </td>
   <td>
-    Iterative reductions
-
-    <img src="images/iterative.svg">
+    <h2>...</h2>
   </td>
   <td>
     Unstructured
@@ -83,44 +120,19 @@ Flexible analytics through task scheduling
 </table>
 
 
-### Sophisticated algorithms take a wide variety of forms
+Dask Arrays
+-----------
+
+*  Combines NumPy with task scheduling
+*  Coordinate many NumPy arrays into single logical Dask array
+*  Blocked algorithms implement broad subset of Numpy
+
+<img src="images/dask-array.svg"
+     alt="Dask array is built from many numpy arrays"
+     width="70%">
 
 
-### Dask for flexible parallel computing
-
-*  Library for parallel computing
-*  Complements the existing ecosystem (not a reinvention)
-*  Works well on a single machine and a cluster
-*  Two interfaces
-    *  **High Level:** "Big data" NumPy and Pandas interfaces
-    *  **Low Level:** Flexible task scheduling
-
-        (like `make`, but interactive)
-
-
-*Demonstrate dask.dataframe on a cluster*
-
-
-
-### Dask Core
-
-*  Dynamic asynchronous task scheduler
-*  Scales up to a cluster and down to a laptop
-*  Exposes scheduling internals to user
-
-### Dask Collections
-
-*  Dask.array (mimics NumPy)
-
-        x.T - x.mean(axis=0)
-
-*  Dask.bag (mimics map/filter/PySpark/PyToolz)
-
-        read_text('s3://...').map(json.loads).filter(...)
-
-*  Dask.dataframe (mimics Pandas)
-
-        df.groupby(df.name).balance.mean()
+### Dask core: dynamic task scheduling
 
 
 Task Scheduling
@@ -152,29 +164,49 @@ Task Scheduling
 <img src="images/switchboard-operator.jpg" width="60%">
 
 
-### Needed full flexibility to parallelize NumPy
+
+### Built flexibile system to parallelize NumPy
 
 <hr>
 
-### Found that analysts value flexibility for general computation
+### But found that analysts value it for general computation
+
+
+*Demonstration: small run tasks directly on cluster*
+
+    >>> e = Executor('scheduler-address')  # connect to cluster
+
+    >>> x = e.submit(add, 1, 2)            # submit single task to cluster
+    >>> x
+    <Future: status=pending>
+
+    >>> y = e.submit(mul, x, 10)           # submit dependent tasks
+    >>> e.gather(y)                        # Gather data locally
+    30
+
+    >>> for i in ...                       # Use in complex loops
+    ...     for j in ...
+    ...         if ...
+    ...             e.submit(func, ...)
 
 
 *Demonstration: small run tasks directly on cluster*
 
     # Minimal API
-    e = Executor('scheduler-address')  # connect to cluster
-    future = e.submit(function, *args, **kwargs)  # submit single task
-    future = e.submit(function, future, future)   # submit dependent tasks
-    data = e.gather(futures)                      # Gather data locally
+    e = Executor('scheduler-address')    # connect to cluster
+    e.submit(function, *args, **kwargs)  # submit single task
+    e.submit(function, future, future)   # submit dependent tasks
+    e.gather(futures)                    # Gather data locally
 
-    # Minimal API
-    futures = e.map(function, sequence, **kwargs) # submit many tasks
-    future = e.compute(collection)                # Submit full graph
-    futures = e.scatter(data)                     # Scatter data out to cluster
-    e.rebalance(futures)                          # Move data around
-    e.replicate(futures)                          # Move data around
-    e.cancel(futures)                             # Cancel tasks
-    e.upload_file('myscript.py')                  # Send code or files
+    # Full API
+    e.map(function, sequence)            # submit many tasks
+    e.map(function, queue)               # submit stream of tasks
+    e.compute(collection)                # Submit full graph
+    e.scatter(data)                      # Scatter data out to cluster
+    e.rebalance(futures)                 # Move data around
+    e.replicate(futures)                 # Move data around
+    e.cancel(futures)                    # Cancel tasks
+    e.upload_file('myscript.py')         # Send code or files
 
 
 ### Flexibility enables Sophisticated Algorithms
@@ -213,51 +245,6 @@ Task Scheduling
 ### Dask enables algorithms through raw task scheduling
 
 
-
-Dask Collections
-----------------
-
-*  Dask.array (mimics NumPy)
-
-        x.T - x.mean(axis=0)
-
-*  Dask.bag (mimics map/filter/PySpark/PyToolz)
-
-        read_text('s3://...').map(json.loads).filter(...)
-
-*  Dask.dataframe (mimics Pandas)
-
-        df.groupby(df.name).balance.mean()
-
-*  Custom (wraps custom code)
-
-        future = e.submit(function, *args)
-
-        @dask.delayed
-        def my_function(*args):
-            ...
-
-
-Dask Arrays
------------
-
-*  Combines NumPy with task scheduling
-*  Coordinate many NumPy arrays into single logical Dask array
-*  Blocked algorithms implement broad subset of Numpy
-
-<img src="images/dask-array.svg"
-     alt="Dask array is built from many numpy arrays"
-     width="70%">
-
-
-*Demonstration: create task graphs with dask.array*
-
-
-
-### Examples
-
-
-
 ### Wrapping up
 
 
@@ -266,22 +253,22 @@ Dask is...
 
 *  **Familiar:** Implements parallel NumPy and Pandas objects
 *  **Flexible:** for sophisticated and messy algorithms
-*  **Fast:** Optimized for demanding numeric algorithms
+*  **Fast:** Optimized for demanding algorithms
 *  **Scales up:** Runs resiliently on clusters of 100s of machines
 *  **Scales down:** Pragmatic in a single process on a laptop
 *  **Interactive:** Responsive and fast for interactive computing
 
 <hr>
 
-Dask **complements** the rest of the numeric ecosystem.  It was developed with
-NumPy, Pandas, and Scikit-Learn developers.
+Dask **complements** the Python ecosystem.  It was developed with NumPy,
+Pandas, and Scikit-Learn developers.
 
 
 Dask is not...
 ----------------
 
 *  **A Database:**
-    *  No query planner (scheduler has only low-level information)
+    *  No query planner (only low-level optimizations)
     *  No shuffle (some groupbys and hash joins a problem)
 *  **MPI:**
     *  Central dynamic scheduler
@@ -311,20 +298,6 @@ Lessons learned
 *   Move quickly by embracing existing projects and communities
 
 *   Wide variety of parallel computing problems out there
-
-
-Precursors to Parallelism
--------------------------
-
-*  Consider the following approaches first:
-    1.  Use better algorithms
-    2.  Try C/Cython/Numba
-    3.  Store data in efficient formats
-    4.  Subsample
-*  If you have to parallelize:
-    1.  Start with a Laptop (4 cores, 16GB RAM, 1TB disk)
-    2.  Then a Workstation (24 cores, 1 TB RAM)
-    3.  Finally scale out to a cluster
 
 
 Questions?
