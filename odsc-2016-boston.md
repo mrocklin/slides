@@ -1,12 +1,15 @@
 Parallelizing Python with Dask
 ------------------------------
 
+<img src="images/dask_icon.svg" width=20%>
+
 *Matthew Rocklin*
 
 Continuum Analytics
 
 
-### Python has blazingly fast data science ecosystem
+
+### Python has a fast and pragmatic data science ecosystem
 
 <hr>
 
@@ -16,14 +19,14 @@ Continuum Analytics
 ### How do we parallelize an ecosystem?
 
 *  **NumPy**: arrays
-*  **Pandas**: in-memory tables
+*  **Pandas**: tables
 *  **Scikit Learn**: machine learning
-*  ...
-*  ...
 *  **Statsmodels**: statistics
+*  ...
+*  ...
 *  **GeoPandas**: geo-spatial
 *  **Scikit-Image**: image analysis
-*  **Scikit-Bio**:
+*  **Scikit-Bio**: ...
 
 
 ### How do we parallelize a complex ecosystem?
@@ -33,26 +36,31 @@ Continuum Analytics
 ### ... without rewriting everything?
 
 
+<img src="images/dask_horizontal_white.svg"
+     alt="Dask logo"
+     width="50%">
+
+
 <img src="images/gridsearch-lr.svg"
      alt="Dask machine learning gridsearch"
      align="right"
      width="25%">
 
-### Dask core
+### Dask is a task scheduler
 
-*  Task scheduler (like airflow)
-*  Designed for flexible algorithms
+*  Task scheduler like make or airflow
+*  Designed for computation (like spark)
 *  On a single machine or a cluster
 
-### Dask collections
-
-*  NumPy + dask = dask.array
-
-        x.T - x.mean(axis=0)
+### Dask has "big data" collections
 
 *  Pandas + dask = dask.dataframe
 
         df.groupby(df.name).balance.mean()
+
+*  NumPy + dask = dask.array
+
+        x.T - x.mean(axis=0)
 
 *  Lists + dask = dask.bag
 
@@ -70,12 +78,15 @@ Continuum Analytics
 *  Fast, low latency
 *  Responsive user interface
 
+[Example notebook with NYC Taxi
+data](https://gist.github.com/mrocklin/86764c5eaba5c23892430975ae3a983a#file-odsc-2016-dataframe-ipynb)
+
 
 ### From queries to task graphs
 
-<img src="images/df-len.svg" align="right" width=40%>
+    >>> len(df)
 
-`len(df) -> `
+<img src="images/df-len.svg" width=40%>
 
 *   Task scheduling is ubiquitous in parallel computing
 
@@ -109,7 +120,9 @@ Continuum Analytics
     <img src="images/structured.svg">
   </td>
   <td>
-    <h2>...</h2>
+    Cumulative reductions
+
+    <img src="images/iterative.svg">
   </td>
   <td>
     Unstructured
@@ -130,6 +143,27 @@ Dask Arrays
 <img src="images/dask-array.svg"
      alt="Dask array is built from many numpy arrays"
      width="70%">
+
+[Example notebook with weather
+data](https://gist.github.com/mrocklin/86764c5eaba5c23892430975ae3a983a#file-odsc-2016-meteorology-ipynb)
+
+
+Dask bag
+--------
+
+*  Combines Python lists with task scheduling
+*  Fairly standard approach
+*  Builds off of the fast CyToolz library
+
+.
+
+    >>> import dask.bag as db
+    >>> import json
+
+    >>> records = db.read_text('path/to/data.*.json.gz').map(json.loads)
+
+    >>> records.filter(...).pluck('name').frequencies().topk(10, ...)
+
 
 
 ### Dask core: dynamic task scheduling
@@ -164,49 +198,150 @@ Task Scheduling
 <img src="images/switchboard-operator.jpg" width="60%">
 
 
-
-### Built flexibile system to parallelize NumPy
+### We originally made Dask flexibile to parallelize NumPy
 
 <hr>
 
-### But found that analysts value it for general computation
+### Found that it was surprisingly useful for general work
 
 
-*Demonstration: small run tasks directly on cluster*
+### Task Scheduling API
 
+    >>> from dask.distributed import Executor
     >>> e = Executor('scheduler-address')  # connect to cluster
 
     >>> x = e.submit(add, 1, 2)            # submit single task to cluster
     >>> x
     <Future: status=pending>
 
-    >>> y = e.submit(mul, x, 10)           # submit dependent tasks
-    >>> e.gather(y)                        # Gather data locally
-    30
+
+### Task Scheduling API
+
+Call many times with for loops.
 
     >>> for i in ...                       # Use in complex loops
     ...     for j in ...
     ...         if ...
     ...             e.submit(func, ...)
 
+Submit tasks on results of other tasks.
 
-*Demonstration: small run tasks directly on cluster*
+    >>> x = e.submit(add, 1, 2)            # submit single task to cluster
+    >>> y = e.submit(mul, x, 10)           # some tasks depend on others
 
-    # Minimal API
-    e = Executor('scheduler-address')    # connect to cluster
-    e.submit(function, *args, **kwargs)  # submit single task
-    e.submit(function, future, future)   # submit dependent tasks
-    e.gather(futures)                    # Gather data locally
+[Example notebook submitting custom
+tasks](https://gist.github.com/mrocklin/f57bc107a9eb5fe965175d4b507a1bf1#file-odsc-2016-custom-futures-ipynb)
 
-    # Full API
-    e.map(function, sequence)            # submit many tasks
-    e.map(function, queue)               # submit stream of tasks
-    e.compute(collection)                # Submit full graph
-    e.scatter(data)                      # Scatter data out to cluster
-    e.rebalance(futures)                 # Move data around
-    e.replicate(futures)                 # Move data around
-    e.cancel(futures)                    # Cancel tasks
-    e.upload_file('myscript.py')         # Send code or files
+
+### Build graphs locally, submit all at once
+
+<img src="images/fg-simple.svg" align=right>
+
+    @dask.delayed
+    def f(x):
+        return ...
+
+    @dask.delayed
+    def g(x, y):
+        return ...
+
+    x = f(1)
+    y = f(2)
+    z = g(x, y)
+
+    z.compute()
+
+[Example notebook with scikit
+learn](https://gist.github.com/mrocklin/86764c5eaba5c23892430975ae3a983a#file-odsc-2016-sklearn-ipynb)
+
+
+
+### Wrapping up
+
+
+### Flexibility opens up access to messy problems
+
+<hr>
+
+### Dask provides flexibility in parallelism
+
+
+Things we didn't cover
+----------------------
+
+*   Resilience and elasticity
+*   Multi-client collaboration
+*   Deployment on Yarn, Docker, SGE, SSH, single thread
+*   Networking:  Tornado TCP application. Fast protocol.
+*   How to avoid parallelism and clusters
+*   Single-machine larger-than-memory use
+
+
+Dask is not...
+----------------
+
+*  **A Database:**
+    *  No query planner (only low-level optimizations)
+    *  No shuffle (some groupbys and hash joins a problem)
+*  **MPI:**
+    *  Central dynamic scheduler
+    *  100s of microseconds overhead per task
+
+
+<img src="images/gridsearch-lr.svg"
+     alt="Dask machine learning gridsearch"
+     align="right"
+     width="20%">
+
+Dask is...
+----------
+
+*  **Familiar:** Implements NumPy/Pandas interfaces
+*  **Flexible:** for sophisticated and messy algorithms
+*  **Fast:** Optimized for demanding applications
+*  **Scales up:** Runs resiliently on clusters
+*  **Scales down:** Pragmatic on a laptop
+*  **Responsive:** for interactive computing
+
+<hr>
+
+Dask **complements** the Python ecosystem.
+
+It was developed with NumPy, Pandas, and Scikit-Learn developers.
+
+
+Questions?
+----------
+
+*  [dask.pydata.org](http://dask.pydata.org/en/latest/),
+   [distributed.readthedocs.org](http://distributed.readthedocs.org/en/latest/)
+*  [gitter.im/dask/dask](http://gitter.im/dask/dask/),
+   [youtube channel](https://www.youtube.com/playlist?list=PLRtz5iA93T4PQvWuoMnIyEIz1fXiJ5Pri)
+
+[@mrocklin](http://twitter.com/mrocklin)
+
+<hr>
+
+Start on a single machine
+
+    $ conda/pip install dask
+
+    >>> import dask.bag as db
+    >>> db.read_text('/path/to/*.json.gz').filter(...)
+
+<hr>
+
+Start a cluster on EC2
+
+    $ conda/pip install dask distributed dec2
+    $ dec2 --keyname AWS-KEYNAME
+           --keypair ~/.ssh/AWS-KEYPAIR.pem
+           --count 10 --type m4.2xlarge
+           --notebook
+
+
+
+### Extras
 
 
 ### Flexibility enables Sophisticated Algorithms
@@ -238,43 +373,6 @@ Task Scheduling
 </a>
 
 
-### Sophisticated algorithms defy structure
-
-<hr>
-
-### Dask enables algorithms through raw task scheduling
-
-
-### Wrapping up
-
-
-Dask is...
-----------
-
-*  **Familiar:** Implements parallel NumPy and Pandas objects
-*  **Flexible:** for sophisticated and messy algorithms
-*  **Fast:** Optimized for demanding algorithms
-*  **Scales up:** Runs resiliently on clusters of 100s of machines
-*  **Scales down:** Pragmatic in a single process on a laptop
-*  **Interactive:** Responsive and fast for interactive computing
-
-<hr>
-
-Dask **complements** the Python ecosystem.  It was developed with NumPy,
-Pandas, and Scikit-Learn developers.
-
-
-Dask is not...
-----------------
-
-*  **A Database:**
-    *  No query planner (only low-level optimizations)
-    *  No shuffle (some groupbys and hash joins a problem)
-*  **MPI:**
-    *  Central dynamic scheduler
-    *  100s of microseconds overhead per task
-
-
 How dask is used in practice
 ----------------------------
 
@@ -287,38 +385,3 @@ How dask is used in practice
 
 *  Roughly equal mix of academic/research and corporate
 
-
-Lessons learned
----------------
-
-*   Task scheduling complements existing ecosystems well
-
-    Users can handle more control if you give it to them
-
-*   Move quickly by embracing existing projects and communities
-
-*   Wide variety of parallel computing problems out there
-
-
-Questions?
-----------
-
-### [dask.pydata.org](http://dask.pydata.org/en/latest/)
-
-<hr>
-
-Start on a single machine
-
-    $ pip install dask
-
-    >>> import dask.bag as db
-    >>> db.read_text('/path/to/*.json.gz').filter(...)
-
-<hr>
-
-Start a cluster on EC2
-
-    $ pip install dask distributed dec2
-    $ dec2 --keyname mrocklin
-           --keypair ~/.ssh/keypair.pem
-           --count 20 --type m4.2xlarge
