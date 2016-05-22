@@ -28,17 +28,15 @@ Continuum Analytics
 *  **Scikit-Image**: image analysis
 *  **Scikit-Bio**: ...
 
+### ... without rewriting everything
 
-### How do we parallelize a complex ecosystem?
-
-<hr>
-
-### ... without rewriting everything?
 
 
 <img src="images/dask_horizontal_white.svg"
      alt="Dask logo"
      width="50%">
+
+### a complementary library for scalability
 
 
 <img src="images/gridsearch-lr.svg"
@@ -46,13 +44,7 @@ Continuum Analytics
      align="right"
      width="25%">
 
-### Dask is a task scheduler
-
-*  Task scheduler like make or airflow
-*  Designed for computation (like spark)
-*  On a single machine or a cluster
-
-### Dask has "big data" collections
+### Familiar parallel collections
 
 *  Pandas + dask = dask.dataframe
 
@@ -66,6 +58,12 @@ Continuum Analytics
 
         b.map(json.loads).filter(...)
 
+### Powered by dynamic task scheduling
+
+*  Task scheduler like make or airflow
+*  Designed for computation
+*  Scaling from a single thread to a cluster
+
 
 ### Dask DataFrame
 
@@ -74,6 +72,7 @@ Continuum Analytics
 *  Borrows heavily from Pandas
     *  Composed of Pandas DataFrames
     *  Matches the Pandas interface
+    *  Developed with Pandas developers
 *  Accesses data from HDFS, S3, local disk
 *  Fast, low latency
 *  Responsive user interface
@@ -125,7 +124,7 @@ data](https://gist.github.com/mrocklin/86764c5eaba5c23892430975ae3a983a#file-ods
     <img src="images/iterative.svg">
   </td>
   <td>
-    Unstructured
+    ... Unstructured
 
     <img src="images/unstructured.svg">
   </td>
@@ -166,7 +165,11 @@ Dask bag
 
 
 
-### Dask core: dynamic task scheduling
+### Dask was originally designed to be flexibile to support NumPy/Pandas
+
+<hr>
+
+### But found it to be surprisingly valuable for general work
 
 
 Task Scheduling
@@ -198,19 +201,12 @@ Task Scheduling
 <img src="images/switchboard-operator.jpg" width="60%">
 
 
-### We originally made Dask flexibile to parallelize NumPy
-
-<hr>
-
-### Found that it was surprisingly useful for general work
-
-
 ### Task Scheduling API
 
     >>> from dask.distributed import Executor
     >>> e = Executor('scheduler-address')  # connect to cluster
 
-    >>> x = e.submit(add, 1, 2)            # submit single task to cluster
+    >>> x = e.submit(add, 1, 2)            # call add(1, 2) remotely
     >>> x
     <Future: status=pending>
 
@@ -227,21 +223,23 @@ Call many times with for loops.
 Submit tasks on results of other tasks.
 
     >>> x = e.submit(add, 1, 2)            # submit single task to cluster
-    >>> y = e.submit(mul, x, 10)           # some tasks depend on others
+    >>> y = e.submit(double, x)            # some tasks depend on others
 
 [Example notebook submitting custom
 tasks](https://gist.github.com/mrocklin/f57bc107a9eb5fe965175d4b507a1bf1#file-odsc-2016-custom-futures-ipynb)
 
 
-### Build graphs locally, submit all at once
+### Build graphs node by node with dask.delayed
 
 <img src="images/fg-simple.svg" align=right>
 
-    @dask.delayed
+    from dask import delayed
+
+    @delayed
     def f(x):
         return ...
 
-    @dask.delayed
+    @delayed
     def g(x, y):
         return ...
 
@@ -259,11 +257,11 @@ learn](https://gist.github.com/mrocklin/86764c5eaba5c23892430975ae3a983a#file-od
 ### Wrapping up
 
 
-### Flexibility opens up access to messy problems
+### Flexibility opens up sophisticated and messy problems
 
 <hr>
 
-### Dask provides flexibility in parallelism
+### Dask provides flexibile scalability for Python
 
 
 Things we didn't cover
@@ -271,6 +269,7 @@ Things we didn't cover
 
 *   Resilience and elasticity
 *   Multi-client collaboration
+*   Fully asynchronous and responsive
 *   Deployment on Yarn, Docker, SGE, SSH, single thread
 *   Networking:  Tornado TCP application. Fast protocol.
 *   How to avoid parallelism and clusters
