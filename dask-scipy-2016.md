@@ -79,7 +79,34 @@ Continuum Analytics
 <img src="images/dask-stack-5.svg" width="70%">
 
 
-### Jim's slides
+### dask.delayed
+
+- Tool for creating arbitrary task graphs
+- Dead simple interface (one function)
+- Plays well with existing code (with some caveats)
+
+
+- delayed(function)(\*args, \*\*kwargs) -> Delayed
+
+- delayed(data) -> Delayed
+
+
+###Examples
+
+
+### Caveats
+
+Can't use in control flow.
+
+    # iterable in loop
+    for i in delayed_object:
+        ...
+
+    # case in if statement
+    if delayed_object:
+        ...
+    else:
+        ...
 
 
 ### Dask.delayed authors arbitrary task graphs
@@ -232,6 +259,64 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 <img src="images/scheduler-async-15.svg" width="90%">
 
 
+
+### Easy to get started
+
+    $ conda install dask distributed -c conda-forge
+    or
+    $ pip install dask distributed --upgrade
+
+    >>> from dask.distributed import Executor
+    >>> e = Executor()  # sets up local cluster
+
+
+
+### Machine Learning Example
+
+
+### Conclusion
+
+
+### Dask enables ad-hoc parallel algorithms
+
+<hr>
+
+### Distributed scheduler extends to sizable clusters
+
+
+### Acknowledgements
+
+*  Countless open source developers
+*  Continuum Analytics
+*  XData Program from DARPA
+
+<img src="images/moore.png">
+
+<hr>
+
+### Questions?
+
+<img src="images/grid_search_schedule.gif" width="100%">
+
+
+### Dask exposes low-level distributed task scheduling to users
+
+<hr>
+
+### Optimized for general computation, not arrays, SQL, etc..
+
+
+
+### Internals
+
+*  Tornado web application over TCP sockets with custom protocol
+*  Event driven (new worker, task finished, worker died, ...)
+*  State is ~30 Python dictionaries indexing each other
+*  Processes 1000s of tasks per second
+*  Language agnostic (msgpack protocol)
+
+
+
 ### IT
 
     $ dask-scheduler
@@ -295,32 +380,3 @@ Stable for a year or so.  Optimized for larger-than-memory use.
     >>> total = delayed(sum)(values)
 
 
-### Easy to get started
-
-    $ conda install dask distributed -c conda-forge
-    or
-    $ pip install dask distributed --upgrade
-
-    >>> from dask.distributed import Executor
-    >>> e = Executor()  # sets up local cluster
-
-
-### Example
-
-
-### Dask exposes low-level distributed task scheduling to users
-
-<hr>
-
-### Optimized for general computation, not arrays, SQL, etc..
-
-
-
-
-### Internals
-
-*  Tornado web application over TCP sockets with custom protocol
-*  Event driven (new worker, task finished, worker died, ...)
-*  State is ~30 Python dictionaries indexing each other
-*  Processes 1000s of tasks per second
-*  Language agnostic (msgpack protocol)
