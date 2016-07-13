@@ -33,6 +33,21 @@ Continuum Analytics
 
 ### Our community does some very weird things
 
+    .
+
+            df['x'] = df.x.rolling(10).mean()
+
+    .
+
+
+### Our community does some very weird things
+
+    while df.x.min() - df.x.max():
+        if condition:
+            df['x'] = df.x.rolling(10).mean()
+        else:
+            df['x'] = my_arbitrary_function()
+
 
 ### Dask Stack
 
@@ -126,12 +141,12 @@ Stable for a year or so.  Optimized for larger-than-memory use.
     Custom projects with dask.delayed
 
 
-### Distributed Memory Scheduler
+### Distributed Scheduler
 
 <img src="images/network-inverse.svg" width="70%">
 
 
-### Distributed Memory Scheduler
+### Distributed Scheduler
 
 *   **Distributed**: One scheduler coordinates many workers
 *   **Data local**: Avoids expensive communication
@@ -140,6 +155,81 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 *   **HDFS Aware**: Works well with HDFS, S3, YARN, etc..
 *   **Solidly supports**: dask.array, dask.dataframe, dask.bag, dask.delayed
 *   **Less Concise**: ~3000 LOC Tornado TCP application
+
+
+### Distributed Scheduler
+
+<img src="images/scheduler-async-1.svg" width="90%">
+
+
+### Distributed Scheduler
+
+<img src="images/scheduler-async-2.svg" width="90%">
+
+
+### Distributed Scheduler
+
+<img src="images/scheduler-async-3.svg" width="90%">
+
+
+### Distributed Scheduler
+
+<img src="images/scheduler-async-4.svg" width="90%">
+
+
+### Distributed Scheduler
+
+<img src="images/scheduler-async-5.svg" width="90%">
+
+
+### Distributed Scheduler
+
+<img src="images/scheduler-async-6.svg" width="90%">
+
+
+### Distributed Scheduler
+
+<img src="images/scheduler-async-7.svg" width="90%">
+
+
+### Distributed Scheduler
+
+<img src="images/scheduler-async-8.svg" width="90%">
+
+
+### Distributed Scheduler
+
+<img src="images/scheduler-async-9.svg" width="90%">
+
+
+### Distributed Scheduler
+
+<img src="images/scheduler-async-10.svg" width="90%">
+
+
+### Distributed Scheduler
+
+<img src="images/scheduler-async-11.svg" width="90%">
+
+
+### Distributed Scheduler
+
+<img src="images/scheduler-async-12.svg" width="90%">
+
+
+### Distributed Scheduler
+
+<img src="images/scheduler-async-13.svg" width="90%">
+
+
+### Distributed Scheduler
+
+<img src="images/scheduler-async-14.svg" width="90%">
+
+
+### Distributed Scheduler
+
+<img src="images/scheduler-async-15.svg" width="90%">
 
 
 ### IT
