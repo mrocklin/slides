@@ -1,3 +1,72 @@
+Dask: Flexible Distributed Computing
+------------------------------------
+
+<img src="images/dask_icon.svg" width=20%>
+
+*Matthew Rocklin*
+
+*Jim Crist*
+
+Continuum Analytics
+
+
+### Dask provides parallel NumPy and Pandas on clusters
+
+<hr>
+
+### ... but ad-hoc algorithms are more exciting
+
+<hr>
+
+### ... especially with intelligent scheduling
+
+
+### DataFrame Example
+
+
+### Dask was designed for arrays and dataframes
+
+<hr>
+
+### ... but we've found the lower-level bits quite applicable
+
+
+### Our community does some very weird things
+
+
+### Dask Stack
+
+<img src="images/dask-stack-0.svg" width="70%">
+
+
+### Dask Stack
+
+<img src="images/dask-stack-1.svg" width="70%">
+
+
+### Dask Stack
+
+<img src="images/dask-stack-2.svg" width="70%">
+
+
+### Dask Stack
+
+<img src="images/dask-stack-3.svg" width="70%">
+
+
+### Dask Stack
+
+<img src="images/dask-stack-4.svg" width="70%">
+
+
+### Dask Stack
+
+<img src="images/dask-stack-5.svg" width="70%">
+
+
+### Jim's slides
+
+
 ### Dask.delayed authors arbitrary task graphs
 
 <hr>
@@ -35,23 +104,22 @@ Task Scheduling
 
 ### Single Machine Scheduler
 
-Stable for a year or so.  Optimized for low-memory-use.
+Stable for a year or so.  Optimized for larger-than-memory use.
 
-<img src="images/fail-case.png">
+<img src="images/grid_search_schedule-0.png" width="100%">
 
 
 ### Single Machine Scheduler
 
 Stable for a year or so.  Optimized for larger-than-memory use.
 
-<img src="images/fail-case.gif">
+<img src="images/grid_search_schedule.gif" width="100%">
 
 
 ### Single Machine Scheduler
 
-*   **Shared CPU**: Uses multiple threads or processes
+*   **Parallel CPU**: Uses multiple threads or processes
 *   **Minimizes RAM**: Choose tasks to remove intermediates
-*   **Synchronous:** graph -> result, wait until done
 *   **Low overhead:** ~100us per task
 *   **Concise**: ~600 LOC, stable for ~12 months
 *   **Real world workloads**: dask.array, xarray, dask.dataframe, dask.bag,
@@ -60,7 +128,7 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 
 ### Distributed Memory Scheduler
 
-<img src="images/network-inverse.svg">
+<img src="images/network-inverse.svg" width="70%">
 
 
 ### Distributed Memory Scheduler
@@ -71,13 +139,13 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 *   **Multi-user**: Several users share the same system
 *   **HDFS Aware**: Works well with HDFS, S3, YARN, etc..
 *   **Solidly supports**: dask.array, dask.dataframe, dask.bag, dask.delayed
-*   **Concise-ish**: ~3000 LOC Tornado TCP application
+*   **Less Concise**: ~3000 LOC Tornado TCP application
 
 
 ### IT
 
     $ dask-scheduler
-    Running scheduler at scheduler-hostname:8786
+    Running scheduler at scheduler-hostname:8786 ...
 
     $ dask-worker scheduler-hostname:8786
     $ dask-worker scheduler-hostname:8786
