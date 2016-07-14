@@ -291,6 +291,27 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 <img src="images/grid_search_schedule.gif" width="100%">
 
 
+<img src="https://zekeriyabesiroglu.files.wordpress.com/2015/04/ekran-resmi-2015-04-29-10-53-12.png"
+     align="right"
+     width="30%">
+
+### Q: How does Dask differ from Spark?
+
+*  Spark is great
+    *  Integrating with Java infrastructure
+    *  ETL + Database operations
+    *  SQL-like streaming
+    *  Spark 2.0 is decently fast
+*  Dask is great
+    *  Integrating with Python libraries
+    *  Numeric work with NumPy, Pandas
+    *  Supporting ad-hoc parallelism or async
+    *  Complementing the SciPy ecosystem
+*  Both are great
+    *  Similar network designs and scalability limits
+    *  Decent Python APIs
+
+
 ### Dask exposes low-level distributed task scheduling to users
 
 <hr>

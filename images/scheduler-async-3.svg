@@ -26,7 +26,7 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="196.4364"
+     inkscape:cx="121.68511"
      inkscape:cy="169.80615"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -56,7 +56,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -257,7 +257,7 @@
        cy="490.21936"
        r="5" />
     <circle
-       style="fill:#0000ff;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4161-9-4"
        cx="445"
        cy="490.21936"
@@ -314,7 +314,7 @@
        inkscape:connection-end="#path4161-9-66" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 408.53554,473.75489 12.92893,12.92893"
+       d="m 408.53553,473.75489 12.92894,12.92894"
        id="path4841"
        inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
@@ -330,7 +330,7 @@
        inkscape:connection-end="#path4161-9-95" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 441.46447,466.68382 428.53554,453.75489"
+       d="M 441.46447,466.68383 428.53553,453.75489"
        id="path4845"
        inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
@@ -338,7 +338,7 @@
        inkscape:connection-end="#path4161-9-87" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 421.46446,453.75489 -12.92893,12.92893"
+       d="m 421.46447,453.75489 -12.92894,12.92894"
        id="path4847"
        inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
@@ -349,12 +349,6 @@
        id="path4161-9-27-6"
        cx="165"
        cy="347.36221"
-       r="5" />
-    <circle
-       style="fill:none;fill-opacity:0.50196078;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path4161-9-27-0"
-       cx="165"
-       cy="437.36221"
        r="5" />
   </g>
 </svg>
