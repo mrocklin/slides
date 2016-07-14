@@ -24,29 +24,11 @@ Continuum Analytics
 ### DataFrame Example
 
 
-### Dask was designed for arrays and dataframes
+### Dask was designed for NumPy and Pandas
 
 <hr>
 
-### ... but we've found the lower-level bits quite applicable
-
-
-### Our community does some very weird things
-
-    .
-
-            df['x'] = df.x.rolling(10).mean()
-
-    .
-
-
-### Our community does some very weird things
-
-    while df.x.min() - df.x.max():
-        if condition:
-            df['x'] = df.x.rolling(10).mean()
-        else:
-            df['x'] = my_arbitrary_function()
+### However, the lower-level bits are often quite useful
 
 
 ### Dask Stack
@@ -120,6 +102,8 @@ Can't use in control flow.
 
 <img src="images/fg-simple.svg">
 
+    .
+    .
     x = f(1)
     y = f(2)
     z = g(x, y)
@@ -130,35 +114,44 @@ Can't use in control flow.
 Where and when do we run tasks?
 
 
-Task Scheduling
----------------
+### Task Scheduling
 
-*   Task scheduling is ubiquitous in parallel computing
+<img src="images/grid_search_schedule-0.png" width="76%">
 
-    Examples: MapReduce, Spark, SQL, TensorFlow, Plasma
+    x = f(1)
+    y = f(2)
+    z = g(x, y)
 
-*   But raw task scheduler is rarely exposed
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
 
-    Exceptions: Make, Luigi, Airflow
+Where and when do we run tasks?
 
-<img src="images/switchboard-operator.jpg" width="60%">
+
+### Task Scheduling
+
+<img src="images/grid_search_schedule.gif" width="76%">
+
+    x = f(1)
+    y = f(2)
+    z = g(x, y)
+
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+
+Where and when do we run tasks?
+
+
+### Dask schedulers target different architectures
+
+<hr>
+
+### Easy swapping enables scaling up *and down*
 
 
 ### Single Machine Scheduler
 
 Stable for a year or so.  Optimized for larger-than-memory use.
-
-<img src="images/grid_search_schedule-0.png" width="100%">
-
-
-### Single Machine Scheduler
-
-Stable for a year or so.  Optimized for larger-than-memory use.
-
-<img src="images/grid_search_schedule.gif" width="100%">
-
-
-### Single Machine Scheduler
 
 *   **Parallel CPU**: Uses multiple threads or processes
 *   **Minimizes RAM**: Choose tasks to remove intermediates
@@ -166,22 +159,6 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 *   **Concise**: ~600 LOC, stable for ~12 months
 *   **Real world workloads**: dask.array, xarray, dask.dataframe, dask.bag,
     Custom projects with dask.delayed
-
-
-### Distributed Scheduler
-
-<img src="images/network-inverse.svg" width="70%">
-
-
-### Distributed Scheduler
-
-*   **Distributed**: One scheduler coordinates many workers
-*   **Data local**: Avoids expensive communication
-*   **Asynchronous**: Sumbit multiple jobs without blocking
-*   **Multi-user**: Several users share the same system
-*   **HDFS Aware**: Works well with HDFS, S3, YARN, etc..
-*   **Solidly supports**: dask.array, dask.dataframe, dask.bag, dask.delayed
-*   **Less Concise**: ~3000 LOC Tornado TCP application
 
 
 ### Distributed Scheduler
@@ -259,6 +236,18 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 <img src="images/scheduler-async-15.svg" width="90%">
 
 
+### Distributed Scheduler
+
+*   **Distributed**: One scheduler coordinates many workers
+*   **Data local**: Moves computation to correct worker
+*   **Asynchronous**: Continuous non-blocking conversation
+*   **Multi-user**: Several users share the same system
+*   **HDFS Aware**: Works well with HDFS, S3, YARN, etc..
+*   **Solidly supports**: dask.array, dask.dataframe, dask.bag, dask.delayed,
+    concurrent.futures, ...
+*   **Less Concise**: ~3000 LOC Tornado TCP application
+
+
 
 ### Easy to get started
 
@@ -305,6 +294,18 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 
 ### Optimized for general computation, not arrays, SQL, etc..
 
+
+### Schedulers are common, but hidden
+
+*   Task scheduling is ubiquitous in parallel computing
+
+    Examples: MapReduce, Spark, SQL, TensorFlow, Plasma
+
+*   But raw task scheduler is rarely exposed
+
+    Exceptions: Make, Luigi, Airflow
+
+<img src="images/switchboard-operator.jpg" width="60%">
 
 
 ### Internals
@@ -378,5 +379,3 @@ Stable for a year or so.  Optimized for larger-than-memory use.
     >>> remote_data = e.scatter(sequence)
     >>> values = [delayed(f)(x) for x in remote_data]
     >>> total = delayed(sum)(values)
-
-
