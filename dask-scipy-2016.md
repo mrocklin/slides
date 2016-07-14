@@ -263,19 +263,22 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 ### Machine Learning Example
 
 
-### Conclusion
 
-
-### Dask enables ad-hoc parallel algorithms
+### Dask provides parallel NumPy and Pandas on clusters
 
 <hr>
 
-### Distributed scheduler extends to sizable clusters
+### ... but ad-hoc algorithms are more exciting
+
+<hr>
+
+### ... especially with intelligent scheduling
 
 
 ### Acknowledgements
 
 *  Countless open source developers
+*  Other library developer communities
 *  Continuum Analytics
 *  XData Program from DARPA
 
