@@ -23,6 +23,8 @@ Continuum Analytics
 
 ### DataFrame Example
 
+[http://scipy2016.jupyter.org/](http://scipy2016.jupyter.org/)
+
 
 ### Dask was designed for NumPy and Pandas
 
