@@ -10,11 +10,11 @@ Dask: Flexible Distributed Computing
 Continuum Analytics
 
 
-### Dask provides parallel NumPy and Pandas on clusters
+### Dask provides parallel NumPy and Pandas
 
 <hr>
 
-### ... but ad-hoc algorithms are exciting
+### ... but ad-hoc parallel algorithms are exciting too
 
 <hr>
 
@@ -30,7 +30,7 @@ Continuum Analytics
 
 <hr>
 
-### However, the lower-level bits are often quite useful
+### However, the lower-level bits end up being quite useful
 
 
 ### Dask Stack
@@ -98,26 +98,28 @@ Can't use in control flow.
 
 <hr>
 
-### Now we need to run them efficiently
-
 <img src="images/grid_search_schedule-0.png" width="100%">
+
+<hr>
+
+### Now we need to run them efficiently
 
 
 ### Dask.delayed authors arbitrary task graphs
 
 <hr>
 
-### Now we need to run them efficiently
-
 <img src="images/grid_search_schedule.gif" width="100%">
+
+<hr>
+
+### Now we need to run them efficiently
 
 
 ### Task Scheduling
 
 <img src="images/fg-simple.svg">
 
-    .
-    .
     x = f(1)
     y = f(2)
     z = g(x, y)
@@ -256,11 +258,11 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 
 
 
-### Dask provides parallel NumPy and Pandas on clusters
+### Dask provides parallel NumPy and Pandas
 
 <hr>
 
-### ... but ad-hoc algorithms are exciting
+### ... but ad-hoc parallel algorithms are exciting too
 
 <hr>
 
