@@ -239,7 +239,7 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 ### Easy to get started
 
     $ conda install dask distributed -c conda-forge
-    $ pip install dask distributed --upgrade
+    $ pip install dask[complete] distributed --upgrade
 
 <hr>
 
