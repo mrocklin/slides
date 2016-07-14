@@ -14,7 +14,7 @@ Continuum Analytics
 
 <hr>
 
-### ... but ad-hoc algorithms are more exciting
+### ... but ad-hoc algorithms are exciting
 
 <hr>
 
@@ -91,11 +91,23 @@ Can't use in control flow.
         ...
 
 
+
 ### Dask.delayed authors arbitrary task graphs
 
 <hr>
 
 ### Now we need to run them efficiently
+
+<img src="images/grid_search_schedule-0.png" width="100%">
+
+
+### Dask.delayed authors arbitrary task graphs
+
+<hr>
+
+### Now we need to run them efficiently
+
+<img src="images/grid_search_schedule.gif" width="100%">
 
 
 ### Task Scheduling
@@ -110,36 +122,6 @@ Can't use in control flow.
 
 <img src="images/computer-tower.svg" width="15%">
 <img src="images/computer-tower.svg" width="15%">
-
-Where and when do we run tasks?
-
-
-### Task Scheduling
-
-<img src="images/grid_search_schedule-0.png" width="76%">
-
-    x = f(1)
-    y = f(2)
-    z = g(x, y)
-
-<img src="images/computer-tower.svg" width="15%">
-<img src="images/computer-tower.svg" width="15%">
-
-Where and when do we run tasks?
-
-
-### Task Scheduling
-
-<img src="images/grid_search_schedule.gif" width="76%">
-
-    x = f(1)
-    y = f(2)
-    z = g(x, y)
-
-<img src="images/computer-tower.svg" width="15%">
-<img src="images/computer-tower.svg" width="15%">
-
-Where and when do we run tasks?
 
 
 ### Dask schedulers target different architectures
@@ -161,7 +143,7 @@ Stable for a year or so.  Optimized for larger-than-memory use.
     Custom projects with dask.delayed
 
 
-### Distributed Scheduler
+### Distributed Scheduler (new!)
 
 <img src="images/scheduler-async-1.svg" width="90%">
 
@@ -247,17 +229,25 @@ Stable for a year or so.  Optimized for larger-than-memory use.
     concurrent.futures, ...
 *   **Less Concise**: ~3000 LOC Tornado TCP application
 
+    But all of the logic is hackable Python
 
 
 ### Easy to get started
 
     $ conda install dask distributed -c conda-forge
-    or
     $ pip install dask distributed --upgrade
+
+<hr>
 
     >>> from dask.distributed import Executor
     >>> e = Executor()  # sets up local cluster
 
+<hr>
+
+    $ dask-scheduler
+
+    $ dask-worker scheduler-hostname:8786
+    $ dask-worker scheduler-hostname:8786
 
 
 ### Machine Learning Example
@@ -268,7 +258,7 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 
 <hr>
 
-### ... but ad-hoc algorithms are more exciting
+### ... but ad-hoc algorithms are exciting
 
 <hr>
 
@@ -278,7 +268,7 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 ### Acknowledgements
 
 *  Countless open source developers
-*  Other library developer communities
+*  SciPy developer community
 *  Continuum Analytics
 *  XData Program from DARPA
 
@@ -298,25 +288,18 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 ### Q: How does Dask differ from Spark?
 
 *  Spark is great
-    *  Integrating with Java infrastructure
     *  ETL + Database operations
     *  SQL-like streaming
     *  Spark 2.0 is decently fast
+    *  Integrate with Java infrastructure
 *  Dask is great
-    *  Integrating with Python libraries
-    *  Numeric work with NumPy, Pandas
-    *  Supporting ad-hoc parallelism or async
-    *  Complementing the SciPy ecosystem
+    *  Tight integration with NumPy, Pandas, Toolz, SKLearn, ...
+    *  Ad-hoc parallelism for custom algorithms
+    *  Easy deployment on clusters or laptops
+    *  Complement the existing SciPy ecosystem (Dask is lean)
 *  Both are great
     *  Similar network designs and scalability limits
     *  Decent Python APIs
-
-
-### Dask exposes low-level distributed task scheduling to users
-
-<hr>
-
-### Optimized for general computation, not arrays, SQL, etc..
 
 
 ### Schedulers are common, but hidden
