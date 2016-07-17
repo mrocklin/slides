@@ -29,6 +29,10 @@ Continuum Analytics
 
 ### However, the lower-level parts solve messier problems
 
+<hr>
+
+<img src="images/async-comment.png">
+
 
 ### Dask Stack
 
@@ -58,6 +62,24 @@ Continuum Analytics
 ### Dask Stack
 
 <img src="images/dask-stack-5.svg" width="70%">
+
+
+
+### High Level Parallelism
+
+    outputs = collection.filter(predicate)
+                        .groupby(key)
+                        .map(function)
+
+<hr>
+
+    SELECT city, sum(value)
+    WHERE value > 0
+    GROUP BY city
+
+<hr>
+
+    solve(A.dot(A.T), x)
 
 
 ### Messy Parallelism
@@ -91,9 +113,9 @@ Continuum Analytics
     for a in A:
         for b in B:
             if a < b:
-                results[a, b] = delayed(f)(a, b)
+                results[a, b] = delayed(f)(a, b)  # lazily construct graph
             else:
-                results[a, b] = delayed(g)(a, b)
+                results[a, b] = delayed(g)(a, b)  # without structure
 
     results = compute(delayed(results))  # trigger all computation
 
@@ -102,8 +124,8 @@ Continuum Analytics
 
 *  Capture a single function evaluation:
 
-        value = add(1, 2)
-        lazy_value = delayed(add)(1, 2)
+        concrete_value = add(1, 2)
+        lazy_value     = delayed(add)(1, 2)
 
 *  Link multiple tasks together:
 
@@ -125,20 +147,7 @@ Continuum Analytics
 
 <hr>
 
-### Immensely valuable release valve
-
-
-### Schedulers are common, but hidden
-
-*   Task scheduling is ubiquitous in parallel computing
-
-    Examples: MapReduce, Spark, SQL, TensorFlow, Plasma
-
-*   But raw task scheduler is rarely exposed
-
-    Exceptions: Make, Luigi, Airflow
-
-<img src="images/switchboard-operator.jpg" width="60%">
+### Immensely valuable release valve for users and developers alike
 
 
 
