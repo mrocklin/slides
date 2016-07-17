@@ -19,14 +19,6 @@ Continuum Analytics
 ### ... on single machines or clusters
 
 
-*  This outline
-*  Flashy demo
-*  Dask.delayed
-*  Build parallel pandas algorithms with dask.delayed
-*  Demonstrate complexity with Parallel NumPy
-*  Distributed scheduling
-
-
 ### But first!  A flashy demo!
 
 
@@ -35,7 +27,7 @@ Continuum Analytics
 
 <hr>
 
-### However, the lower-level bits end up being quite useful
+### However, the lower-level parts can solve messier problems
 
 
 ### Dask Stack
@@ -89,6 +81,25 @@ Continuum Analytics
 
 ### Messy Parallelism
 
+    from dask import delayed, compute
+    .
+
+<hr>
+
+    results = {}
+
+    for a in A:
+        for b in B:
+            if a < b:
+                results[a, b] = delayed(f)(a, b)
+            else:
+                results[a, b] = delayed(g)(a, b)
+
+    results = compute(delayed(results))  # trigger all computation
+
+
+### Messy Parallelism
+
     from concurrent.futures import ThreadPoolExecutor
     e = ThreadPoolExecutor()
 
@@ -125,32 +136,14 @@ Continuum Analytics
     results = [future.result() for future in futures]  # block until done
 
 
-### Messy Parallelism
-
-    from dask import delayed, compute
-    .
-
-<hr>
-
-    results = {}
-
-    for a in A:
-        for b in B:
-            if a < b:
-                results[a, b] = delayed(f)(a, b)
-            else:
-                results[a, b] = delayed(g)(a, b)
-
-    results = compute(delayed(results))  # trigger all computation
-
-
 ### dask.delayed
 
-*  Captures one function evaluation
+*  Capture a single function evaluation:
 
+        value = add(1, 2)
         lazy_value = delayed(add)(1, 2)
 
-*  Link tasks together
+*  Link multiple tasks together:
 
         x = delayed(f)(1)
         y = delayed(f)(2)
@@ -158,7 +151,7 @@ Continuum Analytics
 
     <img src="images/fg-simple.svg" align="right">
 
-*  Use with loops
+*  Combine with loops:
 
         x = [delayed(f)(i) for i in range(100)]
 
@@ -328,14 +321,85 @@ Stable for a year or so.  Optimized for larger-than-memory use.
     $ dask-worker scheduler-hostname:8786
 
 
-### Why Parallelize?
+### Examples
 
-*   Don't!
-    *  Profile
-    *  Use C/Cython/Numba/Fortran/Julia/...
-    *  Use better algorithms, sample, stream, ...
-*   Larger-than-memory computation on a laptop
-*   Distributed in-memory computing
+
+
+### Dask provides parallel NumPy and Pandas
+
+<hr>
+
+### ... and it parallelizes custom algorithms
+
+<hr>
+
+### ... on single machines or clusters
+
+
+### Don't Parallelize if you don't have to
+
+*  But I need speed ...
+    *  Profile first
+    *  Use C/Cython/Numba/Julia/...
+    *  Use better algorithms, sample
+*  But I need to scale ...
+    *  Profile first
+    *  Use better data structures, sample, stream
+*  Yes, but I actually really need to ...
+    *  Start with your laptop and concurrent.futures
+    *  Move up to a heavy workstation
+    *  Then, very reluctantly, move to a cluster
+
+
+### Acknowledgements
+
+*  Countless open source developers
+*  SciPy developer community
+*  Continuum Analytics
+*  XData Program from DARPA
+
+<img src="images/moore.png">
+
+<hr>
+
+### Questions?
+
+<img src="images/grid_search_schedule.gif" width="100%">
+
+
+
+<img src="https://zekeriyabesiroglu.files.wordpress.com/2015/04/ekran-resmi-2015-04-29-10-53-12.png"
+     align="right"
+     width="30%">
+
+### Q: How does Dask differ from Spark?
+
+*  Spark is great
+    *  ETL + Database operations
+    *  SQL-like streaming
+    *  Spark 2.0 is decently fast
+    *  Integrate with Java infrastructure
+*  Dask is great
+    *  Tight integration with NumPy, Pandas, Toolz, SKLearn, ...
+    *  Ad-hoc parallelism for custom algorithms
+    *  Easy deployment on clusters or laptops
+    *  Complement the existing SciPy ecosystem (Dask is lean)
+*  Both are great
+    *  Similar network designs and scalability limits
+    *  Decent Python APIs
+
+
+### Schedulers are common, but hidden
+
+*   Task scheduling is ubiquitous in parallel computing
+
+    Examples: MapReduce, Spark, SQL, TensorFlow, Plasma
+
+*   But raw task scheduler is rarely exposed
+
+    Exceptions: Make, Luigi, Airflow
+
+<img src="images/switchboard-operator.jpg" width="60%">
 
 
 ### Other Parallel Libraries
