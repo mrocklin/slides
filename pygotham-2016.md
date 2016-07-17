@@ -121,8 +121,28 @@ Continuum Analytics
 ### Example
 
 
+### With dask.delayed you take algorithmic control over your parallel framework
 
-### Dask.delayed authors arbitrary task graphs
+<hr>
+
+### Immensely valuable release valve
+
+
+### Schedulers are common, but hidden
+
+*   Task scheduling is ubiquitous in parallel computing
+
+    Examples: MapReduce, Spark, SQL, TensorFlow, Plasma
+
+*   But raw task scheduler is rarely exposed
+
+    Exceptions: Make, Luigi, Airflow
+
+<img src="images/switchboard-operator.jpg" width="60%">
+
+
+
+### Dask.array/dataframe/delayed author task graphs
 
 <hr>
 
@@ -133,7 +153,7 @@ Continuum Analytics
 ### Now we need to run them efficiently
 
 
-### Dask.delayed authors arbitrary task graphs
+### Dask.array/dataframe/delayed author task graphs
 
 <hr>
 
@@ -267,6 +287,24 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 
 ### Easy to get started
 
+    $ conda install dask distributed
+    $ pip install dask[complete] distributed --upgrade
+
+<hr>
+
+    >>> from dask.distributed import Executor
+    >>> e = Executor()  # sets up local cluster
+
+<hr>
+
+    $ dask-scheduler
+
+    $ dask-worker scheduler-hostname:8786
+    $ dask-worker scheduler-hostname:8786
+
+
+### Easy to get started
+
     $ conda install dask distributed -c conda-forge
     $ pip install dask[complete] distributed --upgrade
 
@@ -325,7 +363,7 @@ Stable for a year or so.  Optimized for larger-than-memory use.
     *  Use better data structures, sample, stream
 *  Yes, but I actually really need to ...
     *  Start with your laptop and concurrent.futures
-    *  Move up to a heavy workstation
+    *  Then, move up to a heavy workstation
     *  Then, very reluctantly, move to a cluster
 
 
@@ -389,24 +427,3 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 *  Joblib, IPython Parallel,  ...
 *  BLAS, Elemental, ...
 *  <strike>Asyncio/Tornado</strike>
-
-
-
-
-
-
-### Q: How does Dask differ from Spark?
-
-*  Spark is great
-    *  ETL + Database operations
-    *  SQL-like streaming
-    *  Spark 2.0 is decently fast
-    *  Integrate with Java infrastructure
-*  Dask is great
-    *  Tight integration with NumPy, Pandas, Toolz, SKLearn, ...
-    *  Ad-hoc parallelism for custom algorithms
-    *  Easy deployment on clusters or laptops
-    *  Complement the existing SciPy ecosystem (Dask is lean)
-*  Both are great
-    *  Similar network designs and scalability limits
-    *  Decent Python APIs
