@@ -27,7 +27,7 @@ Continuum Analytics
 
 <hr>
 
-### However, the lower-level parts can solve messier problems
+### However, the lower-level parts solve messier problems
 
 
 ### Dask Stack
@@ -96,44 +96,6 @@ Continuum Analytics
                 results[a, b] = delayed(g)(a, b)
 
     results = compute(delayed(results))  # trigger all computation
-
-
-### Messy Parallelism
-
-    from concurrent.futures import ThreadPoolExecutor
-    e = ThreadPoolExecutor()
-
-<hr>
-
-    futures = {}
-
-    for a in A:
-        for b in B:
-            if a < b:
-                futures[a, b] = e.submit(f, a, b)
-            else:
-                futures[a, b] = e.submit(g, a, b)
-
-    results = [future.result() for future in futures]  # block until done
-
-
-### Messy Parallelism
-
-    from dask.distributed import Executor
-    e = Executor('192.168.0.101:8786')
-
-<hr>
-
-    futures = {}
-
-    for a in A:
-        for b in B:
-            if a < b:
-                futures[a, b] = e.submit(f, a, b)
-            else:
-                futures[a, b] = e.submit(g, a, b)
-
-    results = [future.result() for future in futures]  # block until done
 
 
 ### dask.delayed
@@ -325,6 +287,9 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 
 
 
+## Concluding thoughts
+
+
 ### Dask provides parallel NumPy and Pandas
 
 <hr>
@@ -334,6 +299,19 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 <hr>
 
 ### ... on single machines or clusters
+
+
+### Schedulers are common, but hidden
+
+*   Task scheduling is ubiquitous in parallel computing
+
+    Examples: MapReduce, Spark, SQL, TensorFlow, Plasma
+
+*   But raw task scheduler is rarely exposed
+
+    Exceptions: Make, Luigi, Airflow
+
+<img src="images/switchboard-operator.jpg" width="60%">
 
 
 ### Don't Parallelize if you don't have to
