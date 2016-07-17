@@ -143,11 +143,11 @@ Continuum Analytics
 ### Example
 
 
-### With dask.delayed you take algorithmic control over your parallel framework
+### Dask.delayed enables users to take control and responsibility for algorithms
 
 <hr>
 
-### Immensely valuable release valve for users and developers alike
+### Valuable release valve for users and developers
 
 
 
@@ -334,7 +334,7 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 
 
 
-## Concluding thoughts
+### Concluding thoughts
 
 
 ### Dask provides parallel NumPy and Pandas
