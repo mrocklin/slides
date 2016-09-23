@@ -204,7 +204,7 @@ Stable for a year or so.  Optimized for larger-than-memory use.
     Custom projects with dask.delayed
 
 
-### Distributed Scheduler (new!)
+### Distributed Scheduler
 
 <img src="images/scheduler-async-1.svg" width="90%">
 
