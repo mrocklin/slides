@@ -10,8 +10,11 @@ df = dd.demo.make_timeseries('2010-01-01', '2010-12-31',
 
 kwargs = {'bgcolor': '#00000000',
           'rankdir': 'BT',
-          'node_attr': {'color': 'white', 'fontcolor': '#FFFFFF'},
-          'edge_attr': {'color': 'white'}}
+          'node_attr': {'color': 'white',
+                        'fontcolor': '#FFFFFF',
+                        'penwidth': '3'},
+          'edge_attr': {'color': 'white',
+                        'penwidth': '3'}}
 
 df.value.resample('1w').mean().visualize('resample.svg', **kwargs)
 

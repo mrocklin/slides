@@ -6,8 +6,10 @@ x = da.random.normal(10, 1, size=(1000, 200), chunks=(200, 200))
 
 kwargs = {'bgcolor': '#00000000',
           'rankdir': 'BT',
-          'node_attr': {'color': 'white', 'fontcolor': '#FFFFFF'},
-          'edge_attr': {'color': 'white'}}
+          'node_attr': {'color': 'white',
+                        'fontcolor': '#FFFFFF',
+                        'penwidth': '3'},
+          'edge_attr': {'color': 'white', 'penwidth': '3'}}
 
 u, s, v = da.linalg.svd(x)
 visualize(u, s, v, filename='svd.svg', **kwargs)
