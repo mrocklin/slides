@@ -135,8 +135,12 @@ Continuum Analytics
 </tr>
 </table>
 
+*  Build optimized Map
+*  Build optimized Shuffle
+*  Build optimized Aggregations
 
-### Some Parallel Problems are Messy
+
+### But Some Parallel Problems are Messy
 
     results = {}
 
@@ -146,6 +150,10 @@ Continuum Analytics
                 results[a, b] = f(a, b)
             else:
                 results[a, b] = g(a, b)
+
+*  Not a Map
+*  Not a Shuffle
+*  Not an Aggregation
 
 
 ### TimeSeries - Resample
@@ -435,10 +443,20 @@ Inputs to the function become graph dependencies.
 <img src="images/scheduling-workers-15.svg">
 
 
+### Other Optimizations ...
+
+*  Oversubscribe workers with many small tasks
+*  Prefer tasks on critical paths or with many children
+*  Gracefully retire unused workers or require more when stressed
+*  Optionally compress large messages based on small samples
+*  Batch many-small-messages in 2ms windows
+*  Spill unused data to disk
+*  ...
+
 
 ### Intelligent scheduling requires measurement
 
-*  Size of outputs with `__sizeof__` protocol
+*  Size of outputs in bytes
 *  Computation time (EWMA, with restarts)
 *  Communication time
 *  Disk load time
