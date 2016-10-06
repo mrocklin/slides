@@ -29,9 +29,17 @@ Continuum Analytics
 
     Build DataFrame computations
 
-*  PyData DC - October 2016:
+*  *PyData DC - October 2016 (this talk!)*:
 
     Fine-grained parallelism, motivation and performance
+
+
+
+### In the beginning, there was NumPy ...
+
+<hr>
+
+### And it was good (except in parallel or out of RAM)
 
 
 ### NumPy
@@ -51,7 +59,7 @@ Continuum Analytics
 
 ### Dask.DataFrame
 
-<img src="images/dask-dataframe-inverted.svg" width="70%">
+<img src="images/dask-dataframes-inverted.svg" width="70%">
 
 
 ### Many problems don't fit
@@ -69,9 +77,23 @@ Continuum Analytics
 <img src="images/dask-arbitrary-inverted.svg">
 
 
+
 ### This flexibility is novel and liberating
 
+<hr>
+
 ### It's also tricky to do well
+
+<hr>
+
+    results = {}
+
+    for a in A:
+        for b in B:
+            if a < b:
+                results[a, b] = f(a, b)
+            else:
+                results[a, b] = g(a, b)
 
 
 ### High Level Parallelism
@@ -86,8 +108,8 @@ Continuum Analytics
 
 **SQL**
 
-    SELECT city, sum(value)
-    WHERE value > 0
+    SELECT city, sum(population)
+    WHERE population > 1000000
     GROUP BY city
 
 <hr>
@@ -114,21 +136,66 @@ Continuum Analytics
 </table>
 
 
-### Other Patterns
+### Some Parallel Problems are Messy
 
-<table>
-<tr>
-  <td>
-    <img src="images/structured.svg">
-  </td>
-  <td>
-    <img src="images/unstructured.svg">
-  </td>
-  <td>
-    <img src="images/iterative.svg">
-  </td>
-</tr>
-</table>
+    results = {}
+
+    for a in A:
+        for b in B:
+            if a < b:
+                results[a, b] = f(a, b)
+            else:
+                results[a, b] = g(a, b)
+
+
+### TimeSeries - Resample
+
+<img src="images/resample.svg">
+
+    df.value.resample('1w').mean()
+
+
+### TimeSeries - Rolling
+
+<img src="images/rolling.svg">
+
+    df.value.rolling(100).mean()
+
+
+### Stable SVD
+
+<img src="images/svd.svg" width="45%">
+
+    u, s, v = da.linalg.svd(x)
+
+
+### Approximate SVD
+
+<img src="images/svd-compressed.svg">
+
+    u, s, v = da.linalg.svd_compressed(x, k=1)
+
+
+### Dask executes arbitrary graphs in parallel
+
+<hr>
+
+### Flexibility enables custom applications and efficiency
+
+
+### We've seen graphs like this before: Luigi
+
+<img src="images/luigi.png" width="80%">
+
+http://luigi.readthedocs.io/en/stable/
+
+
+### We've seen graphs like this before: Airflow
+
+<img src="images/airflow.png" width="80%">
+
+https://github.com/apache/incubator-airflow
+
 
 
 ### Messy Parallelism
@@ -165,6 +232,48 @@ Continuum Analytics
                 results[a, b] = delayed(g)(a, b)  # without structure
 
     results = compute(delayed(results))  # trigger all computation
+
+
+### Custom Script
+
+    filenames = ['mydata-%d.dat' % i for i in range(10)]
+    data = [load(fn) for fn in filenames]
+
+    reference = load_from_sql('sql://mytable')
+    processed = [process(d, reference) for d in data]
+
+    rolled = []
+    for i in range(len(processed) - 2):
+        a = processed[i]
+        b = processed[i + 1]
+        c = processed[i + 2]
+        r = roll(a, b, c)
+        rolled.append(r)
+
+    compared = []
+    for i in range(20):
+        a = random.choice(rolled)
+        b = random.choice(rolled)
+        c = compare(a, b)
+        compared.append(c)
+
+    best = reduction(compared)
+
+
+### Custom Script
+
+    from dask import delayed
+
+    load = delayed(load)
+    load_from_sql = delayed(load_from_sql)
+    process = delayed(process)
+    roll = delayed(roll)
+    compare = delayed(compare)
+    reduction = delayed(reduction)
+
+Dask.delayed converts function calls to lazily executed tasks in a graph.
+
+Inputs to the function become graph dependencies.
 
 
 ### Custom Script
@@ -246,21 +355,6 @@ Continuum Analytics
     best = reduction(compared)
 
 
-### But first!  A flashy demo!
-
-
-
-### Dask was designed for NumPy and Pandas
-
-<hr>
-
-### However, the lower-level parts solve messier problems
-
-<hr>
-
-<img src="images/async-comment.png">
-
-
 
 ### Dask.array/dataframe/delayed author task graphs
 
@@ -296,195 +390,106 @@ Continuum Analytics
 <img src="images/computer-tower.svg" width="15%">
 
 
-### Dask schedulers target different architectures
+<img src="images/scheduling-workers-1.svg">
+
+
+<img src="images/scheduling-workers-2.svg">
+
+
+<img src="images/scheduling-workers-3.svg">
+
+
+<img src="images/scheduling-workers-4.svg">
+
+
+<img src="images/scheduling-workers-5.svg">
+
+
+<img src="images/scheduling-workers-6.svg">
+
+
+<img src="images/scheduling-workers-7.svg">
+
+
+<img src="images/scheduling-workers-8.svg">
+
+
+<img src="images/scheduling-workers-9.svg">
+
+
+<img src="images/scheduling-workers-10.svg">
+
+
+<img src="images/scheduling-workers-11.svg">
+
+
+<img src="images/scheduling-workers-12.svg">
+
+
+<img src="images/scheduling-workers-13.svg">
+
+
+<img src="images/scheduling-workers-14.svg">
+
+
+<img src="images/scheduling-workers-15.svg">
+
+
+
+### Intelligent scheduling requires measurement
+
+*  Size of outputs with `__sizeof__` protocol
+*  Computation time (EWMA, with restarts)
+*  Communication time
+*  Disk load time
+*  Process reported memory use
+*  ...
+
+
+### Fine-grained scheduling requires constant-time decisions
+
+*  Computational graphs scale out to 100,000s of tasks
+*  We spend ~200us per task in the scheduler
+*  And ~1-10kB in RAM
+
+### Solution
+
+*  Heavily indexed Pure Python data structures.
+*  No classes, just bytestrings and dicts/sets/deques.
+
+<img src="images/dicts-everywhere.jpg">
+
+
+
+### How does Dask compare to Airflow/Luigi?
 
 <hr>
 
-### Easy swapping enables scaling up *and down*
+### How does Dask compare to Spark?
 
 
-### Single Machine Scheduler
+### <strike>The best</strike> An interesting combination of both worlds!
 
-Stable for a year or so.  Optimized for larger-than-memory use.
 
-*   **Parallel CPU**: Uses multiple threads or processes
-*   **Minimizes RAM**: Choose tasks to remove intermediates
-*   **Low overhead:** ~100us per task
-*   **Concise**: ~600 LOC, stable for ~12 months
-*   **Real world workloads**: dask.array, xarray, dask.dataframe, dask.bag,
-    Custom projects with dask.delayed
+### Airflow/Luigi
 
+*  Dask communicates between workers, manages data
+*  Dask operates at interactive/computational timescales (ms)
+*  Dask scales out to large graphs
 
-### Distributed Scheduler
+*  Airflow/Luigi have connectors with Hive, MapReduce, etc..
+*  Airflow has cron-like ability "Run this every day"
+*  Airflow/Luigi have policies for retry-on-fail, etc..
 
-<img src="images/scheduler-async-1.svg" width="90%">
+### Spark
 
+*  Dask computes arbitrary graphs well
+*  Dask is optimized for Python experience
 
-### Distributed Scheduler
+*  Spark computes SQL-like computations well
+*  Spark is optimized for Scala (though supports Python, R, etc..)
+*  Spark is more established in the business community
 
-<img src="images/scheduler-async-2.svg" width="90%">
-
-
-### Distributed Scheduler
-
-<img src="images/scheduler-async-3.svg" width="90%">
-
-
-### Distributed Scheduler
-
-<img src="images/scheduler-async-4.svg" width="90%">
-
-
-### Distributed Scheduler
-
-<img src="images/scheduler-async-5.svg" width="90%">
-
-
-### Distributed Scheduler
-
-<img src="images/scheduler-async-6.svg" width="90%">
-
-
-### Distributed Scheduler
-
-<img src="images/scheduler-async-7.svg" width="90%">
-
-
-### Distributed Scheduler
-
-<img src="images/scheduler-async-8.svg" width="90%">
-
-
-### Distributed Scheduler
-
-<img src="images/scheduler-async-9.svg" width="90%">
-
-
-### Distributed Scheduler
-
-<img src="images/scheduler-async-10.svg" width="90%">
-
-
-### Distributed Scheduler
-
-<img src="images/scheduler-async-11.svg" width="90%">
-
-
-### Distributed Scheduler
-
-<img src="images/scheduler-async-12.svg" width="90%">
-
-
-### Distributed Scheduler
-
-<img src="images/scheduler-async-13.svg" width="90%">
-
-
-### Distributed Scheduler
-
-<img src="images/scheduler-async-14.svg" width="90%">
-
-
-### Distributed Scheduler
-
-<img src="images/scheduler-async-15.svg" width="90%">
-
-
-### Distributed Scheduler
-
-*   **Distributed**: One scheduler coordinates many workers
-*   **Data local**: Moves computation to correct worker
-*   **Asynchronous**: Continuous non-blocking conversation
-*   **Multi-user**: Several users share the same system
-*   **HDFS Aware**: Works well with HDFS, S3, YARN, etc..
-*   **Solidly supports**: dask.array, dask.dataframe, dask.bag, dask.delayed,
-    concurrent.futures, ...
-*   **Less Concise**: ~3000 LOC Tornado TCP application
-
-    But all of the logic is hackable Python
-
-
-
-### Easy to get started
-
-    $ conda install dask distributed
-    $ pip install dask[complete] distributed --upgrade
-
-<hr>
-
-    >>> from dask.distributed import Executor
-    >>> e = Executor()  # sets up local cluster
-
-<hr>
-
-    $ dask-scheduler
-
-    $ dask-worker scheduler-hostname:8786
-    $ dask-worker scheduler-hostname:8786
-
-
-### Easy to get started
-
-    $ conda install dask distributed -c conda-forge
-    $ pip install dask[complete] distributed --upgrade
-
-<hr>
-
-    >>> from dask.distributed import Executor
-    >>> e = Executor()  # sets up local cluster
-
-<hr>
-
-    $ dask-scheduler
-
-    $ dask-worker scheduler-hostname:8786
-    $ dask-worker scheduler-hostname:8786
-
-
-### Examples
-
-
-
-### Concluding thoughts
-
-
-### Dask provides parallel NumPy and Pandas
-
-<hr>
-
-### ... and it parallelizes custom algorithms
-
-<hr>
-
-### ... on single machines or clusters
-
-
-### Schedulers are common, but hidden
-
-*   Task scheduling is ubiquitous in parallel computing
-
-    Examples: MapReduce, Spark, SQL, TensorFlow, Plasma
-
-*   But raw task scheduler is rarely exposed
-
-    Exceptions: Make, Luigi, Airflow
-
-<img src="images/switchboard-operator.jpg" width="60%">
-
-
-### Don't Parallelize if you don't have to
-
-*  But I need speed ...
-    *  Profile first
-    *  Use C/Cython/Numba/Julia/...
-    *  Use better algorithms, sample
-*  But I need to scale ...
-    *  Profile first
-    *  Use better data structures, sample, stream
-*  Yes, but I actually really need to ...
-    *  Start with your laptop and concurrent.futures
-    *  Then, move up to a heavy workstation
-    *  Then, very reluctantly, move to a cluster
 
 
 ### Acknowledgements
@@ -501,49 +506,3 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 ### Questions?
 
 <img src="images/grid_search_schedule.gif" width="100%">
-
-
-
-<img src="https://zekeriyabesiroglu.files.wordpress.com/2015/04/ekran-resmi-2015-04-29-10-53-12.png"
-     align="right"
-     width="30%">
-
-### Q: How does Dask differ from Spark?
-
-*  Spark is great
-    *  ETL + Database operations
-    *  SQL-like streaming
-    *  Spark 2.0 is decently fast
-    *  Integrate with Java infrastructure
-*  Dask is great
-    *  Tight integration with NumPy, Pandas, Toolz, SKLearn, ...
-    *  Ad-hoc parallelism for custom algorithms
-    *  Easy deployment on clusters or laptops
-    *  Complement the existing SciPy ecosystem (Dask is lean)
-*  Both are great
-    *  Similar network designs and scalability limits
-    *  Decent Python APIs
-
-
-### Schedulers are common, but hidden
-
-*   Task scheduling is ubiquitous in parallel computing
-
-    Examples: MapReduce, Spark, SQL, TensorFlow, Plasma
-
-*   But raw task scheduler is rarely exposed
-
-    Exceptions: Make, Luigi, Airflow
-
-<img src="images/switchboard-operator.jpg" width="60%">
-
-
-### Other Parallel Libraries
-
-*  System
-    *  threading, multiprocessing, concurrent.futures
-    *  mpi4py, socket/zmq
-*  MRJob, PySpark, Some SQL Databases, ...
-*  Joblib, IPython Parallel,  ...
-*  BLAS, Elemental, ...
-*  <strike>Asyncio/Tornado</strike>
