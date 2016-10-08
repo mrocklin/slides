@@ -17,3 +17,7 @@ visualize(u, s, v, filename='svd.svg', **kwargs)
 x = da.random.normal(10, 1, size=(1000, 1000), chunks=(200, 200))
 u, s, v = da.linalg.svd_compressed(x, 1)
 visualize(u, s, v, filename='svd-compressed.svg', **kwargs)
+
+x = da.random.normal(10, 1, size=(1600, 1600), chunks=(200, 200))
+u, s, v = da.linalg.svd_compressed(x, 300, n_power_iter=2)
+visualize(u, s, v, filename='svd-compressed-large.svg', **kwargs)

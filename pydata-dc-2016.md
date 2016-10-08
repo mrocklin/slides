@@ -62,6 +62,7 @@ Continuum Analytics
 <img src="images/dask-dataframes-inverted.svg" width="70%">
 
 
+
 ### Many problems don't fit
 
 ### into a "big array" or "big dataframe"
@@ -77,6 +78,110 @@ Continuum Analytics
 <img src="images/dask-arbitrary-inverted.svg">
 
 
+### Custom Script
+
+    filenames = ['mydata-%d.dat' % i for i in range(10)]
+    data = [load(fn) for fn in filenames]
+
+    reference = load_from_sql('sql://mytable')
+    processed = [process(d, reference) for d in data]
+
+    rolled = []
+    for i in range(len(processed) - 2):
+        a = processed[i]
+        b = processed[i + 1]
+        c = processed[i + 2]
+        r = roll(a, b, c)
+        rolled.append(r)
+
+    compared = []
+    for i in range(20):
+        a = random.choice(rolled)
+        b = random.choice(rolled)
+        c = compare(a, b)
+        compared.append(c)
+
+    best = reduction(compared)
+
+
+### Custom Script
+
+<img src="images/custom-etl-1.svg">
+
+    data = [load(fn) for fn in filenames]
+
+
+### Custom Script
+
+<img src="images/custom-etl-2.svg">
+
+    reference = load_from_sql('sql://mytable')
+
+
+### Custom Script
+
+<img src="images/custom-etl-3.svg">
+
+    processed = [normalize(d, reference) for d in data]
+
+
+### Custom Script
+
+<img src="images/custom-etl-4.svg" width="70%">
+
+    rolled = []
+    for i in range(len(processed) - 2):
+        a = processed[i]
+        b = processed[i + 1]
+        c = processed[i + 2]
+        r = roll(a, b, c)
+        rolled.append(r)
+
+
+### Custom Script
+
+<img src="images/custom-etl-5.svg">
+
+    compared = []
+    for i in range(20):
+        a = random.choice(rolled)
+        b = random.choice(rolled)
+        c = compare(a, b)
+        compared.append(c)
+
+
+### Custom Script
+
+<img src="images/custom-etl-6.svg">
+
+    best = reduction(compared)
+
+
+### Custom Script
+
+    filenames = ['mydata-%d.dat' % i for i in range(10)]
+    data = [load(fn) for fn in filenames]
+
+    reference = load_from_sql('sql://mytable')
+    processed = [normalize(d, reference) for d in data]
+
+    rolled = []
+    for i in range(len(processed) - 2):
+        a = processed[i]
+        b = processed[i + 1]
+        c = processed[i + 2]
+        r = roll(a, b, c)
+        rolled.append(r)
+
+    compared = []
+    for i in range(20):
+        a = random.choice(rolled)
+        b = random.choice(rolled)
+        c = compare(a, b)
+        compared.append(c)
+
+    best = reduction(compared)
+
 
 ### This flexibility is novel and liberating
 
@@ -84,19 +189,9 @@ Continuum Analytics
 
 ### It's also tricky to do well
 
-<hr>
-
-    results = {}
-
-    for a in A:
-        for b in B:
-            if a < b:
-                results[a, b] = f(a, b)
-            else:
-                results[a, b] = g(a, b)
 
 
-### High Level Parallelism
+### Contrast with High Level Parallelism
 
 **Spark**
 
@@ -138,229 +233,126 @@ Continuum Analytics
 *  Build optimized Map
 *  Build optimized Shuffle
 *  Build optimized Aggregations
+*  Get a decent database
 
 
-### But Some Parallel Problems are Messy
-
-    results = {}
-
-    for a in A:
-        for b in B:
-            if a < b:
-                results[a, b] = f(a, b)
-            else:
-                results[a, b] = g(a, b)
-
-*  Not a Map
-*  Not a Shuffle
-*  Not an Aggregation
-
-
-### TimeSeries - Resample
-
-<img src="images/resample.svg">
-
-    df.value.resample('1w').mean()
-
-
-### TimeSeries - Rolling
-
-<img src="images/rolling.svg">
-
-    df.value.rolling(100).mean()
-
-
-### Stable SVD
-
-<img src="images/svd.svg" width="45%">
-
-    u, s, v = da.linalg.svd(x)
-
-
-### Approximate SVD
-
-<img src="images/svd-compressed.svg">
-
-    u, s, v = da.linalg.svd_compressed(x, k=1)
-
-
-### Dask executes arbitrary graphs in parallel
+### But Many Parallel Problems don't Fit this Model
 
 <hr>
 
-### Flexibility enables custom applications and efficiency
+### This is where Dask can help
 
 
-### We've seen graphs like this before: Luigi
+### Custom Pipelines
+
+<img src="images/custom-etl-6.svg">
+
+
+### ETL: Luigi
 
 <img src="images/luigi.png" width="80%">
 
 http://luigi.readthedocs.io/en/stable/
 
 
-### We've seen graphs like this before: Airflow
+### ETL: Airflow
 
 <img src="images/airflow.png" width="80%">
 
 https://github.com/apache/incubator-airflow
 
 
+### Efficient TimeSeries - Resample
 
-### Messy Parallelism
+<img src="images/resample.svg">
 
-    .
+    df.value.resample('1w').mean()
+
+
+### Efficient TimeSeries - Rolling
+
+<img src="images/rolling.svg">
+
+    df.value.rolling(100).mean()
+
+
+### Modern Parallel SVD
+
+<img src="images/svd.svg" width="45%">
+
+    u, s, v = da.linalg.svd(x)
+
+
+### Modern Parallel Approximate SVD
+
+<img src="images/svd-compressed.svg">
+
+    u, s, v = da.linalg.svd_compressed(x, k=10)
+
+
+### Arbitrary graph execution is liberating
 
 <hr>
 
-    results = {}
-
-    for a in A:
-        for b in B:
-            if a < b:
-                results[a, b] = f(a, b)
-            else:
-                results[a, b] = g(a, b)
-
-    .
-
-
-### Messy Parallelism
-
-    from dask import delayed, compute
+### Enables algorithms and applications
 
 <hr>
 
-    results = {}
-
-    for a in A:
-        for b in B:
-            if a < b:
-                results[a, b] = delayed(f)(a, b)  # lazily construct graph
-            else:
-                results[a, b] = delayed(g)(a, b)  # without structure
-
-    results = compute(delayed(results))  # trigger all computation
+### But it's hard to do well
 
 
-### Custom Script
+### Arbitrary Graph Scheduling is Hard
 
-    filenames = ['mydata-%d.dat' % i for i in range(10)]
-    data = [load(fn) for fn in filenames]
+<img src="images/svd-compressed.svg" width="60%">
 
-    reference = load_from_sql('sql://mytable')
-    processed = [process(d, reference) for d in data]
-
-    rolled = []
-    for i in range(len(processed) - 2):
-        a = processed[i]
-        b = processed[i + 1]
-        c = processed[i + 2]
-        r = roll(a, b, c)
-        rolled.append(r)
-
-    compared = []
-    for i in range(20):
-        a = random.choice(rolled)
-        b = random.choice(rolled)
-        c = compare(a, b)
-        compared.append(c)
-
-    best = reduction(compared)
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
 
 
-### Custom Script
+### Optimal Graph Scheduling is NP-Hard
 
-    from dask import delayed
+<img src="images/svd-compressed.svg" width="60%">
 
-    load = delayed(load)
-    load_from_sql = delayed(load_from_sql)
-    process = delayed(process)
-    roll = delayed(roll)
-    compare = delayed(compare)
-    reduction = delayed(reduction)
-
-Dask.delayed converts function calls to lazily executed tasks in a graph.
-
-Inputs to the function become graph dependencies.
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
 
 
-### Custom Script
+### Scalable Scheduling Requires Linear Time Solutions
 
-<img src="images/custom-etl-1.svg">
+<img src="images/svd-compressed-large.svg" width="100%">
 
-    data = [load(fn) for fn in filenames]
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
 
-
-### Custom Script
-
-<img src="images/custom-etl-2.svg">
-
-    reference = load_from_sql('sql://mytable')
-
-
-### Custom Script
-
-<img src="images/custom-etl-3.svg">
-
-    processed = [process(d, reference) for d in data]
+    u, s, v = da.linalg.svd_compressed(x, k=300, n_power_iter=2)
 
 
-### Custom Script
 
-<img src="images/custom-etl-4.svg" width="70%">
+<img src="images/dask_horizontal_white.svg"
+     alt="Dask logo"
+     width="50%">
 
-    rolled = []
-    for i in range(len(processed) - 2):
-        a = processed[i]
-        b = processed[i + 1]
-        c = processed[i + 2]
-        r = roll(a, b, c)
-        rolled.append(r)
+*  Dynamic task scheduler for arbitrary computations
+*  Single machines or clusters
+*  200 us overhead per task
+*  Handles data locality, resilience, collaboration, etc..
+*  Arrays, DataFrames, Lists, etc. built on top
+*  Accessible Python, built on Tornado's TCPServer
 
-
-### Custom Script
-
-<img src="images/custom-etl-5.svg">
-
-    compared = []
-    for i in range(20):
-        a = random.choice(rolled)
-        b = random.choice(rolled)
-        c = compare(a, b)
-        compared.append(c)
-
-
-### Custom Script
-
-<img src="images/custom-etl-6.svg">
-
-    best = reduction(compared)
-
-
-### Custom Script
-
-    filenames = ['mydata-%d.dat' % i for i in range(10)]
-    data = [load(fn) for fn in filenames]
-
-    reference = load_from_sql('sql://mytable')
-    processed = [process(d, reference) for d in data]
-
-    rolled = []
-    for i in range(len(processed) - 2):
-        a = processed[i]
-        b = processed[i + 1]
-        c = processed[i + 2]
-        r = roll(a, b, c)
-        rolled.append(r)
-
-    compared = []
-    for i in range(20):
-        a = random.choice(rolled)
-        b = random.choice(rolled)
-        c = compare(a, b)
-        compared.append(c)
-
-    best = reduction(compared)
+        pip install dask[complete] distributed --upgrade
+        conda install -c conda-forge dask distributed
 
 
 
@@ -386,6 +378,12 @@ Inputs to the function become graph dependencies.
 ### Now we need to run them efficiently
 
 
+### All decisions are done in-the-small (almost)
+
+<img src="images/svd-compressed.svg" width="60%">
+<img src="images/small-simple.svg" width="20%">
+
+
 ### Task Scheduling
 
 <img src="images/fg-simple.svg">
@@ -398,60 +396,96 @@ Inputs to the function become graph dependencies.
 <img src="images/computer-tower.svg" width="15%">
 
 
+### Two Workers
+
 <img src="images/scheduling-workers-1.svg">
 
+
+### Two Workers
 
 <img src="images/scheduling-workers-2.svg">
 
 
+### Two Workers
+
 <img src="images/scheduling-workers-3.svg">
 
+
+### Two Workers
 
 <img src="images/scheduling-workers-4.svg">
 
 
+### Data Locality
+
 <img src="images/scheduling-workers-5.svg">
 
+
+### Data Locality
 
 <img src="images/scheduling-workers-6.svg">
 
 
+### Data Locality
+
 <img src="images/scheduling-workers-7.svg">
 
+
+### Data Locality
 
 <img src="images/scheduling-workers-8.svg">
 
 
+### .
+
 <img src="images/scheduling-workers-9.svg">
 
+
+### Minimize Communication
 
 <img src="images/scheduling-workers-10.svg">
 
 
+### Minimize Communication
+
 <img src="images/scheduling-workers-11.svg">
 
+
+### Balance Computation and Communication
 
 <img src="images/scheduling-workers-12.svg">
 
 
+### .
+
 <img src="images/scheduling-workers-13.svg">
 
 
+### Work Steal
+
 <img src="images/scheduling-workers-14.svg">
 
+
+### Work Steal
 
 <img src="images/scheduling-workers-15.svg">
 
 
 ### Other Optimizations ...
 
-*  Oversubscribe workers with many small tasks
 *  Prefer tasks on critical paths or with many children
-*  Gracefully retire unused workers or require more when stressed
-*  Optionally compress large messages based on small samples
+*  Oversubscribe workers with many small tasks
+*  Gracefully scale up or down based on load
+*  Optionally compress messages based on small samples
 *  Batch many-small-messages in 2ms windows
 *  Spill unused data to disk
 *  ...
+
+<hr>
+
+#### Optimizations suffice for dask.array/dataframe
+#### But are not specific to dask.array/dataframe
+#### These optimizations apply to all situations, including yours
 
 
 ### Intelligent scheduling requires measurement
