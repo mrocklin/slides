@@ -23,7 +23,7 @@ Continuum Analytics
 
 *   SciPy - July, 2016:
 
-    Dask.delayed, some machine learning
+    Author custom algorithms, some machine learning
 
 *  PyGotham - August 2016:
 
@@ -31,7 +31,7 @@ Continuum Analytics
 
 *  *PyData DC - October 2016 (this talk!)*:
 
-    Fine-grained parallelism, motivation and performance
+    Fine-grained parallelism, scheduling motivation and heuristics
 
 
 
@@ -39,7 +39,9 @@ Continuum Analytics
 
 <hr>
 
-### And it was good (except in parallel or out of RAM)
+### And it was good
+
+### (except in parallel or out of RAM)
 
 
 ### NumPy
@@ -157,37 +159,22 @@ Continuum Analytics
     best = reduction(compared)
 
 
-### Custom Script
-
-    filenames = ['mydata-%d.dat' % i for i in range(10)]
-    data = [load(fn) for fn in filenames]
-
-    reference = load_from_sql('sql://mytable')
-    processed = [normalize(d, reference) for d in data]
-
-    rolled = []
-    for i in range(len(processed) - 2):
-        a = processed[i]
-        b = processed[i + 1]
-        c = processed[i + 2]
-        r = roll(a, b, c)
-        rolled.append(r)
-
-    compared = []
-    for i in range(20):
-        a = random.choice(rolled)
-        b = random.choice(rolled)
-        c = compare(a, b)
-        compared.append(c)
-
-    best = reduction(compared)
-
-
 ### This flexibility is novel and liberating
 
 <hr>
 
-### It's also tricky to do well
+### But it's also tricky to do well
+
+
+### Spark and friends can compute on clusters efficiently
+
+<hr>
+
+### Airflow/Luigi can execute arbitrary graphs
+
+<hr>
+
+### But neither does both
 
 
 
@@ -233,10 +220,10 @@ Continuum Analytics
 *  Build optimized Map
 *  Build optimized Shuffle
 *  Build optimized Aggregations
-*  Get a decent database
+*  Get a decent database-like-thing
 
 
-### But Many Parallel Problems don't Fit this Model
+### Many parallel problems don't fit this model
 
 <hr>
 
@@ -276,14 +263,14 @@ https://github.com/apache/incubator-airflow
     df.value.rolling(100).mean()
 
 
-### Modern Parallel SVD
+### Modern SVD
 
 <img src="images/svd.svg" width="45%">
 
     u, s, v = da.linalg.svd(x)
 
 
-### Modern Parallel Approximate SVD
+### Modern Approximate SVD
 
 <img src="images/svd-compressed.svg">
 
@@ -294,7 +281,7 @@ https://github.com/apache/incubator-airflow
 
 <hr>
 
-### Enables algorithms and applications
+### It enables algorithms and custom applications
 
 <hr>
 
@@ -336,8 +323,6 @@ https://github.com/apache/incubator-airflow
 <img src="images/computer-tower.svg" width="15%">
 <img src="images/computer-tower.svg" width="15%">
 
-    u, s, v = da.linalg.svd_compressed(x, k=300, n_power_iter=2)
-
 
 
 <img src="images/dask_horizontal_white.svg"
@@ -349,7 +334,7 @@ https://github.com/apache/incubator-airflow
 *  200 us overhead per task
 *  Handles data locality, resilience, collaboration, etc..
 *  Arrays, DataFrames, Lists, etc. built on top
-*  Accessible Python, built on Tornado's TCPServer
+*  Accessible Python
 
         pip install dask[complete] distributed --upgrade
         conda install -c conda-forge dask distributed
@@ -378,10 +363,15 @@ https://github.com/apache/incubator-airflow
 ### Now we need to run them efficiently
 
 
+### You can safely ignore the rest of this talk
+
+
 ### All decisions are done in-the-small (almost)
 
 <img src="images/svd-compressed.svg" width="60%">
 <img src="images/small-simple.svg" width="20%">
+
+### All decisions are done in constant time (almost)
 
 
 ### Task Scheduling
@@ -394,6 +384,41 @@ https://github.com/apache/incubator-airflow
 
 <img src="images/computer-tower.svg" width="15%">
 <img src="images/computer-tower.svg" width="15%">
+
+
+### Which function to run first?
+
+<img src="images/critical-path-1.svg">
+
+
+### Prefer Tasks on Critical Path
+
+<img src="images/critical-path-2.svg">
+
+
+### Which function to run first?
+
+<img src="images/expose-parallelism-1.svg">
+
+
+### Expose Parallelism
+
+<img src="images/expose-parallelism-2.svg">
+
+
+### Which function to run first?
+
+<img src="images/garbage-collection-1.svg">
+
+
+### Release Data
+
+<img src="images/garbage-collection-2.svg">
+
+
+### Release Data, free Memory
+
+<img src="images/garbage-collection-3.svg">
 
 
 ### Two Workers
@@ -446,11 +471,6 @@ https://github.com/apache/incubator-airflow
 <img src="images/scheduling-workers-10.svg">
 
 
-### Minimize Communication
-
-<img src="images/scheduling-workers-11.svg">
-
-
 ### Balance Computation and Communication
 
 <img src="images/scheduling-workers-12.svg">
@@ -471,38 +491,37 @@ https://github.com/apache/incubator-airflow
 <img src="images/scheduling-workers-15.svg">
 
 
+### Intelligent scheduling requires measurement
+
+*  Measure size of outputs in bytes (`__sizeof__`)
+*  Measure computation time (EWMA, with restarts)
+*  Measure communication time / network distance
+*  Measure disk load time
+*  Measure process reported memory use
+*  ...
+
+
 ### Other Optimizations ...
 
-*  Prefer tasks on critical paths or with many children
-*  Oversubscribe workers with many small tasks
 *  Gracefully scale up or down based on load
 *  Optionally compress messages based on small samples
+*  Oversubscribe workers with many small tasks
 *  Batch many-small-messages in 2ms windows
 *  Spill unused data to disk
 *  ...
 
 <hr>
 
-#### Optimizations suffice for dask.array/dataframe
-#### But are not specific to dask.array/dataframe
-#### These optimizations apply to all situations, including yours
-
-
-### Intelligent scheduling requires measurement
-
-*  Size of outputs in bytes
-*  Computation time (EWMA, with restarts)
-*  Communication time
-*  Disk load time
-*  Process reported memory use
-*  ...
+#### These optimizations suffice to make dask.array/dataframe fast
+#### But they are not specific to arrays/dataframes
+#### These optimizations apply to all situations, including novel ones
 
 
 ### Fine-grained scheduling requires constant-time decisions
 
 *  Computational graphs scale out to 100,000s of tasks
-*  We spend ~200us per task in the scheduler
-*  And ~1-10kB in RAM
+*  We spend ~200us per task in the scheduler, 5000 tasks/s
+*  Each task is ~1-10kB in RAM
 
 ### Solution
 
@@ -512,36 +531,48 @@ https://github.com/apache/incubator-airflow
 <img src="images/dicts-everywhere.jpg">
 
 
+### Comparison to Spark
 
-### How does Dask compare to Airflow/Luigi?
+*Disclaimer: I am biased and ignorant.*
 
 <hr>
 
-### How does Dask compare to Spark?
+*   Spark is firmly established, Dask is new
+*   Language choice: Python (C/Fortran/LLVM)  or Scala (JVM)
+
+<hr>
+
+*   Spark focuses on SQL-like computations
+
+    Dask focuses on generic computations
+
+*   Spark is a monolithic framework
+
+    Dask complements PyData
 
 
-### <strike>The best</strike> An interesting combination of both worlds!
+
+### Comparison to Airflow/Luigi/Celery
+
+*  Dask is optimized for interactive computation
+    *  10ms roundtrips
+    *  200us overhead
+    *  Inter-worker communication
+*  Airflow/Luigi/Celery are optimized for ETL cases
+    *  Cron functionality
+    *  Expressive retry logic
+    *  Batteries included for common problems
+*  Dask could do this, but hasn't developed these niceties
 
 
-### Airflow/Luigi
+### Final Thoughts
 
-*  Dask communicates between workers, manages data
-*  Dask operates at interactive/computational timescales (ms)
-*  Dask scales out to large graphs
-
-*  Airflow/Luigi have connectors with Hive, MapReduce, etc..
-*  Airflow has cron-like ability "Run this every day"
-*  Airflow/Luigi have policies for retry-on-fail, etc..
-
-### Spark
-
-*  Dask computes arbitrary graphs well
-*  Dask is optimized for Python experience
-
-*  Spark computes SQL-like computations well
-*  Spark is optimized for Scala (though supports Python, R, etc..)
-*  Spark is more established in the business community
-
+*   Dask provides parallelism for Python
+    *   Parallel NumPy, Pandas, Scikit-Learn, etc..
+    *   Built on an arbitrary computational task scheduler
+*   Distributed scheduling of arbitrary graphs is hard
+    *   Benefits from on-the-fly measurement
+    *   Useful for ad-hoc situations
 
 
 ### Acknowledgements
