@@ -21,7 +21,7 @@ Continuum Analytics
 
 ### Recent talks
 
-*   SciPy - July, 2016:
+*   [SciPy - July, 2016](https://www.youtube.com/watch?v=PAGjm4BMKlk):
 
     Overview, author custom algorithms, some machine learning
 
@@ -166,17 +166,6 @@ Continuum Analytics
 ### But it's also tricky to do well
 
 
-### Spark and friends can compute on clusters efficiently
-
-<hr>
-
-### Airflow/Luigi can execute arbitrary graphs
-
-<hr>
-
-### Dask tries to do both
-
-
 
 ### Contrast with High Level Parallelism
 
@@ -220,7 +209,7 @@ Continuum Analytics
 *  Build optimized Map
 *  Build optimized Shuffle
 *  Build optimized Aggregations
-*  Get a decent database-like-thing
+*  Get a decent database-like project
 
 
 ### Many parallel problems don't fit this model
@@ -460,6 +449,11 @@ https://github.com/apache/incubator-airflow
 <img src="images/garbage-collection-3.svg">
 
 
+### Distributed Network
+
+<img src="images/network-inverse.svg">
+
+
 ### Two Workers
 
 <img src="images/scheduling-workers-1.svg">
@@ -480,7 +474,7 @@ https://github.com/apache/incubator-airflow
 <img src="images/scheduling-workers-4.svg">
 
 
-### Data Locality
+### Two Workers
 
 <img src="images/scheduling-workers-5.svg">
 
@@ -533,10 +527,10 @@ https://github.com/apache/incubator-airflow
 ### Intelligent scheduling requires measurement
 
 *  Measure size of outputs in bytes (`__sizeof__`)
+*  Measure process reported memory use
 *  Measure computation time (EWMA, with restarts)
 *  Measure communication time / network distance
 *  Measure disk load time
-*  Measure process reported memory use
 *  ...
 
 
@@ -562,7 +556,7 @@ https://github.com/apache/incubator-airflow
 *  We spend ~200us per task in the scheduler, 5000 tasks/s
 *  Each task is ~1-10kB in RAM
 
-### Solution
+### How do we make this fast?
 
 *  Heavily indexed Pure Python data structures.
 *  No classes, just bytestrings and dicts/sets/deques.
@@ -589,6 +583,28 @@ https://github.com/apache/incubator-airflow
 
     Dask complements PyData
 
+
+### Comparison to Spark
+
+#### Spark
+
+<table>
+<tr>
+  <td>
+    <img src="images/embarrassing.svg">
+  </td>
+  <td>
+    <img src="images/shuffle.svg">
+  </td>
+  <td>
+    <img src="images/reduction.svg">
+  </td>
+</tr>
+</table>
+
+#### Dask
+
+<img src="images/svd-compressed.svg" width="50%">
 
 
 ### Comparison to Airflow/Luigi/Celery

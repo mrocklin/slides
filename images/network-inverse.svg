@@ -13,7 +13,7 @@
    height="732.06464"
    id="svg6397"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="network-inverse.svg">
   <defs
      id="defs6399">
@@ -466,13 +466,13 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="338.27421"
+     inkscape:cx="106.13135"
      inkscape:cy="229.26944"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="1600"
-     inkscape:window-height="876"
+     inkscape:window-width="2560"
+     inkscape:window-height="1416"
      inkscape:window-x="0"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
@@ -519,7 +519,7 @@
        sodipodi:cy="-17.637817"
        sodipodi:rx="80"
        sodipodi:ry="50"
-       d="m 300,-17.637817 c 0,27.6142371 -35.81722,50 -80,50 -44.18278,0 -80,-22.3857629 -80,-50 0,-27.614238 35.81722,-50 80,-50 44.18278,0 80,22.385762 80,50 z" />
+       d="m 300,-17.637817 a 80,50 0 0 1 -80,50 80,50 0 0 1 -80,-50 80,50 0 0 1 80,-50 80,50 0 0 1 80,50 z" />
     <text
        xml:space="preserve"
        style="font-size:41.35950850999999773px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:ubuntu;-inkscape-font-specification:ubuntu;filter:url(#filter7313)"
@@ -540,7 +540,7 @@
        sodipodi:cy="2.3621826"
        sodipodi:rx="50"
        sodipodi:ry="30"
-       d="m 480,2.3621826 c 0,16.5685424 -22.38576,30.0000004 -50,30.0000004 -27.61424,0 -50,-13.431458 -50,-30.0000004 0,-16.5685426 22.38576,-29.9999996 50,-29.9999996 27.61424,0 50,13.431457 50,29.9999996 z" />
+       d="M 480,2.3621826 A 50,30 0 0 1 430,32.362183 50,30 0 0 1 380,2.3621826 50,30 0 0 1 430,-27.637817 50,30 0 0 1 480,2.3621826 Z" />
     <text
        xml:space="preserve"
        style="font-size:24.81571197999999967px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:ubuntu;-inkscape-font-specification:ubuntu;filter:url(#filter7325)"
@@ -562,7 +562,7 @@
        sodipodi:cy="2.3621826"
        sodipodi:rx="50"
        sodipodi:ry="30"
-       d="m 480,2.3621826 c 0,16.5685424 -22.38576,30.0000004 -50,30.0000004 -27.61424,0 -50,-13.431458 -50,-30.0000004 0,-16.5685426 22.38576,-29.9999996 50,-29.9999996 27.61424,0 50,13.431457 50,29.9999996 z" />
+       d="M 480,2.3621826 A 50,30 0 0 1 430,32.362183 50,30 0 0 1 380,2.3621826 50,30 0 0 1 430,-27.637817 50,30 0 0 1 480,2.3621826 Z" />
     <text
        xml:space="preserve"
        style="font-size:24.81571197999999967px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:ubuntu;-inkscape-font-specification:ubuntu;filter:url(#filter7349)"
@@ -584,7 +584,7 @@
        sodipodi:cy="2.3621826"
        sodipodi:rx="50"
        sodipodi:ry="30"
-       d="m 480,2.3621826 c 0,16.5685424 -22.38576,30.0000004 -50,30.0000004 -27.61424,0 -50,-13.431458 -50,-30.0000004 0,-16.5685426 22.38576,-29.9999996 50,-29.9999996 27.61424,0 50,13.431457 50,29.9999996 z" />
+       d="M 480,2.3621826 A 50,30 0 0 1 430,32.362183 50,30 0 0 1 380,2.3621826 50,30 0 0 1 430,-27.637817 50,30 0 0 1 480,2.3621826 Z" />
     <text
        xml:space="preserve"
        style="font-size:24.81571197999999967px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:ubuntu;-inkscape-font-specification:ubuntu;filter:url(#filter7361)"
@@ -606,7 +606,7 @@
        sodipodi:cy="2.3621826"
        sodipodi:rx="50"
        sodipodi:ry="30"
-       d="m 480,2.3621826 c 0,16.5685424 -22.38576,30.0000004 -50,30.0000004 -27.61424,0 -50,-13.431458 -50,-30.0000004 0,-16.5685426 22.38576,-29.9999996 50,-29.9999996 27.61424,0 50,13.431457 50,29.9999996 z" />
+       d="M 480,2.3621826 A 50,30 0 0 1 430,32.362183 50,30 0 0 1 380,2.3621826 50,30 0 0 1 430,-27.637817 50,30 0 0 1 480,2.3621826 Z" />
     <text
        xml:space="preserve"
        style="font-size:24.81571197999999967px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:ubuntu;-inkscape-font-specification:ubuntu;filter:url(#filter7373)"
@@ -620,8 +620,8 @@
          y="283.85291"
          style="font-size:37.22355652px">Worker</tspan></text>
     <path
-       style="fill:none;stroke:#000000;stroke-width:2.06797457000000007px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter7379)"
-       d="m 340.99902,481.20674 85.37574,-25.1069"
+       style="fill:none;stroke:#000000;stroke-width:2.06797457px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter7379)"
+       d="m 340.97733,481.21312 85.43431,-25.12413"
        id="path6584"
        inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
@@ -630,8 +630,8 @@
        inkscape:connection-end="#path6360"
        inkscape:connection-end-point="d4" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:2.06797457000000007px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter7385)"
-       d="m 334.20633,315.42702 102.48836,40.94496"
+       style="fill:none;stroke:#000000;stroke-width:2.06797457px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter7385)"
+       d="m 334.19644,315.42307 102.51788,40.95675"
        id="path6586"
        inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
@@ -640,8 +640,8 @@
        inkscape:connection-end="#path6360"
        inkscape:connection-end-point="d4" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:2.06797457000000007px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter7391)"
-       d="M 716.2196,357.06442 823.34907,315.00961"
+       style="fill:none;stroke:#000000;stroke-width:2.06797457px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter7391)"
+       d="M 716.19899,357.07251 823.36,315.00532"
        id="path6588"
        inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
@@ -650,8 +650,8 @@
        inkscape:connection-end="#path6366-2"
        inkscape:connection-end-point="d4" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:2.06797457000000007px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter7397)"
-       d="M 816.70435,481.59149 726.3068,455.47011"
+       style="fill:none;stroke:#000000;stroke-width:2.06797457px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter7397)"
+       d="M 816.72748,481.59818 726.26836,455.459"
        id="path6590"
        inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
@@ -668,7 +668,7 @@
        y="742.94391" />
     <text
        xml:space="preserve"
-       style="font-size:41.35950850999999773px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:ubuntu;-inkscape-font-specification:ubuntu;filter:url(#filter7409)"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:41.35950851px;line-height:125%;font-family:ubuntu;-inkscape-font-specification:ubuntu;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;filter:url(#filter7409)"
        x="580.33624"
        y="810.89178"
        id="text7104"
@@ -676,10 +676,10 @@
          sodipodi:role="line"
          id="tspan7106"
          x="580.33624"
-         y="810.89178">Executor</tspan></text>
+         y="810.89178">Client</tspan></text>
     <path
-       style="fill:none;stroke:#000000;stroke-width:2.06797457000000007px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter7415)"
-       d="M 577.16929,742.94391 576.43787,515.46628"
+       style="fill:none;stroke:#000000;stroke-width:2.06797457px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter7415)"
+       d="m 577.16929,742.94391 -0.73143,-227.4787"
        id="path7108"
        inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
