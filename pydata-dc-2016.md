@@ -23,13 +23,13 @@ Continuum Analytics
 
 *   SciPy - July, 2016:
 
-    Author custom algorithms, some machine learning
+    Overview, author custom algorithms, some machine learning
 
 *  PyGotham - August 2016:
 
     Build DataFrame computations
 
-*  *PyData DC - October 2016 (this talk!)*:
+*  *PyData DC - October 2016 (this talk)*:
 
     Fine-grained parallelism, scheduling motivation and heuristics
 
@@ -86,7 +86,7 @@ Continuum Analytics
     data = [load(fn) for fn in filenames]
 
     reference = load_from_sql('sql://mytable')
-    processed = [process(d, reference) for d in data]
+    processed = [normalize(d, reference) for d in data]
 
     rolled = []
     for i in range(len(processed) - 2):
@@ -174,7 +174,7 @@ Continuum Analytics
 
 <hr>
 
-### But neither does both
+### Dask tries to do both
 
 
 
@@ -183,7 +183,7 @@ Continuum Analytics
 **Spark**
 
     outputs = collection.filter(predicate)
-                        .groupby(key)
+                        .groupBy(key)
                         .map(function)
 
 <hr>
@@ -225,10 +225,6 @@ Continuum Analytics
 
 ### Many parallel problems don't fit this model
 
-<hr>
-
-### This is where Dask can help
-
 
 ### Custom Pipelines
 
@@ -263,6 +259,46 @@ https://github.com/apache/incubator-airflow
     df.value.rolling(100).mean()
 
 
+### ND-Array - Sum
+
+<img src="images/array-sum.svg">
+
+    x = da.ones((15, 15), (5, 5))
+    x.sum(axis=0)
+
+
+### ND-Array - Transpose
+
+<img src="images/array-xxT.svg">
+
+    x = da.ones((15, 15), (5, 5))
+    x + x.T
+
+
+### ND-Array - Matrix Multiply
+
+<img src="images/array-xdotxT.svg">
+
+    x = da.ones((15, 15), (5, 5))
+    x.dot(x.T + 1)
+
+
+### ND-Array - Compound Operations
+
+<img src="images/array-xdotxT-mean.svg">
+
+    x = da.ones((15, 15), (5, 5))
+    x.dot(x.T + 1) - x.mean()
+
+
+### ND-Array - Compound Operations
+
+<img src="images/array-xdotxT-mean-std.svg">
+
+    x = da.ones((15, 15), (5, 5))
+    (x.dot(x.T + 1) - x.mean()).std()
+
+
 ### Modern SVD
 
 <img src="images/svd.svg" width="45%">
@@ -277,7 +313,7 @@ https://github.com/apache/incubator-airflow
     u, s, v = da.linalg.svd_compressed(x, k=10)
 
 
-### Arbitrary graph execution is liberating
+### Arbitrary graph execution eases developer burden
 
 <hr>
 
@@ -322,6 +358,9 @@ https://github.com/apache/incubator-airflow
 <img src="images/computer-tower.svg" width="15%">
 <img src="images/computer-tower.svg" width="15%">
 <img src="images/computer-tower.svg" width="15%">
+
+
+### Fortunately we can do pretty well with heuristics
 
 
 
