@@ -61,6 +61,8 @@ Continuum Analytics
 
 ### There are other mechanisms to produce graphs
 
+### when arrays aren't flexible enough
+
 <hr>
 
 ### Dask.dataframe, Dask.bag, Dask.delayed, concurrent.futures, ...
@@ -128,8 +130,15 @@ tell?*
 
 ### Final Thoughts
 
-*   Are distributed arrays useful to this community?
+*   How do we make distributed arrays more accessible?
 *   Are non-array workloads useful to this community?
-*   I want more public use cases of Dask.array through XArray.  It's hard to
-    get funding for arrays without this
-*   Q: How else can I help?
+*   How else can I help?
+
+### Collaboration Points
+
+*   Deploy distributed dask.arrays on datasets
+*   Deploy dask.distributed on job schedulers (SGE, SLURM, LSF, ...)
+*   Special case formats
+*   ND-locality compression
+*   Government money running out, harder to do free work
+*   Please publish examples, make me aware of papers
