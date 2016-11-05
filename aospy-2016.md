@@ -9,7 +9,8 @@ Continuum Analytics
 
 
 *   What are Dask and Dask.array?
-*   Dask and Dask.array work on clusters
+*   You can bulid graphs on your own, outside of dask.array.
+*   You can run your computations on a cluster.
 
 
 ### What is Dask.array?
