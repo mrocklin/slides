@@ -127,18 +127,23 @@ tell?*
 
 ### ... play time ...
 
+*   http://matthewrocklin.com/slides/aospy-2016.html
+*   http://54.210.70.200:9000/notebooks/AOSPY-COPYME.ipynb
+*   http://54.210.70.200:8787/status
+
 
 ### Final Thoughts
 
 *   How do we make distributed arrays more accessible?
 *   Are non-array workloads useful to this community?
 *   How else can I help?
+*   Government money running out, harder to do free work
+*   Help: Please publish examples (blogposts), make me aware of papers [#1496](https://github.com/dask/dask/issues/1496)
 
 ### Collaboration Points
 
 *   Deploy distributed dask.arrays on datasets
 *   Deploy dask.distributed on job schedulers (SGE, SLURM, LSF, ...)
-*   Special case formats
-*   ND-locality compression
-*   Government money running out, harder to do free work
-*   Please publish examples, make me aware of papers
+*   Experiment with multi-user policies and collaboration
+*   Special case formats (NetCDF, ...)
+*   Performance tuning: scalable algorithms, compression, etc..
