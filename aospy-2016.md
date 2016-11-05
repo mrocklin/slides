@@ -61,15 +61,51 @@ Continuum Analytics
 
 ### There are other mechanisms to produce graphs
 
-### when arrays aren't flexible enough
-
 <hr>
 
 ### Dask.dataframe, Dask.bag, Dask.delayed, concurrent.futures, ...
 
 
+### Dask.delayed for fine grained Python code
 
-### What is Dask?
+    .
+
+<hr>
+
+    results = {}
+
+    for a in A:
+        for b in B:
+            if a < b:
+                results[a, b] = f(a, b)
+            else:
+                results[a, b] = g(a, b)
+
+    best = reduction(results.values())
+    .
+
+
+### Dask.delayed for fine grained Python code
+
+    from dask import delayed, compute
+
+<hr>
+
+    results = {}
+
+    for a in A:
+        for b in B:
+            if a < b:
+                results[a, b] = delayed(f)(a, b)  # lazily construct graph
+            else:
+                results[a, b] = delayed(g)(a, b)  # without structure
+
+    best = delayed(reduction)(results.values())
+    result = best.compute()
+
+
+
+### What is Dask? (not dask.array)
 
 *  Generic task scheduler for computational loads
 *  Runs Python functions in parallel with dependencies
@@ -81,7 +117,7 @@ Continuum Analytics
 tell?*
 
 
-### What is Dask?
+### What is Dask? (not dask.array)
 
 *  Generic task scheduler for computational loads
 *  Runs Python functions in parallel with dependencies
@@ -104,8 +140,8 @@ tell?*
 ### Dask/distributed
 
 *   Python-based distributed computing framework
-*   Spark-like scaling and reliability
-*   But for more complex computational workloads, like XArray
+*   Scales to 100-1000 nodes
+*   Supports complex-ish computational workloads, like XArray
 
 <hr>
 
@@ -123,6 +159,38 @@ tell?*
     >>> client = Client('192.168.1.100:8786')  # changes default scheduler
 
     >>> my_dask_collection.compute()  # now runs on cluster
+
+
+### Setup
+
+    user@host1$ dask-scheduler
+    Starting Scheduler at 192.168.1.100:8786
+
+    user@host2$ dask-worker 192.168.1.100:8786
+    user@host3$ dask-worker 192.168.1.100:8786
+    user@host4$ dask-worker 192.168.1.100:8786
+    user@host5$ dask-worker 192.168.1.100:8786
+
+    >>> from dask.distributed import Client
+    >>> client = Client('192.168.1.100:8786')  # changes default scheduler
+
+    >>> my_dask_collection.compute()  # now runs on cluster
+
+
+### Setup
+
+    user@host1$ dask-scheduler
+    Starting Scheduler at 192.168.1.100:8786
+
+    user@login$ qsub ... dask-worker 192.168.1.100:8786
+
+    >>> from dask.distributed import Client
+    >>> client = Client('192.168.1.100:8786')  # changes default scheduler
+
+    >>> my_dask_collection.compute()  # now runs on cluster
+    .
+    .
+    .
 
 
 ### ... play time ...
@@ -147,3 +215,4 @@ tell?*
 *   Experiment with multi-user policies and collaboration
 *   Special case formats (NetCDF, ...)
 *   Performance tuning: scalable algorithms, compression, etc..
+*   Performance documentation for users
