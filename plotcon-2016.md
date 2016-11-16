@@ -12,148 +12,189 @@ Continuum Analytics
 
 <hr>
 
-### Performance optimization in distributed systems is hard
+### Parallel algorithms and distributed optimization is hard
 
 <hr>
 
 ### Visualization drives development and elevates conversation
 
 
-### PyData
+*  **PyData**
 
-*  Fast and intuitive libraries like NumPy, Pandas, and Scikit-Learn
-*  Running at near-optimal machine performance
-*  On a single core and in RAM
+    *  Fast and intuitive libraries like NumPy, Pandas, and Scikit-Learn
+    *  Running at near-optimal machine performance
+    *  On a single core and in RAM
 
-### Dask
+*  **Dask**
 
-*  Parallel and distributed computing library
-*  Complements existing PyData ecosystem
-*  Acheives performance through flexible algorithms and smart scheduling
+    *  Parallel and distributed computing library
+    *  Complements existing PyData ecosystem
+    *  Acheives performance through flexible algorithms and smart scheduling
 
-### Visualization/interaction tools today
+*   **Visualization/interaction tools today**
 
-*   Graphviz
-*   IPython Widgets
-*   Bokeh Server
+    *   Graphviz / Text
+    *   Bokeh Server
+    *   Jupyter Lab
+
+
+### Notebook Demo
+
+
+### Visualization builds intuition
+
+<img src="images/linear-reduction.svg">
+
+
+### Visualization builds intuition
+
+<img src="images/tree-reduction.svg">
+
+
+### Image Pipeline at Brookhaven
+
+<img src="images/bnl-image-pipeline.svg">
+
+*Credit: [Dan Allan](https://github.com/danielballan)*
+
+
+
+*   **Visualization** ...
+
+    *   Builds intuition around parallel algorithms
+    *   Relaxes user anxiety with feedback
+
+*   **But distributed computing is more complex**
+
+    *   Information scattered throughout the cluster
+    *   Communication costs, serialization, disk reads, etc..
+    *   Different workers with different data, load, and capabilities
+    *   Asynchronous execution
+
+<img src="images/fg-simple.svg">
+
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+
+
+
+*   **What Dask needed:**
+
+    *   Customized / Bespoke Visuals
+    *   Responsive real-time streaming updates
+    *   Powerful client-side rendering (10-100,000 rectangles)
+    *   Easy to develop for non-web developers
+
+*   **Bokeh**
+
+    *   *Bokeh is a Python interactive visualization library that targets modern web browsers*
+    *   Use in a notebook, embed in static HTML, or use with Bokeh Server...
+
+*   **Bokeh Server**
+
+    *   Bokeh Server maintains shared state between the Python server and web
+        client
+
+<img src="http://bokeh.pydata.org/en/latest/_static/images/logo.png">
+
+
+### Data Setup
+
+    from bokeh.models import ColumnDataSource
+    tasks = ColumnDataSource({'start': [], 'stop': [], 'color': [],
+                              'core-id': [], 'name': []})
+
+### Translate Data to Plot
+
+    from bokeh.plotting import figure
+    plot = figure(title='Task Stream')
+    plot.rect(source=tasks, x='start', y='stop', color='color', y='core-id')
+    plot.text(source=tasks, x='start', y='stop', text='name')
+
+### Update on Server
+
+    while True:
+        collect_data()
+        tasks.update({'start': [...], 'stop': [...], 'color': [...],
+                      'core-id': [...], 'name': [...]})
+
+<img src="http://bokeh.pydata.org/en/latest/_static/images/logo.png">
+
+
+
+<img src="https://raw.githubusercontent.com/dask/dask-org/master/images/daskboard.gif" alt="Dask Dashboard" width="100%">
+
+.
+
+
+<img src="https://raw.githubusercontent.com/dask/dask-org/master/images/daskboard.gif" alt="Dask Dashboard" width="100%">
+
+About 700 lines of Python code
+
+
+<img src="https://avatars3.githubusercontent.com/u/7388996?v=3&s=200"
+alt="Jupyter Logo">
+
 *   Jupyter Lab
 
+    *  Interactive Development Environment
+    *  Combines Notebook, Console, Editor, Plotting interface in one
+    *  Also pluggable for extensions
 
-### Visualization ...
+*   JupyterLab + Dask + Bokeh
 
-*   Builds intuition around parallel algorithms
-*   Relaxes user anxiety with feedback
-*   Exposes state and history of distributed runtime
-*   Elevates level of conversation between users and developers
+    *  Custom extension for Dask diagnostics
+    *  Took about a week to learn and integrate
+    *  Mostly cleaning up things in Bokeh
+    *  Time to add new plots is now a few hours
 
-
-### We've just seen ...
-
-*   Algorithm visualization builds intuition
-*   Realtime feedback from execution system reduces anxiety
-*   This was on a single laptop machine
-
-### But distributed computing is more complex
-
-*   Information scattered throughout the cluster
-*   Communication costs, serialization, disk reads, etc..
-*   Different workers with different capabilities
-*   Asynchronous execution
-
-### Progressbars and node-link diagrams are just a start
+*Credit: Work by [Luke Canavan](https://github.com/canavandl)*
 
 
-
-### Bokeh - web viz from Python
-
-<img src="http://bokeh.pydata.org/en/latest/_static/images/logo.png">
-
-*Bokeh is a Python interactive visualization library that targets modern web
-browsers*
-
-Bokeh maintains shared state between JS Clients and my Python server
+<img
+src="https://raw.githubusercontent.com/dask/dask-org/master/images/dask-jupyterlab-2.png"
+alt="Dask JupyterLab" width="100%">
 
 
-### Bokeh - web viz from Python
-
-<img src="http://bokeh.pydata.org/en/latest/_static/images/logo.png">
-
-### Setup
-
-    data = bokeh.ColumnDataSource({'start': [], 'stop': [],
-                                   'color': [], 'core-id': [],
-                                   'name': []})
-
-    plot = bokeh.plotting.figure(title='Task Stream')
-    plot.rect(x='start', y='stop', color='color', y='core-id', source=data)
-    plot.text(x='start', y='stop', text='name', text_align='center')
-
-### Update
-
-    data.update({'start': [...], 'stop': [...], 'color': [...], 'core-id': [...]})
-
-
-### Things I needed that Bokeh delivered
-
-*   Write in Python and manage in Python
-*   Customized plots without much code (~700 lines)
-*   Responsive real-time updates on streaming data
-*   Powerful client-side rendering (100,000 rectangles)
-
-### Anti-goals
-
-*   Didn't need trivial API: `plot(x, y)`
-*   Only needed web graphics
-*   Was willing to put in a few hours of work
-
-
-### Visualization driven development
-
-When faced with a new performance challenge I now create the plot I need
-*before* I begin benchmarking or development.
-
-No longer have to hunt for performance issues.
-Problems announce themselves loudly.
-
-Two examples:
-
-*   Work stealing
-*   Rolling aggregations in dask.dataframe
-
-
-### Recent talks
-
-*   [SciPy - July, 2016](https://www.youtube.com/watch?v=PAGjm4BMKlk):
-
-    Overview, author custom algorithms, some machine learning
-
-*   [PyData DC - October 2016](https://www.youtube.com/watch?v=EEfI-11itn0)
-
-    Fine-grained parallelism, scheduling motivation and heuristics
-
-*   Plotcon - November, 2016
-
-    Visualization of distributed systems
+<img
+src="https://raw.githubusercontent.com/dask/dask-org/master/images/dask-jupyterlab-1.png"
+alt="Dask JupyterLab" width="100%">
 
 
 ### Final Thoughts
 
-*   Dask provides parallelism for Python
-    *   Parallel NumPy, Pandas, Scikit-Learn, etc..
-    *   Built on an arbitrary computational task scheduler
-*   Distributed scheduling of arbitrary graphs is hard
-    *   Benefits from on-the-fly measurement
-    *   Useful for ad-hoc situations
+*   **Dask provides parallelism for Python**
+    *   Parallel NumPy, Pandas, Scikit-Learn, etc. at scale
+    *   Built on an computational task scheduler
+*   **Visualization enhances larger computational systems**
+    *   Builds intuition for parallel algorithms
+    *   Comforts users with feedback
+    *   Alerts developers to performance problems
+    *   Elevates level of conversation
+
+
+### Other talks about Dask
+
+*   [SciPy - July, 2016](https://www.youtube.com/watch?v=PAGjm4BMKlk):
+
+    Overview, custom algorithms, some machine learning
+
+*   [PyData DC - October 2016](https://www.youtube.com/watch?v=EEfI-11itn0):
+
+    Fine-grained parallelism, scheduling motivation and heuristics
+
+*   Plotcon - November, 2016:
+
+    Visualization of distributed systems
+
+*I recently tweeted these slides under [@mrocklin](https://twitter.com/mrocklin)*
 
 
 ### Acknowledgements
 
-*  Countless open source developers
-*  SciPy developer community
-*  Continuum Analytics
-*  XData Program from DARPA
-
-<img src="images/moore.png">
+*   Bokeh: [bokeh.pydata.org](http://bokeh.pydata.org/en/latest/)
+*   JupyterLab: [github.com/jupyterlab](https://github.com/jupyterlab/jupyterlab)
+*   Dask: [dask.pydata.org](http://dask.pydata.org/en/latest/)
 
 <hr>
 
