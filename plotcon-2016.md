@@ -48,7 +48,7 @@ Continuum Analytics
 
 ### Visualization builds intuition
 
-<img src="images/tree-reduction.svg">
+<img src="images/tree-reduction.svg" width="70%">
 
 
 ### Image Pipeline at Brookhaven
@@ -77,18 +77,17 @@ Continuum Analytics
 <img src="images/computer-tower.svg" width="15%">
 
 
-
 *   **What Dask needed:**
 
     *   Customized / Bespoke Visuals
     *   Responsive real-time streaming updates
-    *   Powerful client-side rendering (10-100,000 rectangles)
+    *   Powerful client-side rendering (10k-100k elements)
     *   Easy to develop for non-web developers
 
 *   **Bokeh**
 
-    *   *Bokeh is a Python interactive visualization library that targets modern web browsers*
-    *   Use in a notebook, embed in static HTML, or use with Bokeh Server...
+    *   Python library for interactive visualizations on the web
+    *   Use in a notebook, embed in static HTML, or use with Bokeh Server...  [example](http://bokeh.pydata.org/en/latest/docs/gallery/periodic.html)
 
 *   **Bokeh Server**
 
@@ -98,20 +97,20 @@ Continuum Analytics
 <img src="http://bokeh.pydata.org/en/latest/_static/images/logo.png">
 
 
-### Data Setup
+### Setup Data Source
 
     from bokeh.models import ColumnDataSource
     tasks = ColumnDataSource({'start': [], 'stop': [], 'color': [],
                               'core-id': [], 'name': []})
 
-### Translate Data to Plot
+### Construct Plot around Data Source
 
     from bokeh.plotting import figure
     plot = figure(title='Task Stream')
     plot.rect(source=tasks, x='start', y='stop', color='color', y='core-id')
     plot.text(source=tasks, x='start', y='stop', text='name')
 
-### Update on Server
+### Push to Data Source on Server
 
     while True:
         collect_data()
@@ -119,7 +118,6 @@ Continuum Analytics
                       'core-id': [...], 'name': [...]})
 
 <img src="http://bokeh.pydata.org/en/latest/_static/images/logo.png">
-
 
 
 <img src="https://raw.githubusercontent.com/dask/dask-org/master/images/daskboard.gif" alt="Dask Dashboard" width="100%">
@@ -132,12 +130,23 @@ Continuum Analytics
 About 700 lines of Python code
 
 
+### Cluster Demonstration
+
+
+### Benefits
+
+*   Helps users understand and optimize performance
+*   Helps debug when things go wrong
+*   Engages users (reduces anxiety)
+*   Extensible
+*   Elevates conversation with developers
+
+<img src="https://github.com/dask/dask-org/blob/master/images/bokeh-task-stream.gif?raw=true" width="50%">
+
 
 ### User - Developer Communication
 
-*   **Q**: *I tried a groupby/aggregation with many groups and it was slow.*
-
-    *Why?*
+*   **Q**: *I tried to do ______ ______ ______ and it was slow.  Why?*
 *   **A**: *I have no idea.*
 
 
@@ -151,6 +160,7 @@ About 700 lines of Python code
 *   Communication heavy (lots of red)
 *   Stragglers at the end of the computation (lots of white)
 *   Thrashing communication on some nodes (upper left)
+
 
 
 <img src="https://avatars3.githubusercontent.com/u/7388996?v=3&s=200"
@@ -187,7 +197,7 @@ alt="Dask JupyterLab" width="100%">
 *   **Dask provides parallelism for Python**
     *   Parallel NumPy, Pandas, Scikit-Learn, etc. at scale
     *   Built on an computational task scheduler
-*   **Visualization enhances larger computational systems**
+*   **Visualization enhances computational systems**
     *   Builds intuition for parallel algorithms
     *   Comforts users with feedback
     *   Alerts developers to performance problems
