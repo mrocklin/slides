@@ -101,21 +101,21 @@ Continuum Analytics
 
     from bokeh.models import ColumnDataSource
     tasks = ColumnDataSource({'start': [], 'stop': [], 'color': [],
-                              'core-id': [], 'name': []})
+                              'worker': [], 'name': []})
 
 ### Construct Plot around Data Source
 
     from bokeh.plotting import figure
     plot = figure(title='Task Stream')
-    plot.rect(source=tasks, x='start', y='stop', color='color', y='core-id')
+    plot.rect(source=tasks, x='start', y='stop', color='color', y='worker')
     plot.text(source=tasks, x='start', y='stop', text='name')
 
 ### Push to Data Source on Server
 
     while True:
-        collect_data()
+        collect_diagnostics_data()
         tasks.update({'start': [...], 'stop': [...], 'color': [...],
-                      'core-id': [...], 'name': [...]})
+                      'worker': [...], 'name': [...]})
 
 <img src="http://bokeh.pydata.org/en/latest/_static/images/logo.png">
 
@@ -135,11 +135,11 @@ About 700 lines of Python code
 
 ### Benefits
 
-*   Helps users understand and optimize performance
-*   Helps debug when things go wrong
+*   Users understand and optimize performance
+*   Developers understand and optimize performance
 *   Engages users (reduces anxiety)
-*   Extensible
 *   Elevates conversation with developers
+*   Extensible (few hours)
 
 <img src="https://github.com/dask/dask-org/blob/master/images/bokeh-task-stream.gif?raw=true" width="50%">
 
@@ -161,6 +161,11 @@ About 700 lines of Python code
 *   Stragglers at the end of the computation (lots of white)
 *   Thrashing communication on some nodes (upper left)
 
+
+
+### Not Enough Screen Space
+
+<img src="https://raw.githubusercontent.com/dask/dask-org/master/images/daskboard.gif" alt="Dask Dashboard" width="100%">
 
 
 <img src="https://avatars3.githubusercontent.com/u/7388996?v=3&s=200"
@@ -232,28 +237,3 @@ alt="Dask JupyterLab" width="100%">
 ### Questions?
 
 <img src="images/grid_search_schedule.gif" width="100%">
-
-
-### Algorithm flexibility
-
-
-### Map/Shuffle/Reduce (Hadoop/Spark)
-
-<table>
-<tr>
-  <td>
-    <img src="images/embarrassing.svg">
-  </td>
-  <td>
-    <img src="images/shuffle.svg">
-  </td>
-  <td>
-    <img src="images/reduction.svg">
-  </td>
-</tr>
-</table>
-
-#### Dask
-
-<img src="images/svd-compressed.svg" width="50%">
-
