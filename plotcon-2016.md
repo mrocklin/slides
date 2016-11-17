@@ -8,34 +8,29 @@ Visualizing Parallel Computations in Dask
 Continuum Analytics
 
 
-### Disclaimer:  I know very little about visualization
+### What to expect
 
-<hr>
+* **Dask**: Distributed computing for Python
+* **Diagnostics** for parallel computing
+* **Bokeh**: Interactive visualizations
+* **Jupyter Lab**: Interactive development environment
 
-### Parallel algorithms and distributed optimization is hard
+
+### Parallel algorithms and distributed performance is hard
 
 <hr>
 
 ### Visualization drives development and elevates conversation
 
 
-*  **PyData**
+### Dask
 
-    *  Fast and intuitive libraries like NumPy, Pandas, and Scikit-Learn
-    *  Running at near-optimal machine performance
-    *  On a single core and in RAM
-
-*  **Dask**
-
-    *  Parallel and distributed computing library
-    *  Complements existing PyData ecosystem
-    *  Acheives performance through flexible algorithms and smart scheduling
-
-*   **Visualization/interaction tools today**
-
-    *   Graphviz / Text
-    *   Bokeh Server
-    *   Jupyter Lab
+*   Parallel computing library for Python
+*   Dynamic low-latency task scheduler
+*   Parallel arrays, dataframes, etc. built on top
+*   On a single machine, or a cluster
+*   New, and growing rapidly
+*   Complements **PyData** ecosystem (NumPy, Pandas, SKLearn)
 
 
 ### Notebook Demo
@@ -43,10 +38,9 @@ Continuum Analytics
 
 ### Visualization builds intuition
 
+
 <img src="images/linear-reduction.svg">
 
-
-### Visualization builds intuition
 
 <img src="images/tree-reduction.svg" width="70%">
 
@@ -62,7 +56,7 @@ Continuum Analytics
 *   **Visualization** ...
 
     *   Builds intuition around parallel algorithms
-    *   Relaxes user anxiety with feedback
+    *   Pleases users with feedback
 
 *   **But distributed computing is more complex**
 
@@ -75,6 +69,22 @@ Continuum Analytics
 
 <img src="images/computer-tower.svg" width="15%">
 <img src="images/computer-tower.svg" width="15%">
+
+
+### Example Plots
+
+*   Resource load (CPU/Memory)
+*   Network / Disk load, possibly between machines
+*   Progress of tasks on the system
+*   Distribution of tasks on the system
+*   When every task finishes and on what machine
+*   When errors happen and why
+*   Backlog of tasks on every worker
+*   Distribution of memory use by worker, by task, etc..
+*   Addresses of workers, access to logs, etc..
+
+
+<img src="https://raw.githubusercontent.com/dask/dask-org/master/images/daskboard.gif" alt="Dask Dashboard" width="100%">
 
 
 *   **What Dask needed:**
@@ -127,7 +137,7 @@ Continuum Analytics
 
 <img src="https://raw.githubusercontent.com/dask/dask-org/master/images/daskboard.gif" alt="Dask Dashboard" width="100%">
 
-About 700 lines of Python code
+About 700 lines of Python
 
 
 ### Cluster Demonstration
