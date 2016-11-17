@@ -132,6 +132,27 @@ Continuum Analytics
 About 700 lines of Python code
 
 
+
+### User - Developer Communication
+
+*   **Q**: *I tried a groupby/aggregation with many groups and it was slow.*
+
+    *Why?*
+*   **A**: *I have no idea.*
+
+
+### User - Developer Communication
+
+*   **Q**: *I tried a groupby/aggregation with many groups and it was slow.
+    Here is a picture:*
+
+<img src="images/dashboard-report-1.png" alt="Dask workload from issue">
+
+*   Communication heavy (lots of red)
+*   Stragglers at the end of the computation (lots of white)
+*   Thrashing communication on some nodes (upper left)
+
+
 <img src="https://avatars3.githubusercontent.com/u/7388996?v=3&s=200"
 alt="Jupyter Logo">
 
