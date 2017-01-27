@@ -805,7 +805,7 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 
 <hr>
 
-### Before you optimize performance you must understand performance
+### Optimizing performance requires understanding performance
 
 
 ### Live Performance Dashboards
