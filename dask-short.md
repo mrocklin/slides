@@ -742,6 +742,7 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 <img src="images/dicts-everywhere.jpg">
 
 
+
 ### Comparison to Spark
 
 *Disclaimer: I am biased and ignorant.*
@@ -780,6 +781,7 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 </tr>
 </table>
 
+
 #### Dask
 
 <img src="images/svd-compressed.svg" width="50%">
@@ -796,6 +798,94 @@ Stable for a year or so.  Optimized for larger-than-memory use.
     *  Expressive retry logic
     *  Batteries included for common problems
 *  Dask could do this, but hasn't developed these niceties
+
+
+
+### Visual Dashboards
+
+<hr>
+
+### Before you optimize performance you must understand performance
+
+
+### Live Performance Dashboards
+
+<img src="https://raw.githubusercontent.com/dask/dask-org/master/images/daskboard.gif"
+     alt="Dask dashboard">
+
+
+### Worker Statistics
+
+<img src="images/worker-communications-fft.png"
+     alt="worker communications"
+     width="40%">
+<img src="images/worker-state-fft.png"
+     alt="worker state"
+     width="40%">
+
+
+### Scheduler Statistics
+
+<img src="images/daskboard-scheduler-stealing.png"
+     alt="Scheduler stealing dashboard"
+     width="50%">
+
+
+### Live Profile Plots
+
+<iframe src="https://cdn.rawgit.com/mrocklin/52e1c411878fcdd64e04574877fe265e/raw/
+98d9f38c51b250523e9c584779e74156ab14a4fe/task-stream-custom-etl.html"
+        width="1000" height="600"></iframe>
+
+
+### Live Profile Plots
+
+<iframe src="https://cdn.rawgit.com/mrocklin/e09cad939ff7a85a06f3b387f65dc2fc/raw/
+fa5e20ca674cf5554aa4cab5141019465ef02ce9/task-stream-image-fft.html"
+        width="1000" height="600"></iframe>
+
+
+*   **What Dask needed:**
+
+    *   Customized / Bespoke Visuals
+    *   Responsive real-time streaming updates
+    *   Powerful client-side rendering (10k-100k elements)
+    *   Easy to develop for non-web developers
+
+*   **Bokeh**
+
+    *   Python library for interactive visualizations on the web
+    *   Use in a notebook, embed in static HTML, or use with Bokeh Server...  [example](http://bokeh.pydata.org/en/latest/docs/gallery/periodic.html)
+
+*   **Bokeh Server**
+
+    *   Bokeh Server maintains shared state between the Python server and web
+        client
+
+<img src="http://bokeh.pydata.org/en/latest/_static/images/logo.png">
+
+
+### Setup Data Source
+
+    from bokeh.models import ColumnDataSource
+    tasks = ColumnDataSource({'start': [], 'stop': [], 'color': [],
+                              'worker': [], 'name': []})
+
+### Construct Plot around Data Source
+
+    from bokeh.plotting import figure
+    plot = figure(title='Task Stream')
+    plot.rect(source=tasks, x='start', y='stop', color='color', y='worker')
+    plot.text(source=tasks, x='start', y='stop', text='name')
+
+### Push to Data Source on Server
+
+    while True:
+        collect_diagnostics_data()
+        tasks.update({'start': [...], 'stop': [...], 'color': [...],
+                      'worker': [...], 'name': [...]})
+
+<img src="http://bokeh.pydata.org/en/latest/_static/images/logo.png">
 
 
 
