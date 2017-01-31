@@ -8,6 +8,114 @@ Dask: Parallel Programming in Python
 Continuum Analytics
 
 
+### Parallelism in Python
+
+Sequential code
+
+    data = [...]
+    results = []
+    for x in data:
+        result = func(x)
+        results.append(result)
+
+Map (also sequential)
+
+    results = map(func, data)
+
+Parallel map
+
+    from concurrent.futures import ProcessPoolExecutor
+    executor = ProcessPoolExecutor()
+
+    results = executor.map(func, data)
+
+
+### Parallelism in Python
+
+Sequential code
+
+    data = [...]
+    results = []
+    for x in data:
+        result = func(x)
+        results.append(result)
+
+Map (also sequential)
+
+    results = map(func, data)
+
+Parallel map
+
+    from concurrent.futures import ThreadPoolExecutor
+    executor = ThreadPoolExecutor()
+
+    results = executor.map(func, data)
+
+
+### Parallelism in Python
+
+Sequential code
+
+    data = [...]
+    results = []
+    for x in data:
+        result = func(x)
+        results.append(result)
+
+Map (also sequential)
+
+    results = map(func, data)
+
+Parallel map
+
+    import pyspark
+    sc = pyspark.SparkContext()
+
+    results = sc.parallelize(data).map(func).collect()
+
+
+### More complex operations
+
+    .
+    .
+    .
+    results = []
+    for x in L1:
+        for y in L2:
+            if x < y:
+                z = f(x, y)
+            else:
+                z = g(x, y)
+            results.append(z)
+
+    .
+
+
+### More complex operations
+
+    from concurrent.futures import ThreadPoolExecutor
+    executor = ThreadPoolExecutor()
+
+    futures = []
+    for x in L1:
+        for y in L2:
+            if x < y:
+                z = executor.submit(f, x, y)
+            else:
+                z = executor.submit(g, x, y)
+            futures.append(z)
+
+    results = [future.result() for future in futures]
+
+
+### Scalability and Flexibility
+
+*  Big data systems are scalable but rarely flexible.  Also inefficient.
+*  Single-machine systems are flexible and convenient
+
+<a href="https://pbs.twimg.com/media/C2162quUsAAXvin.jpg"><img src="https://pbs.twimg.com/media/C2162quUsAAXvin.jpg" width="50%"></a>
+
+
 
 ### Dask enables parallel Python
 
