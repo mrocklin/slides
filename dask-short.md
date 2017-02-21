@@ -997,6 +997,36 @@ fa5e20ca674cf5554aa4cab5141019465ef02ce9/task-stream-image-fft.html"
 
 
 
+### Machine Learning
+
+Dask enables parallel machine learning in a few ways:
+
+1.  Model parallelism with Scikit-Learn (or anything)
+
+    ```python
+    pipe = Pipeline(steps=[('pca', PCA()),
+                           ('logistic', LogisticRegression)])
+    grid = GridSearchCV(pipe, parameter_grid)
+    ```
+
+2.  Implement well known algorithms with dask.array (newton, gradient descent, ...)
+
+    ```python
+    eXbeta = da.exp(X.dot(beta))
+    gradient = X.T.dot(eXbeta / (eXbeta + 1) - y)
+    ...
+    ```
+
+3.  Deploy other distributed systems and hand them data
+
+    -  Preprocess with dask.dataframe/dask.array
+    -  Use Dask to deploy XGBoost/Tensorflow
+    -  Hand data and control from Dask to XGBoost/TensorFlow
+
+4.  Build custom systems with dask.delayed, concurrent.futures
+
+
+
 ### Final Slide:  Dask is ...
 
 *   **Familiar:** Pandas and Numpy users find it easy to switch
