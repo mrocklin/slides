@@ -8,6 +8,7 @@ Dask: Parallel Programming in Python
 Continuum Analytics
 
 
+
 ### Parallelism in Python
 
 Sequential code
@@ -187,7 +188,7 @@ Parallel map
             else:
                 results[a, b] = delayed(g)(a, b)  # without structure
 
-    results = compute(delayed(results))  # trigger all computation
+    results = compute(results)  # trigger all computation
 
 
 
@@ -997,11 +998,9 @@ fa5e20ca674cf5554aa4cab5141019465ef02ce9/task-stream-image-fft.html"
 
 
 
-### Machine Learning
+### Dask enables Machine Learning
 
-Dask enables parallel machine learning in a few ways:
-
-1.  Model parallelism with Scikit-Learn (or anything)
+1.  Model parallelism with Scikit-Learn
 
     ```python
     pipe = Pipeline(steps=[('pca', PCA()),
@@ -1009,7 +1008,7 @@ Dask enables parallel machine learning in a few ways:
     grid = GridSearchCV(pipe, parameter_grid)
     ```
 
-2.  Implement well known algorithms with dask.array (newton, gradient descent, ...)
+2.  Implement known algorithms with dask.array
 
     ```python
     eXbeta = da.exp(X.dot(beta))
@@ -1017,11 +1016,11 @@ Dask enables parallel machine learning in a few ways:
     ...
     ```
 
-3.  Deploy other distributed systems and hand them data
+3.  Collaborate with other distributed systems
 
-    -  Preprocess with dask.dataframe/dask.array
-    -  Use Dask to deploy XGBoost/Tensorflow
-    -  Hand data and control from Dask to XGBoost/TensorFlow
+    -  **Pre-process** with dataframe
+    -  **Deploy** other services
+    -  **Pass data** from Dask and **train** with other service
 
 4.  Build custom systems with dask.delayed, concurrent.futures
 
