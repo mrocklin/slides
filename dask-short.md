@@ -25,6 +25,28 @@ Map (also sequential)
 
 Parallel map
 
+    from multiprocessing import Pool
+    pool = Pool()
+
+    results = pool.map(func, data)
+
+
+### Parallelism in Python
+
+Sequential code
+
+    data = [...]
+    results = []
+    for x in data:
+        result = func(x)
+        results.append(result)
+
+Map (also sequential)
+
+    results = map(func, data)
+
+Parallel map
+
     from concurrent.futures import ProcessPoolExecutor
     executor = ProcessPoolExecutor()
 
@@ -75,8 +97,9 @@ Parallel map
     results = sc.parallelize(data).map(func).collect()
 
 
-### More complex operations
+### More complex code
 
+    .
     .
     .
     .
@@ -92,10 +115,29 @@ Parallel map
     .
 
 
-### More complex operations
+### More complex code
+
+    import dask
+    f = dask.delayed(f)
+    g = dask.delayed(g)
+
+    lazy = []
+    for x in L1:
+        for y in L2:
+            if x < y:
+                z = f(x, y)
+            else:
+                z = g(x, y)
+            lazy.append(z)
+
+    results = dask.compute(*lazy)
+
+
+### More complex code
 
     from concurrent.futures import ThreadPoolExecutor
     executor = ThreadPoolExecutor()
+    .
 
     futures = []
     for x in L1:
