@@ -177,11 +177,11 @@ Parallel map
 
     import numpy as np
     x = np.random.random(...)
-    u, s, v = np.linalg.svg(x.dot(x.T))
+    u, s, v = np.linalg.svd(x.dot(x.T))
 
     import dask.array as da
     x = da.random.random(..., chunks=(1000, 1000))
-    u, s, v = da.linalg.svg(x.dot(x.T))
+    u, s, v = da.linalg.svd(x.dot(x.T))
 
 
 ### Dask.DataFrame
@@ -193,7 +193,7 @@ Parallel map
     df.groupby(df.timestamp.dt.hour).value.mean()
 
     import dask.dataframe as dd
-    df = dd.read_csv('hdfs://myfile.*.csv', parse_dates=['timestamp'])
+    df = dd.read_csv('hdfs://myfiles.*.csv', parse_dates=['timestamp'])
     df.groupby(df.timestamp.dt.hour).value.mean()
 
 
@@ -577,6 +577,122 @@ https://github.com/apache/incubator-airflow
 
 ### Easy swapping enables scaling up *and down*
 
+<hr>
+
+<img src="images/collections-schedulers.png" width=50%>
+
+
+### Start with a single machine
+
+    import dask.dataframe as dd
+    df = dd.read_csv('/path/to/*.csv')
+    df.groupby(df.timestamp.dt.month).value.var().compute()
+
+### Connect to a cluster later
+
+    from dask.distributed import Client
+    client = Client('scheduler-address:8786')
+
+    df = dd.read_csv('hdfs:///path/to/*.csv')
+    df.groupby(df.timestamp.dt.month).value.var().compute()
+
+
+### Start with a single machine
+
+    import dask.dataframe as dd
+    df = dd.read_csv('/path/to/*.csv')
+    df.groupby(df.timestamp.dt.month).value.var().compute()
+
+### Connect to a cluster later
+
+    from dask.distributed import Client
+    client = Client('scheduler-address:8786')
+
+    df = dd.read_csv('s3:///path/to/*.csv')
+    df.groupby(df.timestamp.dt.month).value.var().compute()
+
+
+### Start with a single machine
+
+    import dask.dataframe as dd
+    df = dd.read_csv('/path/to/*.csv')
+    df.groupby(df.timestamp.dt.month).value.var().compute()
+
+### Connect to a cluster later
+
+    from dask.distributed import Client
+    client = Client('scheduler-address:8786')
+
+    df = dd.read_csv('custom:///path/to/*.csv')
+    df.groupby(df.timestamp.dt.month).value.var().compute()
+
+
+### Single Machine Scheduler
+
+Optimized for larger-than-memory use.
+
+*   **Parallel CPU**: Uses multiple threads or processes
+*   **Minimizes RAM**: Choose tasks to remove intermediates
+*   **Low overhead:** ~50us per task
+*   **Concise**: ~600 LOC, stable for ~12 months
+
+### Distributed Scheduler
+
+Optimized for 10-1000 machine clusters
+
+*   **Distributed**: One scheduler coordinates many workers
+*   **Data local**: Moves computation to correct worker
+*   **Asynchronous**: Continuous non-blocking conversation
+*   **Multi-user**: Several users share the same system
+*   **Hackable**: all of the logic is hackable Python
+
+
+### Easy to get started
+
+    $ conda install dask distributed -c conda-forge
+    $ pip install dask[complete] distributed --upgrade
+
+<hr>
+
+    host1$ dask-scheduler
+
+    host2$ dask-worker scheduler-hostname:8786
+    host3$ dask-worker scheduler-hostname:8786
+
+<hr>
+
+    >>> from dask.distributed import Client
+    >>> Client = Client('scheduler-hostname:8786')
+
+
+### Dask.array/dataframe/delayed author task graphs
+
+<hr>
+
+<img src="images/grid_search_schedule-0.png" width="100%">
+
+<hr>
+
+### Now we need to run them efficiently
+
+
+### Dask.array/dataframe/delayed author task graphs
+
+<hr>
+
+<img src="images/grid_search_schedule.gif" width="100%">
+
+<hr>
+
+### Now we need to run them efficiently
+
+
+### Dask schedulers target different architectures
+
+<hr>
+
+### Easy swapping enables scaling up *and down*
+
 
 ### Single Machine Scheduler
 
@@ -686,8 +802,8 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 
 <hr>
 
-    >>> from dask.distributed import Executor
-    >>> e = Executor()  # sets up local cluster
+    >>> from dask.distributed import Client
+    >>> client = Client()  # sets up local cluster
 
 <hr>
 
