@@ -896,29 +896,26 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 
 ### Comparison to Spark
 
-*Disclaimer: I am biased and ignorant.*
-
-<hr>
-
-*   Spark is firmly established, Dask is new
-*   Language choice: Python (C/Fortran/LLVM)  or Scala (JVM)
-
-<hr>
-
-*   Spark focuses on SQL-like computations
-
-    Dask focuses on generic computations
-
-*   Spark is a monolithic framework
-
-    Dask complements PyData
+-  Reasons to prefer Spark
+    -   More established
+    -   All-in-one framework for clusters
+    -   Full SQL support plus extensions
+    -   Complements existing JVM infrastructure
+-  Reasons to prefer Dask
+    -   Grows out of existing Python stack
+    -   Familiar to Python users and applications
+    -   Supports more complex computations
+    -   Integrates nicely into existing systems, lightweight
 
 
-### Comparison to Spark
-
-#### Spark
+### Spark
 
 <table>
+<tr>
+<td>Map</td>
+<td>Shuffle</td>
+<td>Reduce</td>
+</tr>
 <tr>
   <td>
     <img src="images/embarrassing.svg">
@@ -932,23 +929,22 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 </tr>
 </table>
 
+### Dask
 
-#### Dask
-
-<img src="images/svd-compressed.svg" width="50%">
+<img src="images/array-xxT.svg" width="40%">
+<img src="images/array-xdotxT-mean-std.svg" width="50%">
 
 
 ### Comparison to Airflow/Luigi/Celery
 
-*  Dask is optimized for interactive computation
-    *  10ms roundtrips
-    *  200us overhead
-    *  Inter-worker communication
 *  Airflow/Luigi/Celery are optimized for ETL cases
     *  Cron functionality
     *  Expressive retry logic
     *  Batteries included for common problems
-*  Dask could do this, but hasn't developed these niceties
+*  Dask is optimized for interactive computation
+    *  10ms roundtrips
+    *  200us overhead
+    *  Inter-worker communication
 
 
 
