@@ -623,7 +623,8 @@ https://github.com/apache/incubator-airflow
     from dask.distributed import Client
     client = Client('scheduler-address:8786')
 
-    df = dd.read_csv('custom:///path/to/*.csv')
+    import dask.dataframe as dd
+    df = dd.read_custom('internal://db/project')
     df.groupby(df.timestamp.dt.month).value.var().compute()
 
 
@@ -650,19 +651,23 @@ Optimized for 10-1000 machine clusters
 ### Easy to get started
 
     $ conda install dask distributed -c conda-forge
+    or
     $ pip install dask[complete] distributed --upgrade
 
 <hr>
 
-    host1$ dask-scheduler
+    computer1:$ dask-scheduler
 
-    host2$ dask-worker scheduler-hostname:8786
-    host3$ dask-worker scheduler-hostname:8786
+    computer2:$ dask-worker scheduler-hostname:8786
+    computer3:$ dask-worker scheduler-hostname:8786
 
 <hr>
 
     >>> from dask.distributed import Client
-    >>> Client = Client('scheduler-hostname:8786')
+    >>> client = Client('scheduler-hostname:8786')
+
+    >>> dask.compute(...)
+
 
 
 ### Dask.array/dataframe/delayed author task graphs
