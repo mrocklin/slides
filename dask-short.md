@@ -8,6 +8,16 @@ Dask: Parallel Programming in Python
 Continuum Analytics
 
 
+### Dask enables parallel computing
+
+-  **Parallelizes libraries** like Pandas, NumPy, and SKLearn
+-  **Scales** from 1 to 1000's of computers (Spark-like scaling)
+-  **Flexible** backed by a task scheduler (like Airflow, Celery)
+-  **Adapts** to custom systems
+-  **Pure Python** and built from standard technology
+-  **Supported** by community, for/non-profit, and government
+
+
 
 ### Parallelism in Python
 
@@ -448,7 +458,7 @@ https://github.com/apache/incubator-airflow
 
 <img src="images/array-sum.svg">
 
-    x = da.ones((15, 15), (5, 5))
+    x = da.ones((15, 15), chunks=(5, 5))
     x.sum(axis=0)
 
 
@@ -456,7 +466,7 @@ https://github.com/apache/incubator-airflow
 
 <img src="images/array-xxT.svg">
 
-    x = da.ones((15, 15), (5, 5))
+    x = da.ones((15, 15), chunks=(5, 5))
     x + x.T
 
 
@@ -464,7 +474,7 @@ https://github.com/apache/incubator-airflow
 
 <img src="images/array-xdotxT.svg">
 
-    x = da.ones((15, 15), (5, 5))
+    x = da.ones((15, 15), chunks=(5, 5))
     x.dot(x.T + 1)
 
 
@@ -472,7 +482,7 @@ https://github.com/apache/incubator-airflow
 
 <img src="images/array-xdotxT-mean.svg">
 
-    x = da.ones((15, 15), (5, 5))
+    x = da.ones((15, 15), chunks=(5, 5))
     x.dot(x.T + 1) - x.mean()
 
 
@@ -480,7 +490,7 @@ https://github.com/apache/incubator-airflow
 
 <img src="images/array-xdotxT-mean-std.svg">
 
-    x = da.ones((15, 15), (5, 5))
+    x = da.ones((15, 15), chunks=(5, 5))
     (x.dot(x.T + 1) - x.mean()).std()
 
 
