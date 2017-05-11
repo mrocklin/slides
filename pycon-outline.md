@@ -8,7 +8,7 @@ Dask: Parallel Programming in Python
 Continuum Analytics
 
 
-### We have a strong analytics ecosystem (numpy, pandas, ...)
+### We have a strong analytics ecosystem (numpy, pandas)
 
 <hr>
 
@@ -425,6 +425,7 @@ Use in lightweight manner
     They call C/Fortran/LLVM/CUDA.
 -   *The GIL is not a problem for the numeric Python ecosystem*
 
+
 ### Packaging / Deployment
 
 -   Python packaging is better than it used to be.
@@ -517,7 +518,7 @@ For numeric computations, Python libraries run at bare-metal speeds
 ### Python has an excellent networking stack and community
 
 
-### Dask is a small and lightweight project
+### Dask can be small and lightweight
 
 <hr>
 
@@ -542,15 +543,17 @@ For numeric computations, Python libraries run at bare-metal speeds
 
 ### Final Slide.  Questions?
 
--  Dask enables the existing ecosystem to scale
--  Dask leverages existing libraries and APIs to do this cheaply (thanks!)
+-  Dask is designed to scale the existing ecosystem
+-  Dask integrates existing libraries and APIs to do this cheaply
+-  Docs: [dask.pydata.org](https://dask.pydata.org/en/latest/) --
+   Github: [github.com/dask](https://github.com/dask)
 -  You can set it up right now during questions:
 
         $ pip/conda install dask distributed
         $ ipython
 
         >>> from dask.distributed import Client
-        >>> client = Client()  # starts a "cluster" on your local machine
+        >>> client = Client()  # starts a "cluster" on your laptop
 
         >>> futures = client.map(lambda x: x + 1, range(1000))
         >>> total = client.submit(sum, futures)
