@@ -15,6 +15,13 @@ Continuum Analytics
 ### that is mostly restricted to a single core and RAM
 
 
+### How do we scale an ecosystem?
+
+<hr>
+
+### With thousands of packages, and custom algorithms
+
+
 ### High quality and useful algorithms (e.g. scikit-image)
 
     skimage.feature.canny(im, sigma=3)
@@ -30,32 +37,12 @@ Continuum Analytics
 *Example taken from scikit-allel webpage*
 
 
-### How do we scale an ecosystem?
-
-<hr>
-
-### Focus on flexibility,
-
-### Adhere to existing APIs/standards
-
-
-### Dask enables scalable computing
-
--  **Parallelizes libraries** like Pandas, NumPy, and SKLearn
--  **Scales** from 1 to 1000's of computers (Spark-like scaling)
--  **Flexible** backed by a task scheduler (like Airflow, Celery)
--  **Adapts** to serve custom systems
--  **Async real time** with 200us overheads and 10ms latencies
--  **Pure Python** and built from standard technology
--  **Supported** by community, non/for-profit, and government
-
-
 Outline
 -------
 
 -  **Examples**: Dask parallelizes Python APIs, high to low level
--  **Ecosystem**: Python's strengths and weaknesses for parallelism
 -  **Internals**: How Dask works
+-  **Ecosystem**: Python's strengths and weaknesses for parallelism
 
 
 
@@ -76,12 +63,12 @@ Outline
 
     # NumPy code
     import numpy as np
-    x = np.random.random(...)
+    x = np.random.random((1000, 1000))
     u, s, v = np.linalg.svd(x.dot(x.T))
 
     # Dask.array code
     import dask.array as da
-    x = da.random.random(..., chunks=(1000, 1000))
+    x = da.random.random((100000, 100000), chunks=(1000, 1000))
     u, s, v = da.linalg.svd(x.dot(x.T))
 
 
@@ -283,18 +270,14 @@ Optimized for larger-than-memory use.
 
 Or use it on your laptop
 
-Install
-
-    $ conda install dask distributed
-    or
-    $ pip install dask[complete] distributed --upgrade
+    $ pip/conda install dask distributed
 
 Set up locally
 
     from dask.distributed import Client
     client = Client()  # set up local scheduler and workers
 
-Use in lightweight manner
+Lightweight
 
     In [3]: %time client = Client(processes=False)  # use local threads
     CPU times: user 44 ms, sys: 0 ns, total: 44 ms
@@ -386,7 +369,7 @@ Use in lightweight manner
 -  **High level** APIs built on top
     -  Dask.array = dask + numpy
     -  Dask.dataframe = dask + pandas
-    -  Other APIs for lists, machine learning, streaming, etc..
+    -  Machine learning, lists, real time, and others
     -  Maybe good for your work as well?
 
 
@@ -439,13 +422,13 @@ Use in lightweight manner
 
 ### Strong Algorithmic Tradition
 
--   High quality implementations of useful algorithms
+-   High quality and useful algorithms (scikit-image)
 
         skimage.feature.canny(im, sigma=3)
 
 <img src="http://scikit-image.org/docs/dev/_images/sphx_glr_plot_canny_001.png" alt="Canny edge detection from skimage" width="50%" align="center">
 
--   Broad coverage throughout many corners of science
+-   Broad coverage throughout science (scikit-allel) (genetics)
 
 <img src="http://alimanfoo.github.io/assets/2016-06-10-scikit-allel-tour_files/2016-06-10-scikit-allel-tour_50_0.png" alt="scikit-allel example" width="50%" align="center">
 
