@@ -37,12 +37,22 @@ Continuum Analytics
 *Example taken from scikit-allel webpage*
 
 
+### In this talk we build a distributed system for Python
+
+<hr>
+
+### Using existing libraries
+
+
 Outline
 -------
 
--  **Examples**: Dask parallelizes Python APIs, high to low level
+-  **Parallel Algorithms**: Examples of array algorithms
+-  **Survey of Systems**: Look at Spark, Airflow, etc..
 -  **Internals**: How Dask works
 -  **Ecosystem**: Python's strengths and weaknesses for parallelism
+
+But first, some flashy examples...
 
 
 
@@ -228,12 +238,129 @@ Outline
 ### Now we need to run them efficiently
 
 
-
 ### Dask APIs Produce Task Graphs
 
 <hr>
 
 ### Dask Schedulers Execute Task Graphs
+
+
+
+### Parallel Python Computing Options
+
+-  Embarrassingly parallel systems (multiprocessing, joblib)
+-  Big Data collections (MapReduce, Spark)
+-  Task schedulers (Airflow, Luigi, Celery)
+
+
+### Embarrassingly parallel systems
+
+    # Sequential Code
+    data = [...]
+    output = map(func, data)
+
+<hr>
+
+    # Parallel Code
+    from multiprocessing import Pool
+    pool = Pool()
+
+    output = pool.map(func, data)
+
+-   Pros
+    -   Easy to install and use in the common case
+    -   Lightweight dependency
+-   Cons
+    -  Data interchange cost
+    -  Not able to handle complex computations
+
+
+### Big Data collections
+
+    from pyspark import SparkContext
+    sc = SparkContext('local[4]')
+
+    rdd = sc.parallelize(data)
+    rdd.groupBy(keyFunc).count()
+
+    df = spark.read_json(...)
+    df.groupBy('name').aggregate({'value': 'sum'})
+
+-   Pros
+    -   More complex set of operations
+    -   Scales nicely
+    -   Well trusted by enterprise
+-   Cons
+    -  Heavyweight and JVM focused
+    -  Not able to handle complex computations
+
+
+### This is what I mean by complex
+
+<img src="images/array-xdotxT-mean-std.svg">
+
+### Spark does the following well
+
+<table>
+<tr>
+  <td>
+    <img src="images/embarrassing.svg">
+  </td>
+  <td>
+    <img src="images/shuffle.svg">
+  </td>
+  <td>
+    <img src="images/reduction.svg">
+  </td>
+</tr>
+</table>
+
+
+### Task Schedulers (Airflow, Luigi, Celery, ...)
+
+<img src="images/airflow.png" width="45%">
+<img src="images/luigi.png" width="45%">
+
+-  Pros
+    -  Handle arbitrarily complex task graphs
+    -  Python Native
+-  Cons
+    -  No inter-worker storage or data interchange
+    -  Long latencies (relatively)
+    -  Not designed for computational loads
+
+
+### Want a task scheduler (like Airflow, Luigi)
+
+<hr>
+
+### Built for scaling computational loads (like Spark, Flink)
+
+
+
+## Dask's Schedulers
+
+<img src="images/grid_search_schedule.gif" width="100%">
+
+-  Dynamic task scheduler with data dependencies
+-  Handles data locality, resilience, work stealing, etc..
+-  With 10ms roundtrip latencies and 200us overheads
+-  Native Python library and APIs
+-  Lightweight and well supported
+
+
+### Dask supports Pythonic APIs
+
+-  NumPy/Pandas/SKLearn protocols and APIs
+-  PEP 3148 concurrent.futures
+-  async/await
+-  Joblib
+
+### Dask is lightweight
+
+-  Single-machine scheduler runs on stdlib only
+-  Distributed scheduler is a Tornado TCP application
+-  Pure Python 2.7+ or 3.4+
 
 
 ### Single Machine Scheduler
