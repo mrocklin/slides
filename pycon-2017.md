@@ -37,11 +37,19 @@ Continuum Analytics
 *Example taken from scikit-allel webpage*
 
 
-### In this talk we build a distributed system for Python
+### Need a library that is flexible enough
 
 <hr>
 
-### Using existing libraries
+### ... and familiar enough
+
+<hr>
+
+### ... for this disparate community
+
+<img src="http://dask.pydata.org/en/latest/_images/dask_horizontal_white.svg"
+     alt="dask logo"
+     width="50%">
 
 
 Outline
@@ -56,15 +64,13 @@ But first, some flashy examples...
 
 
 
-### Dask enables parallel Python
+### High Level: parallel NumPy, Pandas, SKLearn, ...
 
 <hr>
 
-### ... originally designed to parallelize NumPy and Pandas
+### Low Level: An easy-ish way to parallelize other libraries
 
-<hr>
-
-### ... but also used today for arbitrary computations
+### Dask is a dynamic task scheduler
 
 
 ### Dask.array
@@ -216,6 +222,13 @@ But first, some flashy examples...
     y = (x.dot(x.T + 1) - x.mean()).std()
 
 
+### Dask APIs Produce Task Graphs
+
+<hr>
+
+### Dask Schedulers Execute Task Graphs
+
+
 ### Dask.array/dataframe/delayed author task graphs
 
 <hr>
@@ -236,13 +249,6 @@ But first, some flashy examples...
 <hr>
 
 ### Now we need to run them efficiently
-
-
-### Dask APIs Produce Task Graphs
-
-<hr>
-
-### Dask Schedulers Execute Task Graphs
 
 
 
@@ -347,20 +353,6 @@ But first, some flashy examples...
 -  With 10ms roundtrip latencies and 200us overheads
 -  Native Python library and APIs
 -  Lightweight and well supported
-
-
-### Dask supports Pythonic APIs
-
--  NumPy/Pandas/SKLearn protocols and APIs
--  PEP 3148 concurrent.futures
--  async/await
--  Joblib
-
-### Dask is lightweight
-
--  Single-machine scheduler runs on stdlib only
--  Distributed scheduler is a Tornado TCP application
--  Pure Python 2.7+ or 3.4+
 
 
 ### Single Machine Scheduler
@@ -487,6 +479,31 @@ Lightweight
 <img src="images/scheduler-async-15.svg" width="90%">
 
 
+
+### Dask is easy to use and adopt
+
+<hr>
+
+### You already know the API
+
+### You already have the dependencies installed
+
+
+### Dask supports Pythonic APIs
+
+-  NumPy/Pandas/SKLearn protocols and APIs
+-  PEP 3148 concurrent.futures
+-  async/await
+-  Joblib
+
+### Dask is lightweight
+
+-  Single-machine scheduler runs on stdlib only
+-  Distributed scheduler is a Tornado TCP application
+-  Pure Python 2.7+ or 3.4+
+
+
+
 ### High level overview
 
 -  Dask is a **low level** task scheduler
@@ -527,41 +544,6 @@ Lightweight
     -  Lack of a distributed computing ecosystem
 
 
-### Global Interpreter Lock
-
--   Stops two Python threads from running Python code at the same time
--   Numeric libraries don't call Python code.
-
-    They call C/Fortran/LLVM/CUDA.
--   *The GIL is not a problem for the numeric Python ecosystem*
-
-
-### Packaging / Deployment
-
--   Python packaging is better than it used to be.
-    -  Pip improvements and Wheels
-    -  Conda binaries and environments, dependency resolution
--   Containers becoming standard in deployment.  Also driven by Node, Go, etc.
--   Deployment solutions increasingly not tied to computational systems
-
-    Can leverage existing work with Yarn, Mesos, Kubernetes, etc..
-
-
-### Strong Algorithmic Tradition
-
--   High quality and useful algorithms (scikit-image)
-
-        skimage.feature.canny(im, sigma=3)
-
-<img src="http://scikit-image.org/docs/dev/_images/sphx_glr_plot_canny_001.png" alt="Canny edge detection from skimage" width="50%" align="center">
-
--   Broad coverage throughout science (scikit-allel) (genetics)
-
-<img src="http://alimanfoo.github.io/assets/2016-06-10-scikit-allel-tour_files/2016-06-10-scikit-allel-tour_50_0.png" alt="scikit-allel example" width="50%" align="center">
-
-*Example taken from scikit-allel webpage*
-
-
 ### Battle hardened C/Fortran/LLVM/CUDA codes
 
     In [1]: import numpy as np
@@ -581,6 +563,32 @@ Lightweight
     Wall time: 37.7 s
 
 For numeric computations, Python libraries run at bare-metal speeds
+
+
+### Global Interpreter Lock
+
+-   Stops two Python threads from running Python code at the same time
+-   Numeric libraries (like NumPy) don't call Python code.
+
+    They call C/Fortran/LLVM/CUDA.
+-   *The GIL is not a problem for the numeric Python ecosystem*
+
+    *Use threads freely!*
+
+
+### Strong Algorithmic Tradition
+
+-   High quality and useful algorithms (scikit-image)
+
+        skimage.feature.canny(im, sigma=3)
+
+<img src="http://scikit-image.org/docs/dev/_images/sphx_glr_plot_canny_001.png" alt="Canny edge detection from skimage" width="50%" align="center">
+
+-   Broad coverage throughout science (scikit-allel) (genetics)
+
+<img src="http://alimanfoo.github.io/assets/2016-06-10-scikit-allel-tour_files/2016-06-10-scikit-allel-tour_50_0.png" alt="scikit-allel example" width="50%" align="center">
+
+*Example taken from scikit-allel webpage*
 
 
 ### Strong networking and concurrency stack
