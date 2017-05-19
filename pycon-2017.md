@@ -53,10 +53,10 @@ Continuum Analytics
 
 ### ... to parallelize a disparate ecosystem
 
+
 <img src="http://dask.pydata.org/en/latest/_images/dask_horizontal_white.svg"
      alt="dask logo"
      width="50%">
-
 
 Outline
 -------
@@ -263,14 +263,14 @@ Outline
 
 
 
-### Parallel Python Computing Options
+### Brief and Incomplete Summary of Parallelism Options
 
 -  Embarrassingly parallel systems (multiprocessing, joblib)
 -  Big Data collections (MapReduce, Spark, Flink, Database)
 -  Task schedulers (Airflow, Luigi, Celery, Make)
 
 
-### Embarrassingly parallel systems
+### map
 
     # Sequential Code
     data = [...]
@@ -279,9 +279,7 @@ Outline
 <hr>
 
     # Parallel Code
-    from multiprocessing import Pool
-    pool = Pool()
-
+    pool = multiprocessing.Pool()
     output = pool.map(func, data)
 
 -   Pros
@@ -355,14 +353,16 @@ Outline
 
 
 
-## Dask's Schedulers
+<img src="http://dask.pydata.org/en/latest/_images/dask_horizontal_white.svg"
+     alt="dask logo"
+     width="40%">
 
 <img src="images/grid_search_schedule.gif" width="100%">
 
--  Dynamic task scheduler with data dependencies
+-  Dynamic task scheduler for generic applications
 -  Handles data locality, resilience, work stealing, etc..
 -  With 10ms roundtrip latencies and 200us overheads
--  Native Python library and APIs
+-  Native Python library respecting Python protocols
 -  Lightweight and well supported
 
 
@@ -400,7 +400,25 @@ Optimized for larger-than-memory use.
 
 Or use it on your laptop
 
-    $ pip/conda install dask distributed
+    $ conda install dask
+
+Set up locally
+
+    from dask.distributed import Client
+    client = Client()  # set up local scheduler and workers
+
+Lightweight
+
+    In [3]: %time client = Client(processes=False)  # use local threads
+    CPU times: user 44 ms, sys: 0 ns, total: 44 ms
+    Wall time: 43.6 ms
+
+
+### Distributed Network
+
+Or use it on your laptop
+
+    $ pip install dask[complete]  # Dask is a pure Python library
 
 Set up locally
 
@@ -503,9 +521,11 @@ Lightweight
 ### Dask supports Pythonic APIs
 
 -  NumPy/Pandas/SKLearn protocols and APIs
--  PEP 3148 concurrent.futures
--  async/await
--  Joblib
+-  PEP-3148 concurrent.futures
+-  PEP-492 async/await
+-  Joblib (sklearn's parallelism library)
+
+<hr>
 
 ### Dask is lightweight
 
@@ -515,17 +535,17 @@ Lightweight
 
 
 
-### High level overview
+### Dask overview
 
--  Dask is a **low level** task scheduler
-    -  Determines when and where to call Python functions
-    -  Works with any Python functions on any Python objects
-    -  Handles data dependencies, locality, data movement, etc..
--  **High level** APIs built on top
+-  **High level** APIs
     -  Dask.array = dask + numpy
     -  Dask.dataframe = dask + pandas
     -  Machine learning, lists, real time, and others
-    -  Maybe good for your work as well?
+    -  Parallelizes custom systems
+-  **Low level** task scheduler
+    -  Determines when and where to call Python functions
+    -  Works with any Python functions on any Python objects
+    -  Handles data dependencies, locality, data movement, etc..
 
 
 
@@ -552,7 +572,6 @@ Lightweight
     -  Slow?  Interpreted
     -  GIL (fixed in numeric ecosystem)
     -  Packaging (fixed by better pip, conda, docker)
-    -  Lack of a distributed computing ecosystem
 
 
 ### Battle hardened C/Fortran/LLVM/CUDA codes
@@ -576,7 +595,7 @@ Lightweight
 For numeric computations, Python libraries run at bare-metal speeds
 
 
-### Global Interpreter Lock
+### Global Interpreter Lock (GIL)
 
 -   Stops two Python threads from running Python code at the same time
 -   Numeric libraries (like NumPy) don't call Python code.
@@ -663,10 +682,10 @@ For numeric computations, Python libraries run at bare-metal speeds
     -  Core developers from Pandas, NumPy, SKLearn, Jupyter, ...
 -  Funding agencies
     -  Strong developer community (maybe you?)
-    -  Government (DAPRA, NASA, Army Engineers, UK Met, ...)
-    -  Moore Foundation Data Driven Discovery
+    -  Government (DAPRA, Army Engineers, UK Met, ...)
+    -  Moore Foundation
     -  Companies who fund directly (largely finance)
-    -  Institutions who use and contribute code/bug reports (maybe yours?)
+    -  Institutions who use and contribute code, bug reports, and developer time
     -  Continuum Analytics
 
 
@@ -694,8 +713,8 @@ For numeric computations, Python libraries run at bare-metal speeds
    Github: [github.com/dask](https://github.com/dask)
 -  You can set it up right now during questions:
 
-        $ pip/conda install dask distributed
-        $ ipython
+        $ pip install dask[complete]
+        $ python
 
         >>> from dask.distributed import Client
         >>> client = Client()  # starts a "cluster" on your laptop
