@@ -71,13 +71,6 @@ Outline
 
 
 
-### High Level: parallel NumPy, Pandas, SKLearn, ...
-
-<hr>
-
-### Low Level: An easy-ish way to parallelize other libraries
-
-
 ### Dask.array
 
 <img src="images/dask-array.svg" width="60%">
@@ -106,7 +99,11 @@ Outline
     df.groupby(df.timestamp.dt.hour).value.mean().compute()
 
 
-### But many important problems aren't arrays or dataframes
+### But many problems aren't just big arrays and dataframes
+
+<hr>
+
+### The Python community writes clever algorithms
 
 
 ### Fine Grained Python Code
@@ -126,6 +123,8 @@ Outline
 
     .
 
+### Parallelizable, but not a list, dataframe, or array
+
 
 ### Fine Grained Python Code
 
@@ -144,6 +143,8 @@ Outline
 
     results = compute(results)  # trigger all computation
 
+### Parallelizable, but not a list, dataframe, or array
+
 
 ### Fine Grained Python Code
 
@@ -161,6 +162,8 @@ Outline
                 results[a, b] = e.submit(g, a, b)  # submit work asynchronously
 
     results = {k: v.result() for k, v in results.items()} # block until finished
+
+### Parallelizable, but not a list, dataframe, or array
 
 
 
@@ -263,8 +266,8 @@ Outline
 ### Parallel Python Computing Options
 
 -  Embarrassingly parallel systems (multiprocessing, joblib)
--  Big Data collections (MapReduce, Spark)
--  Task schedulers (Airflow, Luigi, Celery)
+-  Big Data collections (MapReduce, Spark, Flink, Database)
+-  Task schedulers (Airflow, Luigi, Celery, Make)
 
 
 ### Embarrassingly parallel systems
@@ -295,14 +298,14 @@ Outline
     sc = SparkContext('local[4]')
 
     rdd = sc.parallelize(data)
-    rdd.groupBy(keyFunc).count()
+    rdd.map(json.loads).filter(...).groupBy(...).count()
 
     df = spark.read_json(...)
     df.groupBy('name').aggregate({'value': 'sum'})
 
 -   Pros
-    -   More complex set of operations
-    -   Scales nicely
+    -   Larger set of operations
+    -   Scales nicely on clusters
     -   Well trusted by enterprise
 -   Cons
     -  Heavyweight and JVM focused
@@ -332,8 +335,8 @@ Outline
 
 ### Task Schedulers (Airflow, Luigi, Celery, ...)
 
-<img src="images/airflow.png" width="45%">
-<img src="images/luigi.png" width="45%">
+<img src="images/airflow.png" width="40%">
+<img src="images/luigi.png" width="40%">
 
 -  Pros
     -  Handle arbitrarily complex task graphs
@@ -348,7 +351,7 @@ Outline
 
 <hr>
 
-### Built for scaling computational loads (like Spark, Flink)
+### Built for computational loads (like Spark, Flink)
 
 
 
@@ -665,6 +668,22 @@ For numeric computations, Python libraries run at bare-metal speeds
     -  Companies who fund directly (largely finance)
     -  Institutions who use and contribute code/bug reports (maybe yours?)
     -  Continuum Analytics
+
+
+## Github issues in the last 48 hours
+
+-  **ESGF/esgf-compute-wps**: Earth System Grid Federation
+-  **matyasselmeci/dask_condor**: Deploy on Condor clusters
+-  **DigitalSlideArchive/HistomicsTK:** Image analysis of diseased tissue
+-  **alimanfoo/scikit-allel**: Genomics
+-  **datasciencebr/serenata-toolbox:** Brazillian gov't analysis
+-  **dask/dask-searchcv:** SKLearn GridSearch, model selection
+-  **dask/fastparquet**: Parquet storage format
+-  **pydata/xarray**: Labeled arrays and climate science
+-  **SciTools/iris**: UK Met office weather analysis
+-  **pyFFTW/pyFFTW**: Fast fourier transforms
+
+*As of 2017-05-18 11:09 UTC-8:00*
 
 
 ### Final Slide.  Questions?
