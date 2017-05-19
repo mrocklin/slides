@@ -8,21 +8,23 @@ Dask: Parallel Programming in Python
 Continuum Analytics
 
 
-### We have a strong analytics ecosystem (numpy, pandas)
+### We have a strong analytics ecosystem (NumPy, Pandas)
 
 <hr>
 
 ### that is mostly restricted to a single core and RAM
 
 
-### How do we scale an ecosystem?
+### How do we parallelize an ecosystem?
 
 <hr>
 
-### With thousands of packages, and custom algorithms
+### of thousands of packages
+
+### each with custom algorithms
 
 
-### High quality and useful algorithms (e.g. scikit-image)
+### Sckit-Image: general image analysis
 
     skimage.feature.canny(im, sigma=3)
 
@@ -30,14 +32,18 @@ Continuum Analytics
      alt="Canny edge detection from skimage"
      width="50%">
 
-### Broad coverage in niche corners (e.g. scikit-allel)
+### Scikit-Allel: Specialized genomics
 
 <img src="http://alimanfoo.github.io/assets/2016-06-10-scikit-allel-tour_files/2016-06-10-scikit-allel-tour_50_0.png" alt="scikit-allel example" width="50%" align="center">
 
 *Example taken from scikit-allel webpage*
 
 
-### Need a library that is flexible enough
+### Need a parallel computing library
+
+<hr>
+
+### ... that is flexible enough
 
 <hr>
 
@@ -45,7 +51,7 @@ Continuum Analytics
 
 <hr>
 
-### ... for this disparate community
+### ... to parallelize a disparate ecosystem
 
 <img src="http://dask.pydata.org/en/latest/_images/dask_horizontal_white.svg"
      alt="dask logo"
@@ -55,12 +61,13 @@ Continuum Analytics
 Outline
 -------
 
--  **Parallel Algorithms**: Examples of array algorithms
--  **Survey of Systems**: Look at Spark, Airflow, etc..
--  **Internals**: How Dask works
--  **Ecosystem**: Python's strengths and weaknesses for parallelism
-
-But first, some flashy examples...
+-  Parallel NumPy and Pandas
+-  Parallel code generally
+-  Task Graphs and Task Scheduling
+    -   Compare with other systems (Spark, Airflow)
+    -   Dask's task schedulers
+-  Python APIs and Protocols
+-  Python Ecosystem and strengths for parallel computing
 
 
 
@@ -69,8 +76,6 @@ But first, some flashy examples...
 <hr>
 
 ### Low Level: An easy-ish way to parallelize other libraries
-
-### Dask is a dynamic task scheduler
 
 
 ### Dask.array
@@ -98,7 +103,10 @@ But first, some flashy examples...
 
     import dask.dataframe as dd
     df = dd.read_csv('hdfs://myfiles.*.csv', parse_dates=['timestamp'])
-    df.groupby(df.timestamp.dt.hour).value.mean()
+    df.groupby(df.timestamp.dt.hour).value.mean().compute()
+
+
+### But many important problems aren't arrays or dataframes
 
 
 ### Fine Grained Python Code
@@ -651,12 +659,12 @@ For numeric computations, Python libraries run at bare-metal speeds
     -  ~10 part time developers, about half at Continuum
     -  Core developers from Pandas, NumPy, SKLearn, Jupyter, ...
 -  Funding agencies
+    -  Strong developer community (maybe you?)
     -  Government (DAPRA, NASA, Army Engineers, UK Met, ...)
     -  Moore Foundation Data Driven Discovery
     -  Companies who fund directly (largely finance)
     -  Institutions who use and contribute code/bug reports (maybe yours?)
     -  Continuum Analytics
-    -  Strong developer community (maybe you?)
 
 
 ### Final Slide.  Questions?
