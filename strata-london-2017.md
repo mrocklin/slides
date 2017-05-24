@@ -36,6 +36,21 @@ Continuum Analytics
 ### each with custom algorithms
 
 
+### Sckit-Image: general image analysis
+
+    skimage.feature.canny(im, sigma=3)
+
+<img src="http://scikit-image.org/docs/dev/_images/sphx_glr_plot_canny_001.png"
+     alt="Canny edge detection from skimage"
+     width="50%">
+
+### Scikit-Allel: Specialized genomics
+
+<img src="http://alimanfoo.github.io/assets/2016-06-10-scikit-allel-tour_files/2016-06-10-scikit-allel-tour_50_0.png" alt="scikit-allel example" width="50%" align="center">
+
+*Example taken from scikit-allel webpage*
+
+
 ### Need a parallel computing library
 
 <hr>
