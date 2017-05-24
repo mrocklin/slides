@@ -24,6 +24,7 @@ Continuum Analytics
 -  **Efficient** using C/Fortran/LLVM/CUDA under the hood
     -   High-level Python API for accessibility
     -   Low-level optimized code for speed
+    -   Sophisticated algorithms
 
 
 ### How do we parallelize an existing analytics stack?
@@ -50,7 +51,7 @@ Continuum Analytics
 ### ... to parallelize a disparate ecosystem
 
 
-<img src="http://dask.pydata.org/en/latest/_images/dask_horizontal_white.svg"
+<img src="images/dask_horizontal_white.svg"
      alt="dask logo"
      width="50%">
 
@@ -154,59 +155,73 @@ Outline
 
 <img src="images/array-1d.svg">
 
-    >>> np.ones((15,))
-    array([ 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.])
+```python
+>>> np.ones((15,))
+array([ 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.])
 
-    >>> x = da.ones((15,), chunks=(5,))
+>>> x = da.ones((15,), chunks=(5,))
+```
 
 
 ### 1D-Array
 
 <img src="images/array-1d-sum.svg" width="30%">
 
-    x = da.ones((15,), chunks=(5,))
-    x.sum()
+```python
+x = da.ones((15,), chunks=(5,))
+x.sum()
+```
 
 
 ### ND-Array - Sum
 
 <img src="images/array-sum.svg">
 
-    x = da.ones((15, 15), chunks=(5, 5))
-    x.sum(axis=0)
+```python
+x = da.ones((15, 15), chunks=(5, 5))
+x.sum(axis=0)
+```
 
 
 ### ND-Array - Transpose
 
 <img src="images/array-xxT.svg">
 
-    x = da.ones((15, 15), chunks=(5, 5))
-    x + x.T
+```python
+x = da.ones((15, 15), chunks=(5, 5))
+x + x.T
+```
 
 
 ### ND-Array - Matrix Multiply
 
 <img src="images/array-xdotxT.svg">
 
-    x = da.ones((15, 15), chunks=(5, 5))
-    x.dot(x.T + 1)
+```python
+x = da.ones((15, 15), chunks=(5, 5))
+x.dot(x.T + 1)
+```
 
 
 ### ND-Array - Compound Operations
 
 <img src="images/array-xdotxT-mean.svg">
 
-    x = da.ones((15, 15), chunks=(5, 5))
-    x.dot(x.T + 1) - x.mean()
+```python
+x = da.ones((15, 15), chunks=(5, 5))
+x.dot(x.T + 1) - x.mean()
+```
 
 
 ### ND-Array - Compound Operations
 
 <img src="images/array-xdotxT-mean-std.svg">
 
-    import dask.array as da
-    x = da.ones((15, 15), chunks=(5, 5))
-    y = (x.dot(x.T + 1) - x.mean()).std()
+```python
+import dask.array as da
+x = da.ones((15, 15), chunks=(5, 5))
+y = (x.dot(x.T + 1) - x.mean()).std()
+```
 
 
 ### Dask APIs Produce Task Graphs
@@ -326,7 +341,7 @@ Outline
 
 
 
-<img src="http://dask.pydata.org/en/latest/_images/dask_horizontal_white.svg"
+<img src="images/dask_horizontal_white.svg"
      alt="dask logo"
      width="40%">
 
@@ -377,14 +392,18 @@ Or use it on your laptop
 
 Set up locally
 
-    from dask.distributed import Client
-    client = Client()  # set up local scheduler and workers
+```python
+from dask.distributed import Client
+client = Client()  # set up local scheduler and workers
+```
 
 Lightweight
 
-    In [3]: %time client = Client(processes=False)  # use local threads
-    CPU times: user 44 ms, sys: 0 ns, total: 44 ms
-    Wall time: 43.6 ms
+```python
+In [3]: %time client = Client(processes=False)  # use local threads
+CPU times: user 44 ms, sys: 0 ns, total: 44 ms
+Wall time: 43.6 ms
+```
 
 
 ### Distributed Network
@@ -395,14 +414,18 @@ Or use it on your laptop
 
 Set up locally
 
-    from dask.distributed import Client
-    client = Client()  # set up local scheduler and workers
+```python
+from dask.distributed import Client
+client = Client()  # set up local scheduler and workers
+```
 
 Lightweight
 
-    In [3]: %time client = Client(processes=False)  # use local threads
-    CPU times: user 44 ms, sys: 0 ns, total: 44 ms
-    Wall time: 43.6 ms
+```python
+In [3]: %time client = Client(processes=False)  # use local threads
+CPU times: user 44 ms, sys: 0 ns, total: 44 ms
+Wall time: 43.6 ms
+```
 
 
 
