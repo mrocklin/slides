@@ -593,9 +593,79 @@ for k in range(max_steps):
 ```
 
 
-<img src="images/grad-step-white-on-black.svg"
-     width="100%"
+### Example: Convex optimization algorithms with Dask array
+
+<img src="images/grad-step-white-on-transparent.svg"
+     width="80%"
      alt="Gradient descent step Dask graph">
+
+Work mostly by Chris White (Capital One), Tom Augspurger (Continuum)
+
+
+### Example: Dask + XGBoost
+
+```python
+df = dd.read_csv('...')    # load and clean with dask.dataframe
+training_data = df[[...]]  # prepare training data and labels
+labels = df['clicked']
+
+import dask_xgboost
+params = {'objective': 'binary:logistic', 'eta': 0.01, 'max_depth': 16}
+bst = dask_xgboost.train(client, params, training_data, labels)  # hand off
+
+>>> bst
+<xgboost.core.Booster at 0x7fa1c18c4c18>
+```
+
+<img src="images/dask-xgboost-pre.svg"
+     alt="dask and xgboost in same workers"
+     width="70%">
+
+Easy to build in ~ 15 hours.  Collaboration with Tianqi Chen, Olivier Grisel.
+[dmlc/xgboost #2032](https://github.com/dmlc/xgboost/issues/2032)
+
+
+### Example: Dask + XGBoost
+
+```python
+df = dd.read_csv('...')    # load and clean with dask.dataframe
+training_data = df[[...]]  # prepare training data and labels
+labels = df['clicked']
+
+import dask_xgboost
+params = {'objective': 'binary:logistic', 'eta': 0.01, 'max_depth': 16}
+bst = dask_xgboost.train(client, params, training_data, labels)  # hand off
+
+>>> bst
+<xgboost.core.Booster at 0x7fa1c18c4c18>
+```
+
+<img src="images/dask-xgboost-post.svg"
+     alt="dask and xgboost in same workers"
+     width="70%">
+
+Easy to build in ~ 15 hours.  Collaboration with Tianqi Chen, Olivier Grisel.
+[dmlc/xgboost #2032](https://github.com/dmlc/xgboost/issues/2032)
+
+
+### Example: Gradient-free search
+
+```python
+from dask_patternsearch import search
+
+def f(x):
+    return x.dot(x)
+
+x0 = np.array([1, 2, 3])
+best, results = search(f, x0, stepsize, stopratio=1e-4)
+```
+
+<img src="images/dask-patternsearch.gif"
+     alt="Dask pattern search example">
+
+-  Fully asynchronouns: Guides computation from partial results
+-  Implementation by Erik Welch (Continuum)
+-  *Optimization by Direct Search: New Perspectives on Some Classical and Modern Methods.  SIAM Review 2003.  Kolda, Lewis, Torczon.*
 
 
 
@@ -633,17 +703,17 @@ for k in range(max_steps):
 
 ### Final Slide.  Questions?
 
--  Dask is scaling the existing Python ecosystem
--  Dask integrates existing libraries and APIs to do this cheaply
+-  Dask scales the existing Python ecosystem
+-  Dask enables custom applications
 -  Docs: [dask.pydata.org](https://dask.pydata.org/en/latest/) --
    Github: [github.com/dask](https://github.com/dask)
 -  You can set it up right now during questions:
 
         $ conda install dask
-        $ python
+        $ pip install dask[complete]
 
         >>> from dask.distributed import Client
-        >>> client = Client()  # starts a "cluster" on your laptop
+        >>> client = Client()  # starts "cluster" on your laptop
 
         >>> futures = client.map(lambda x: x + 1, range(1000))
         >>> total = client.submit(sum, futures)
