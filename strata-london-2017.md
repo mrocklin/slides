@@ -663,7 +663,7 @@ best, results = search(f, x0, stepsize, stopratio=1e-4)
 <img src="images/dask-patternsearch.gif"
      alt="Dask pattern search example">
 
--  Fully asynchronouns: Guides computation from partial results
+-  Fully asynchronous: Guide computation from partial results
 -  Implementation by Erik Welch (Continuum)
 -  *Optimization by Direct Search: New Perspectives on Some Classical and Modern Methods.  SIAM Review 2003.  Kolda, Lewis, Torczon.*
 
