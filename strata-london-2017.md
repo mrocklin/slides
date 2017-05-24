@@ -44,7 +44,7 @@ Continuum Analytics
 
 <hr>
 
-### ... and familiar enough
+### ... and light enough
 
 <hr>
 
@@ -384,49 +384,35 @@ Optimized for larger-than-memory use.
 <img src="images/network-inverse.svg">
 
 
-### Distributed Network
+### Setup Distributed Network
 
-Or use it on your laptop
+    $ dask-scheduler
+    Scheduler listening at tcp://192.168.1.100:8786
 
-    $ conda install dask
+    $ dask-worker tcp://192.168.1.100:8786
+    $ dask-worker tcp://192.168.1.100:8786
 
-Set up locally
+```python
+>>> from dask.distributed import Client
+>>> client = Client('tcp://192.168.1.100:8786')
+```
+
+### Run locally on your laptop
 
 ```python
 from dask.distributed import Client
 client = Client()  # set up local scheduler and workers
 ```
 
-Lightweight
+### Deploy on cluster resource manager
 
-```python
-In [3]: %time client = Client(processes=False)  # use local threads
-CPU times: user 44 ms, sys: 0 ns, total: 44 ms
-Wall time: 43.6 ms
-```
-
-
-### Distributed Network
-
-Or use it on your laptop
-
-    $ pip install dask[complete]  # Dask is a pure Python library
-
-Set up locally
-
-```python
-from dask.distributed import Client
-client = Client()  # set up local scheduler and workers
-```
-
-Lightweight
-
-```python
-In [3]: %time client = Client(processes=False)  # use local threads
-CPU times: user 44 ms, sys: 0 ns, total: 44 ms
-Wall time: 43.6 ms
-```
-
+-   dask-kubernetes
+-   dask-marathon
+-   dask-yarn
+-   dask-drmaa
+-   dask-ssh
+-   dask-ec2
+-   ...
 
 
 ### Distributed Scheduler
@@ -546,13 +532,15 @@ Wall time: 43.6 ms
 
 ### Example Domain: Machine Learning
 
-1.  Model parallelism with Scikit-Learn
+1.  Integrate with Scikit-Learn
+    -   Create API compatible components like model selection
 
-    ```python
-    pipe = Pipeline(steps=[('pca', PCA()),
-                           ('logistic', LogisticRegression)])
-    grid = GridSearchCV(pipe, parameter_grid)
-    ```
+        ```python
+        pipe = Pipeline(steps=[('pca', PCA()),
+                               ('logistic', LogisticRegression)])
+        grid = GridSearchCV(pipe, parameter_grid)
+        ```
+    -   Hijack SKlearn's internal parallel library, joblib
 
 2.  Implement algorithms with dask.array
 
@@ -583,7 +571,7 @@ for k in range(max_steps):
     obeta = beta_hat
     beta_hat = beta_hat - step_size * gradient
     new_func = ((y - X.dot(beta_hat))**2).sum()
-    beta_hat, func, new_func = dask.compute(beta_hat, func, new_func) # Dask
+    beta_hat, func, new_func = dask.compute(beta_hat, func, new_func) # new
 
     ## Check for convergence
     change = np.absolute(beta_hat - obeta).max()
@@ -617,6 +605,9 @@ bst = dask_xgboost.train(client, params, training_data, labels)  # hand off
 <xgboost.core.Booster at 0x7fa1c18c4c18>
 ```
 
+-  Launches XGBoost workers alongside Dask workers
+-  Passes data off and lets XGBoost handle what it does best
+
 <img src="images/dask-xgboost-pre.svg"
      alt="dask and xgboost in same workers"
      width="70%">
@@ -640,6 +631,9 @@ bst = dask_xgboost.train(client, params, training_data, labels)  # hand off
 <xgboost.core.Booster at 0x7fa1c18c4c18>
 ```
 
+-  Launches XGBoost workers alongside Dask workers
+-  Passes data off and lets XGBoost handle what it does best
+
 <img src="images/dask-xgboost-post.svg"
      alt="dask and xgboost in same workers"
      width="70%">
@@ -660,13 +654,14 @@ x0 = np.array([1, 2, 3])
 best, results = search(f, x0, stepsize, stopratio=1e-4)
 ```
 
+-  Directs computation based on recent results
+-  Fully live and asynchronous
+-  Algorithm scales to very many dimensions
+
 <img src="images/dask-patternsearch.gif"
      alt="Dask pattern search example">
 
--  Fully asynchronous: Guide computation from partial results
 -  Implementation by Erik Welch (Continuum)
--  *Optimization by Direct Search: New Perspectives on Some Classical and Modern Methods.  SIAM Review 2003.  Kolda, Lewis, Torczon.*
-
 
 
 ## Engagement
@@ -701,7 +696,7 @@ best, results = search(f, x0, stepsize, stopratio=1e-4)
 
 
 
-### Final Slide.  Questions?
+### Thank you -- Questions?
 
 -  Dask scales the existing Python ecosystem
 -  Dask enables custom applications
@@ -709,8 +704,8 @@ best, results = search(f, x0, stepsize, stopratio=1e-4)
    Github: [github.com/dask](https://github.com/dask)
 -  You can set it up right now during questions:
 
-        $ conda install dask
-        $ pip install dask[complete]
+        $ conda install dask            # Install with conda
+        $ pip install dask[complete]    # or with pip
 
         >>> from dask.distributed import Client
         >>> client = Client()  # starts "cluster" on your laptop
