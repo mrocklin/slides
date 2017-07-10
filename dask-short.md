@@ -244,6 +244,252 @@ Parallel map
 
 
 
+### Dask APIs Produce Task Graphs
+
+<hr>
+
+### Dask Schedulers Execute Task Graphs
+
+
+### 1D-Array
+
+<img src="images/array-1d.svg">
+
+    >>> np.ones((15,))
+    array([ 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.])
+
+    >>> x = da.ones((15,), chunks=(5,))
+
+
+### 1D-Array
+
+<img src="images/array-1d-sum.svg" width="30%">
+
+    x = da.ones((15,), chunks=(5,))
+    x.sum()
+
+
+### ND-Array - Sum
+
+<img src="images/array-sum.svg">
+
+    x = da.ones((15, 15), chunks=(5, 5))
+    x.sum(axis=0)
+
+
+### ND-Array - Transpose
+
+<img src="images/array-xxT.svg">
+
+    x = da.ones((15, 15), chunks=(5, 5))
+    x + x.T
+
+
+### ND-Array - Matrix Multiply
+
+<img src="images/array-xdotxT.svg">
+
+    x = da.ones((15, 15), chunks=(5, 5))
+    x.dot(x.T + 1)
+
+
+### ND-Array - Compound Operations
+
+<img src="images/array-xdotxT-mean.svg">
+
+    x = da.ones((15, 15), chunks=(5, 5))
+    x.dot(x.T + 1) - x.mean()
+
+
+### ND-Array - Compound Operations
+
+<img src="images/array-xdotxT-mean-std.svg">
+
+    import dask.array as da
+    x = da.ones((15, 15), chunks=(5, 5))
+    y = (x.dot(x.T + 1) - x.mean()).std()
+
+
+### Dask APIs Produce Task Graphs
+
+<hr>
+
+### Dask Schedulers Execute Task Graphs
+
+
+### Dask.array/dataframe/delayed author task graphs
+
+<hr>
+
+<img src="images/grid_search_schedule-0.png" width="100%">
+
+<hr>
+
+### Now we need to run them efficiently
+
+
+### Dask.array/dataframe/delayed author task graphs
+
+<hr>
+
+<img src="images/grid_search_schedule.gif" width="100%">
+
+<hr>
+
+### Now we need to run them efficiently
+
+
+<img src="http://dask.pydata.org/en/latest/_images/dask_horizontal_white.svg"
+     alt="dask logo"
+     width="40%">
+
+<img src="images/grid_search_schedule.gif" width="100%">
+
+-  Dynamic task scheduler for generic applications
+-  Handles data locality, resilience, work stealing, etc..
+-  With 10ms roundtrip latencies and 200us overheads
+-  Native Python library respecting Python protocols
+-  Lightweight and well supported
+
+
+### Single Machine Scheduler
+
+Optimized for larger-than-memory use.
+
+*   **Parallel CPU**: Uses multiple threads or processes
+*   **Minimizes RAM**: Choose tasks to remove intermediates
+*   **Low overhead:** ~100us per task
+*   **Concise**: ~1000 LOC
+*   **Real world workloads**: Under heavy load by many different projects
+
+
+### Distributed Scheduler
+
+*   **Distributed**: One scheduler coordinates many workers
+*   **Data local**: Moves computation to correct worker
+*   **Asynchronous**: Continuous non-blocking conversation
+*   **Multi-user**: Several users share the same system
+*   **HDFS Aware**: Works well with HDFS, S3, YARN, etc..
+*   **Solidly supports**: dask.array, dask.dataframe, dask.bag, dask.delayed,
+    concurrent.futures, ...
+*   **Less Concise**: ~5000 LOC Tornado TCP application
+
+    All of the logic is hackable Python, separate from Tornado
+
+
+### Distributed Network
+
+<img src="images/network-inverse.svg">
+
+
+### Distributed Network
+
+Set up locally
+
+    from dask.distributed import Client
+    client = Client()  # set up local scheduler and workers
+
+Set up on a cluster
+
+    host1$ dask-scheduler
+    Starting scheduler at 192.168.0.1:8786
+
+    host2$ dask-worker 192.168.0.1:8786
+    host3$ dask-worker 192.168.0.1:8786
+    host4$ dask-worker 192.168.0.1:8786
+
+
+
+### Brief and Incomplete Summary of Parallelism Options
+
+-  Embarrassingly parallel systems (multiprocessing, joblib)
+-  Big Data collections (MapReduce, Spark, Flink, Database)
+-  Task schedulers (Airflow, Luigi, Celery, Make)
+
+
+### map
+
+    # Sequential Code
+    data = [...]
+    output = map(func, data)
+
+<hr>
+
+    # Parallel Code
+    pool = multiprocessing.Pool()
+    output = pool.map(func, data)
+
+-   Pros
+    -   Easy to install and use in the common case
+    -   Lightweight dependency
+-   Cons
+    -  Data interchange cost
+    -  Not able to handle complex computations
+
+
+### Big Data collections
+
+    from pyspark import SparkContext
+    sc = SparkContext('local[4]')
+
+    rdd = sc.parallelize(data)
+    rdd.map(json.loads).filter(...).groupBy(...).count()
+
+    df = spark.read_json(...)
+    df.groupBy('name').aggregate({'value': 'sum'})
+
+-   Pros
+    -   Larger set of operations
+    -   Scales nicely on clusters
+    -   Well trusted by enterprise
+-   Cons
+    -  Heavyweight and JVM focused
+    -  Not able to handle complex computations
+
+
+### This is what I mean by complex
+
+<img src="images/array-xdotxT-mean-std.svg">
+
+### Spark does the following well
+
+<table>
+<tr>
+  <td>
+    <img src="images/embarrassing.svg">
+  </td>
+  <td>
+    <img src="images/shuffle.svg">
+  </td>
+  <td>
+    <img src="images/reduction.svg">
+  </td>
+</tr>
+</table>
+
+
+### Task Schedulers (Airflow, Luigi, Celery, ...)
+
+<img src="images/airflow.png" width="40%">
+<img src="images/luigi.png" width="40%">
+
+-  Pros
+    -  Handle arbitrarily complex task graphs
+    -  Python Native
+-  Cons
+    -  No inter-worker storage or data interchange
+    -  Long latencies (relatively)
+    -  Not designed for computational loads
+
+
+### Want a task scheduler (like Airflow, Luigi)
+
+<hr>
+
+### Built for computational loads (like Spark, Flink)
+
+
+
 ### NumPy
 
 <img src="images/numpy-inverted.svg">
