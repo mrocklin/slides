@@ -8,8 +8,8 @@ Dask: Advanced Techniques
 Continuum Analytics
 
 
-Seven tricks you didn't know about Dask that will shock you!
-------------------------------------------------------------
+Seven Dask tricks that will shock you!
+--------------------------------------
 
 <img src="images/dask_icon.svg" width=20%>
 
@@ -19,13 +19,18 @@ Continuum Analytics
 
 
 1.  **Objectives**:
-    1.  Push existing users to use dask.distributed scheduler
+    1.  Encourage existing users to use the dask.distributed scheduler
     2.  Learn advanced task-scheduling features
-    3.  Point new developers to contribution opportunities
+    3.  Point new developers to contribution projects
 2.  **Not going to** explain Dask at a high level
 
     See [PyCon 2017 talk](https://www.youtube.com/watch?v=RA_2qdipVng&t=1s) instead
 
+
+
+### Centralized scheduler, distributed workers
+
+<img src="images/network-inverse.svg">
 
 
 ### Consider using the dask.distributed scheduler
@@ -36,7 +41,7 @@ Continuum Analytics
     1.  Get diagnostics
     2.  Get new features (more about this throughout the talk)
     3.  Scale out if necessary
-    4.  Almost always more efficient than multiprocessing scheduler
+    4.  Almost always more efficient than the multiprocessing scheduler
 2.  It's lightweight
 
     Worker setup, task submission, result retrieval, shutdown:
@@ -53,19 +58,13 @@ Continuum Analytics
     ```
 
 
-
-### Centralized scheduler, distributed workers
-
-<img src="images/network-inverse.svg">
+<img src="images/ian-ozsvald-1.png" width="50%">
 
 
-<img src="images/ian-ozsvald-1.png" width="40%">
+<img src="images/ian-ozsvald-2.png" width="70%">
 
 
-<img src="images/ian-ozsvald-2.png" width="40%">
-
-
-<img src="images/ian-ozsvald-3.png" width="40%">
+<img src="images/ian-ozsvald-3.png" width="50%">
 
 
 ### Lesson: If you use dask.dataframe/bag/delayed
@@ -153,7 +152,7 @@ TODO image of non-trivial processing pipeline
 
 ### First we need to learn some new features
 
-1. [Concurrent.futures](https://docs.python.org/3/library/concurrent.futures.html) interface
+1. [Concurrent.futures](https://docs.python.org/3/library/concurrent.futures.html) interface (PEP 3148)
 2.  Changing computational graphs on-the-fly
 3.  Multi-client workloads (tasks submitting tasks)
 4.  Worker coordination primitives (queues, shared variables)
@@ -179,6 +178,7 @@ TODO image of non-trivial processing pipeline
 <div class="row">
 <div class="col-xs-6">
 <pre><code data-trim>
+>>> from operator import add
 >>> future = client.submit(add, 1, 2)  # add(1, 2) remotely
 >>> future
 &lt;Future: status: pending, key: add-c3cae4a08c3bbbbd&gt;
@@ -226,9 +226,9 @@ memory</p>
 <div class="row">
 <div class="col-xs-6">
 <pre><code data-trim>
->>> a = client.submit(f, 1)
->>> b = client.submit(f, 2)
->>> c = client.submit(g, a, b)  # submit task on futures
+>>> x = client.submit(f, 1)
+>>> y = client.submit(f, 2)
+>>> z = client.submit(g, x, y)  # submit task on futures
 </code></pre>
 </div>
 <div class="col-xs-6">
@@ -253,12 +253,12 @@ Submit functions on futures to create dependencies
 <pre><code data-trim>
 >>> futures = [client.submit(f, x) for x in L]
 >>> futures
-[&lt;Future: status: pending, key: f-1&gt;
- &lt;Future: status: finished, key: f-2&gt;
- &lt;Future: status: finished, key: f-3&gt;
- &lt;Future: status: erred, key: f-4&gt;
- &lt;Future: status: pending, key: f-5&gt;
- &lt;Future: status: pending, key: f-6&gt;]
+[&lt;Future: status: pending, key: ...&gt;
+ &lt;Future: status: finished, key: ...&gt;
+ &lt;Future: status: finished, key: ...&gt;
+ &lt;Future: status: erred, key: ...&gt;
+ &lt;Future: status: pending, key: ...&gt;
+ &lt;Future: status: pending, key: ...&gt;]
 </code></pre>
 </div>
 <div class="col-xs-6">
@@ -310,6 +310,9 @@ client.cancel(iterator.futures)  # cancel the rest
 </div>
 <div class="col-xs-6">
 <p align="left">Iterate over futures as they complete</p>
+<p align="left">Part of the standard concurrent.futures API</p>
+<p align="left">Quit early if we have a good enough result</p>
+<p align="left">Cancel remaining work</p>
 </div>
 </div>
 
@@ -337,7 +340,9 @@ for future in iterator:
 </code></pre>
 </div>
 <div class="col-xs-6">
-<p align="left">Continue to add more tasks</p>
+<p align="left">Continue to submit more tasks</p>
+<p align="left">Add them to the iterator</p>
+<p align="left">Simple way to create asynchronous iterative algorithms</p>
 </div>
 </div>
 
@@ -436,11 +441,11 @@ for res in iterator:
 def func(...):
     client = get_client()
     futures = [client.submit(...) for ...]
-
-futures = client.submit(func, ...)
+    results = client.gather(futures)
+    return sum(results)
 
 .
-.
+future = client.submit(func, ...)
 </code></pre>
 </div>
 <div class="col-xs-4">
@@ -566,7 +571,7 @@ x = v.get()
 <hr>
 
 
-### Multi-client coordination
+### Multi-consumer Multi-producer system
 
 <div class="row">
 <div class="col-xs-6">
