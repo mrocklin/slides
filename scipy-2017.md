@@ -59,6 +59,8 @@ Continuum Analytics
     Wall time: 39.3 ms
     ```
 
+    Thanks to Antoine Pitrou for performance here
+
 
 <img src="images/ian-ozsvald-1.png" width="50%">
 
@@ -612,7 +614,7 @@ consumers = [client.submit(consumer, ...) for i in range(m)]
 
 ### Live example with beamline
 
-[beamline gist](https://gist.github.com/mrocklin/a0015dac84fc6a123a7206937ed671ca)
+[beamline gist](https://gist.github.com/4941effc945032fc2abb4aa76f4bbb1a)
 
 <img src="images/synchrotron-2.svg" width="30%">
 
