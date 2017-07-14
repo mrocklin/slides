@@ -12,7 +12,7 @@ Continuum Analytics
     1.  Inform current users of newer techniques
     2.  Expose advanced task-scheduling features
     3.  Point new developers to contribution opportunities
-2.  **Not planning to** explain Dask at a high level
+2.  **Not going to** explain Dask at a high level
 
     See [PyCon 2017 talk](https://www.youtube.com/watch?v=RA_2qdipVng&t=1s) instead
 
@@ -26,7 +26,7 @@ Continuum Analytics
     2.  Get new features (more about this throughout the talk)
     3.  Scale out if necessary
     4.  Almost always more efficient than multiprocessing scheduler
-2.  Dask collections have advanced:
+2.  Dask collections have advanced:  # TODO: remove this
     1.  More mature and complete
     2.  More advanced algorithms (like dense linear algebra)
 3.  The "distributed" scheduler is lightweight
@@ -60,33 +60,46 @@ Continuum Analytics
 <img src="images/ian-ozsvald-3.png" width="40%">
 
 
+### Lesson: If you are using dask.dataframe/bag/delayed
+
+### You may have better performance (and fancy plots!) with the dask.distributed scheduler
+
+<hr>
+
+### XArray folks may want to stick with threaded, unless you have a cluster
+
+### (which you probably do!)
+
+
 ## Lesson: Tweeting benchmarks is a good way to get priority support
 
 <hr>
 
-## Cheaper than paying Continuum
+## It's cheaper than paying Continuum
 
 
 ## But this talk isn't about array, bags, or dataframes
 
 <hr>
 
-## The new scheduler provides more flexibility
-
-### Reactive system that responds to stimuli from clients and workers
+## It's about new things
 
 
-## Motivating example
+## Motivating Science Example
 
 
 ### Image processing pipeline (with hardware)
 
 <img src="images/synchrotron-1.svg" width="30%">
 
+### (this is a synchrotron)
+
 
 ### Image processing pipeline (with hardware)
 
 <img src="images/synchrotron-2.svg" width="30%">
+
+### (this is a synchrotron)
 
 
 <img src="images/bnl-image-pipeline-4.jpg" width="100%">
@@ -107,7 +120,7 @@ Continuum Analytics
 
 <hr>
 
-### Not big data, but fast and real time
+### Not big datasets, but fast and real time
 
 ### Beam scientists observe progress and twiddle knobs
 
@@ -120,14 +133,16 @@ Continuum Analytics
 
 <img src="images/beamline-computers-and-cluster.svg" width="40%">
 
+TODO image of non-trivial pipeline
+
 
 ### Lets build this system with Dask
 
 <hr>
 
-### First we learn the necessary features
+### First we need to learn some new features
 
-1.  Concurrent.futures
+1. [Concurrent.futures](https://docs.python.org/3/library/concurrent.futures.html) interface
 2.  Changing computational graphs on-the-fly
 3.  Multi-client workloads (tasks submitting tasks)
 4.  Worker coordination primitives (queues, shared variables)
@@ -158,7 +173,7 @@ Continuum Analytics
 </code></pre>
 </div>
 <div class="col-xs-6">
-<p align="left">Submit a single task to run</p>
+<p align="left">Submit a single task to run in the background</p>
 
 <p align="left">Worker runs <tt>add(1, 2)</tt>, stores result in its local
 memory</p>
@@ -175,7 +190,7 @@ memory</p>
 </code></pre>
 </div>
 <div class="col-xs-6">
-<p align="left">Learn about status in the background</p>
+<p align="left">Learn about status asynchronously</p>
 </div>
 </div>
 
@@ -212,6 +227,13 @@ Submit functions on futures to create dependencies
 <img src="images/fg-simple.svg">
 
 
+### This does everything dask.delayed did
+
+<hr>
+
+### But now we can control it over time
+
+
 ### Track computations real-time
 
 <div class="row">
@@ -232,8 +254,9 @@ Updates happen in the background
 </div>
 </div>
 
+<hr>
 
-### Change, cancel, and add computations real time
+### Manipulate computations on-the-fly
 
 <div class="row">
 <div class="col-xs-6">
@@ -260,16 +283,16 @@ Submit new tasks during execution
 
 future = [client.submit(func, *args) for x in L]
 
-ac = as_completed(futures)
+iterator = as_completed(futures)
 
 best = 0
-for future in ac:
+for future in iterator:
     result = future.result()
     best = max(best, result)
     if best > 100:  # good enough, quit early
         break
 
-client.cancel(ac.futures)  # cancel the rest
+client.cancel(iterator.futures)  # cancel the rest
 .
 </code></pre>
 </div>
@@ -288,22 +311,21 @@ client.cancel(ac.futures)  # cancel the rest
 
 future = [client.submit(func, *args) for x in L]
 
-ac = as_completed(futures)
+iterator = as_completed(futures)
 
 total = 0
-for future in ac:
+for future in iterator:
     result = future.result()
     total += result
     if result > 10:
         a = client.submit(func, ...)  # submit more work
         b = client.submit(func, ...)  # submit more work
-        ac.add(a)  # add to iterator
-        ac.add(b)  # add to iterator
+        iterator.add(a)  # add to iterator
+        iterator.add(b)  # add to iterator
 </code></pre>
 </div>
 <div class="col-xs-6">
-<p align="left">Submit more futures</p>
-<p align="left">Add them to the iterator and continue tracking</p>
+<p align="left">Continue to add more tasks</p>
 </div>
 </div>
 
@@ -338,7 +360,7 @@ for future in ac:
 <div class="col-xs-8">
 <pre><code data-trim>
 futures = [client.submit(rosenbrock, point) for point in initial]
-running = as_completed(futures)
+iterator = as_completed(futures)
 </code></pre>
 </div>
 <div class="col-xs-4">
@@ -352,7 +374,7 @@ running = as_completed(futures)
 <div class="row">
 <div class="col-xs-8">
 <pre><code data-trim>
-for res in running:
+for res in iterator:
     point, score = res.result()
     if score < best_score:
         best_score = score
@@ -361,7 +383,7 @@ for res in running:
     x, y = best_point
     new_point = client.submit(rosenbrock, (x + random.uniform(-scale, scale),
                                            y + random.uniform(-scale, scale)))
-    running.add(new_point)  # Start tracking new task as well
+    iterator.add(new_point)  # Start tracking new task as well
 
     scale *= 0.99
 
@@ -379,10 +401,25 @@ for res in running:
 
 ### Submit tasks from tasks
 
+<img src="images/network-inverse.svg">
+
+
+### Submit tasks from tasks
+
+<img src="images/network-inverse-2.svg">
+
+
+### Submit tasks from tasks
+
+<img src="images/network-inverse-3.svg">
+
+
+### Submit tasks from tasks
+
 <div class="row">
-<div class="col-xs-6">
+<div class="col-xs-8">
 <pre><code data-trim>
-    from dask.distributed import get_client
+    from dask.distributed import get_client, get_worker, secede, fire_and_forget
 
 def func(...):
     client = get_client()
@@ -394,10 +431,10 @@ futures = client.submit(func, ...)
 .
 </code></pre>
 </div>
-<div class="col-xs-6">
+<div class="col-xs-4">
 <p align="left">Tasks can get their own client<p>
 <p align="left">Remote client controls cluster</p>
-<p align="left">Can do anything you can do locally</p>
+<p align="left">Task-on-worker can do anything you can do locally</p>
 </div>
 </div>
 
@@ -405,7 +442,7 @@ futures = client.submit(func, ...)
 ### Submit tasks from tasks
 
 <div class="row">
-<div class="col-xs-6">
+<div class="col-xs-8">
 <pre><code data-trim>
 def fib(n):
     if n == 0 or n == 1:
@@ -419,7 +456,7 @@ def fib(n):
 future = client.submit(fib, 1000)
 </code></pre>
 </div>
-<div class="col-xs-6">
+<div class="col-xs-4">
 <p align="left">Workers can start up a client<p>
 <p align="left">Tasks can submit more tasks</p>
 <p align="left">Can do anything you can do locally</p>
@@ -427,22 +464,11 @@ future = client.submit(fib, 1000)
 </div>
 
 
-### Centralized scheduler, distributed workers
-
-<img src="images/network-inverse.svg">
-
-
-### Multiple clients can collaborate and share work
-
-<img src="images/network-inverse-2.svg">
-
-
-### Workers can start clients, tasks can submit tasks
-
-<img src="images/network-inverse-3.svg">
-
-
 ### Multi-client coordination
+
+When you have multiple clients, they sometimes want to talk to each other
+
+<hr>
 
 <div class="row">
 <div class="col-xs-6">
@@ -478,8 +504,16 @@ x = v.get()
 </div>
 </div>
 
+<hr>
+
+Maybe add PubSub or other patterns in the future?
+
 
 ### Multi-client coordination
+
+When you have multiple clients, they sometimes want to talk to each other
+
+<hr>
 
 <div class="row">
 <div class="col-xs-6">
@@ -515,6 +549,10 @@ x = v.get()
 </div>
 </div>
 
+<hr>
+
+Maybe add PubSub or other patterns in the future?
+
 
 ### Multi-client coordination
 
@@ -546,7 +584,7 @@ consumers = [client.submit(consumer, ...) for i in range(m)]
 </code></pre>
 </div>
 <div class="col-xs-6">
-<p align="left">Workers can start up a client<p>
+<p align="left">Workers start clients<p>
 <p align="left">Tasks can submit more tasks</p>
 <p align="left">Can do anything you can do locally</p>
 </div>
@@ -562,38 +600,79 @@ consumers = [client.submit(consumer, ...) for i in range(m)]
 
 ### Wrap up
 
-1.  Motivation to use the dask.distributed scheduler
+1.  **Motivation to use the dask.distributed scheduler**
     1.  Easy to use on your laptop
     2.  Cool Bokeh graphs to help understand performance
 
         (See Jim Crist's talk)
-    3.  Often faster than multiprocessing scheduler
-2.  Saw concurrent futures API
+    3.  Often faster than standard scheduler (try both)
+2.  **Saw concurrent futures API**
     1.  As flexible with dask.delayed
     2.  Real-time control
     3.  Has advanced features
     4.  Works great with collections (we didn't see this)
     5.  Fully async/await compliant (we didn't see this)
-3.  Things people should work on:
+3.  **Things people should work on**:
 
     ...
 
 
-### Fun topics
+### Hard and Fun Development Opportunities
 
-1.  Collections
+1.  **Collections** (array, bag, dataframe)
     1.  Dense linear algebra, benchmarks and implementations
         [dask/dask #2225](https://github.com/dask/dask/issues/2225)
-    2.  Sparse arrays: [https://github.com/mrocklin/sparse](https://github.com/mrocklin/sparse) (with Jake VanderPlas)
-    3.  Streaming Pandas: [http://github.com/dask/pandas-streaming](http://github.com/dask/pandas-streaming)
+    2.  Sparse arrays: [github.com/mrocklin/sparse](https://github.com/mrocklin/sparse) (with Jake VanderPlas)
+    3.  Streaming Pandas: [github.com/dask/pandas-streaming](http://github.com/dask/pandas-streaming)
     4.  GeoPandas: [geopandas/geopandas #461](https://github.com/geopandas/geopandas/issues/461)
     5.  Various machine learning things (see Tom Augspurger, Jim Crist)
-2.  Asynchronous algorithms
+2.  **Asynchronous algorithms**
     1.  Parameter server style algorithms [dask/dask-glm #57](https://github.com/dask/dask-glm/issues/57)
-    2.  Airflow now uses Dask, could benchmark effects
-    3.  ... (I don't really know this space)
-3.  Beyond task scheduling
+    2.  Airflow can now use Dask, could benchmark effects
+    3.  ... (you may know this space better than I do)
+3.  **Other**
+    1.  Non-task-scheduling workloads
+    2.  Julia bindings [github.com/invenia/DaskDistributedDispatcher.jl](https://github.com/invenia/DaskDistributedDispatcher.jl)
+    3.  R anyone?
+    4.  Compile scheduler with PyPy, reduce task overhead
+    5.  Zero-copy Tornado [tornadoweb/tornado #1691](https://github.com/tornadoweb/tornado/pull/1691)
 
-    Dask has an advanced communication and coordination stack.
 
-    Could break out of task scheduling.
+### Thanks
+
+<div class="row">
+<div class="col-xs-6">
+<pre><code data-trim>
+dask$ git shortlog -ns | head
+  Blake Griffith
+  Erik Welch
+  jakirkham (John A Kirkham)
+  Jim Crist
+  Mariano Tepper
+  Martin Durant
+  Matthew Rocklin
+  Phillip Cloud
+  sinhrks (Masakai Horikoshi)
+  Stephan Hoyer
+</code></pre>
+
+<img src="images/moore.png">
+
+</div>
+<div class="col-xs-6">
+<pre><code data-trim>
+distributed$ git shortlog -ns | head
+  Antoine Pitrou
+  Benjamin Zaitlen
+  Hussain Sultan
+  Jim Crist
+  Kristopher Overholt
+  Luke Canavan
+  Martin Durant
+  Matthew Rocklin
+  Michael Broxton
+  Scott Sievert
+</code></pre>
+<img src="https://www.continuum.io/sites/all/themes/continuum/assets/images/logos/logo-horizontal-large.svg">
+</div>
+</div>
