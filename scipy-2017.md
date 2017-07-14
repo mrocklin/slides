@@ -26,6 +26,8 @@ Continuum Analytics
 
     See [PyCon 2017 talk](https://www.youtube.com/watch?v=RA_2qdipVng&t=1s) instead
 
+    See [Dask Tutorial](https://www.youtube.com/watch?v=mbfsog3e5DA) this year by Martin Durant and Jim Crist
+
 
 
 ### Centralized scheduler, distributed workers
@@ -75,7 +77,7 @@ Continuum Analytics
 
 <hr>
 
-### XArray users may want to stay with the original scheduler, unless you have a cluster
+### Array users may want to stay with the original scheduler, unless you have a cluster
 
 ### (which you probably do!)
 
@@ -142,8 +144,6 @@ Continuum Analytics
 3.  Pipeline structure changes rapidly (weekly basis)
 
 <img src="images/beamline-computers-and-cluster.svg" width="40%">
-
-TODO image of non-trivial processing pipeline
 
 
 ### Lets build this system with Dask
@@ -281,7 +281,9 @@ Updates happen in the background
 </code></pre>
 </div>
 <div class="col-xs-6">
-Submit new tasks during execution
+<p align="left">Submit new tasks during execution</p>
+
+<p align="left">Even while previous tasks are still in flight</p>
 </div>
 </div>
 
