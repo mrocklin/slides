@@ -8,13 +8,24 @@ Dask: Advanced Techniques
 Continuum Analytics
 
 
+Seven tricks you didn't know about Dask that will shock you!
+------------------------------------------------------------
+
+<img src="images/dask_icon.svg" width=20%>
+
+*Matthew Rocklin*
+
+Continuum Analytics
+
+
 1.  **Objectives**:
-    1.  Inform current users of newer techniques
-    2.  Expose advanced task-scheduling features
+    1.  Push existing users to use dask.distributed scheduler
+    2.  Learn advanced task-scheduling features
     3.  Point new developers to contribution opportunities
 2.  **Not going to** explain Dask at a high level
 
     See [PyCon 2017 talk](https://www.youtube.com/watch?v=RA_2qdipVng&t=1s) instead
+
 
 
 ### Consider using the dask.distributed scheduler
@@ -26,10 +37,7 @@ Continuum Analytics
     2.  Get new features (more about this throughout the talk)
     3.  Scale out if necessary
     4.  Almost always more efficient than multiprocessing scheduler
-2.  Dask collections have advanced:  # TODO: remove this
-    1.  More mature and complete
-    2.  More advanced algorithms (like dense linear algebra)
-3.  The "distributed" scheduler is lightweight
+2.  It's lightweight
 
     Worker setup, task submission, result retrieval, shutdown:
 
@@ -60,13 +68,15 @@ Continuum Analytics
 <img src="images/ian-ozsvald-3.png" width="40%">
 
 
-### Lesson: If you are using dask.dataframe/bag/delayed
+### Lesson: If you use dask.dataframe/bag/delayed
 
-### You may have better performance (and fancy plots!) with the dask.distributed scheduler
+### Try dask.distributed for possibly better performance
+
+### (and fancy plots!)
 
 <hr>
 
-### XArray folks may want to stick with threaded, unless you have a cluster
+### XArray users may want to stay with the original scheduler, unless you have a cluster
 
 ### (which you probably do!)
 
@@ -83,6 +93,7 @@ Continuum Analytics
 <hr>
 
 ## It's about new things
+
 
 
 ## Motivating Science Example
@@ -133,7 +144,7 @@ Continuum Analytics
 
 <img src="images/beamline-computers-and-cluster.svg" width="40%">
 
-TODO image of non-trivial pipeline
+TODO image of non-trivial processing pipeline
 
 
 ### Lets build this system with Dask
@@ -146,6 +157,7 @@ TODO image of non-trivial pipeline
 2.  Changing computational graphs on-the-fly
 3.  Multi-client workloads (tasks submitting tasks)
 4.  Worker coordination primitives (queues, shared variables)
+
 
 
 ### Futures interface
@@ -227,11 +239,11 @@ Submit functions on futures to create dependencies
 <img src="images/fg-simple.svg">
 
 
-### This does everything dask.delayed did
+### This is just as flexible as dask.delayed
 
 <hr>
 
-### But now we can control it over time
+### But now we can control it on-the-fly
 
 
 ### Track computations real-time
@@ -262,9 +274,9 @@ Updates happen in the background
 <div class="col-xs-6">
 <pre><code data-trim>
 >>> finished = [future for future in futures
-...             if future.status == 'finished'])
+...             if future.status == 'finished']
 
->>> results = client.gather(done)
+>>> results = client.gather(finished)
 >>> new_futures = [client.submit(g, x) for x in ...]
 </code></pre>
 </div>
@@ -438,6 +450,8 @@ futures = client.submit(func, ...)
 </div>
 </div>
 
+### Small change to API, but enables very complex workflows
+
 
 ### Submit tasks from tasks
 
@@ -462,6 +476,8 @@ future = client.submit(fib, 1000)
 <p align="left">Can do anything you can do locally</p>
 </div>
 </div>
+
+### Small change to API, but enables very complex workflows
 
 
 ### Multi-client coordination
@@ -506,8 +522,6 @@ x = v.get()
 
 <hr>
 
-Maybe add PubSub or other patterns in the future?
-
 
 ### Multi-client coordination
 
@@ -551,8 +565,6 @@ x = v.get()
 
 <hr>
 
-Maybe add PubSub or other patterns in the future?
-
 
 ### Multi-client coordination
 
@@ -572,8 +584,8 @@ def consumer():
     client = get_client()
     while not step.get():
         future = q.get()
-        result = future.result()
-        # do stuff with result
+        data = future.result()
+        # do stuff with data
 
 q = Queue()
 stop = Variable()
@@ -601,15 +613,14 @@ consumers = [client.submit(consumer, ...) for i in range(m)]
 ### Wrap up
 
 1.  **Motivation to use the dask.distributed scheduler**
-    1.  Easy to use on your laptop
-    2.  Cool Bokeh graphs to help understand performance
+    1.  Easy to use on your laptop (despite the name)
+    2.  Informative Bokeh visuals
 
         (See Jim Crist's talk)
     3.  Often faster than standard scheduler (try both)
 2.  **Saw concurrent futures API**
-    1.  As flexible with dask.delayed
+    1.  Flexible like dask.delayed
     2.  Real-time control
-    3.  Has advanced features
     4.  Works great with collections (we didn't see this)
     5.  Fully async/await compliant (we didn't see this)
 3.  **Things people should work on**:
@@ -617,7 +628,7 @@ consumers = [client.submit(consumer, ...) for i in range(m)]
     ...
 
 
-### Hard and Fun Development Opportunities
+## Hard and Fun Development Opportunities
 
 1.  **Collections** (array, bag, dataframe)
     1.  Dense linear algebra, benchmarks and implementations
@@ -633,15 +644,20 @@ consumers = [client.submit(consumer, ...) for i in range(m)]
 3.  **Other**
     1.  Non-task-scheduling workloads
     2.  Julia bindings [github.com/invenia/DaskDistributedDispatcher.jl](https://github.com/invenia/DaskDistributedDispatcher.jl)
-    3.  R anyone?
+    3.  R ? [github.com/dask/distributed/issues/586](https://github.com/dask/distributed/issues/586)
     4.  Compile scheduler with PyPy, reduce task overhead
     5.  Zero-copy Tornado [tornadoweb/tornado #1691](https://github.com/tornadoweb/tornado/pull/1691)
 
+        (would non-trivially affect climate change)
 
-### Thanks
+
+## Thanks!
 
 <div class="row">
 <div class="col-xs-6">
+
+<p><a href="https://dask.pydata.org">dask.pydata.org</a></p>
+
 <pre><code data-trim>
 dask$ git shortlog -ns | head
   Blake Griffith
@@ -660,6 +676,9 @@ dask$ git shortlog -ns | head
 
 </div>
 <div class="col-xs-6">
+
+<p><a href="https://distributed.pydata.org">distributed.pydata.org</a></p>
+
 <pre><code data-trim>
 distributed$ git shortlog -ns | head
   Antoine Pitrou
@@ -673,6 +692,17 @@ distributed$ git shortlog -ns | head
   Michael Broxton
   Scott Sievert
 </code></pre>
+
 <img src="https://www.continuum.io/sites/all/themes/continuum/assets/images/logos/logo-horizontal-large.svg">
 </div>
 </div>
+
+
+### Stuff that exists but that we won't cover
+
+1.  Worker resources (like GPUs)
+2.  Publishing distributed data in a team
+3.  Adaptive deployments
+4.  Cloud deployment solutions
+4.  ...
+
