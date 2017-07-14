@@ -580,14 +580,14 @@ from dask.distributed import Queue, Variable
 
 def producer():
     client = get_client()
-    while not step.get():
+    while not stop.get():
         data = get_data()
         future = client.scatter(data)
         q.put(future)
 
 def consumer():
     client = get_client()
-    while not step.get():
+    while not stop.get():
         future = q.get()
         data = future.result()
         # do stuff with data
@@ -661,10 +661,11 @@ async def f():
 <div class="col-xs-6">
 <pre><code data-trim>
 dask-worker ... --resources "GPU=2 FOO=1"
-dask-worker ... --resources "GPU=1"
+dask-worker ... --resources "GPU=1 MEMORY=100e9"
 </code></pre>
 <pre><code data-trim>
 future = client.submit(func, x, resources={'GPU': 1})
+future = client.submit(func, x, resources={'MEMORY': 60e9})
 </code></pre>
 </div>
 <div class="col-xs-6">
