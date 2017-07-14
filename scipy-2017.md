@@ -8,16 +8,6 @@ Dask: Advanced Techniques
 Continuum Analytics
 
 
-Seven Dask tricks that will shock you!
---------------------------------------
-
-<img src="images/dask_icon.svg" width=20%>
-
-*Matthew Rocklin*
-
-Continuum Analytics
-
-
 1.  **Objectives**:
     1.  Encourage existing users to use the dask.distributed scheduler
     2.  Learn advanced task-scheduling features
