@@ -633,6 +633,47 @@ consumers = [client.submit(consumer, ...) for i in range(m)]
     ...
 
 
+### Fully async await compliant
+
+<div class="row">
+<div class="col-xs-6">
+<pre><code data-trim>
+async def f():
+    client = await Client(asynchronous=True)
+
+    futures = [client.submit(f, x) for x in L]
+    async for future in as_completed(futures):
+        result = await future
+        # do things with result
+</code></pre>
+</div>
+<div class="col-xs-6">
+<p align="left">Supports async/await syntax<p>
+<p align="left">Supports Tornado and AsyncIO event loops</p>
+</div>
+</div>
+
+<hr>
+
+### Specify resource constraints like memory or GPUs
+
+<div class="row">
+<div class="col-xs-6">
+<pre><code data-trim>
+dask-worker ... --resources "GPU=2 FOO=1"
+dask-worker ... --resources "GPU=1"
+</code></pre>
+<pre><code data-trim>
+future = client.submit(func, x, resources={'GPU': 1})
+</code></pre>
+</div>
+<div class="col-xs-6">
+<p align="left">Specify resource constraints<p>
+<p align="left">Good for GPUs, high memory tasks, etc.</p>
+</div>
+</div>
+
+
 ## Hard and Fun Development Opportunities
 
 1.  **Collections** (array, bag, dataframe)
@@ -677,6 +718,10 @@ dask$ git shortlog -ns | head
   Stephan Hoyer
 </code></pre>
 
+<pre><code data-trim>
+pip install dask[complete]
+</code></pre>
+
 <img src="images/moore.png">
 
 </div>
@@ -698,7 +743,12 @@ distributed$ git shortlog -ns | head
   Scott Sievert
 </code></pre>
 
+<pre><code data-trim>
+conda install dask distributed
+</code></pre>
+
 <img src="https://www.continuum.io/sites/all/themes/continuum/assets/images/logos/logo-horizontal-large.svg">
+
 </div>
 </div>
 
