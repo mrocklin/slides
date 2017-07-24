@@ -602,31 +602,6 @@ consumers = [client.submit(consumer, ...) for i in range(m)]
 </div>
 
 
-### Live example with beamline
-
-[beamline gist](https://gist.github.com/4941effc945032fc2abb4aa76f4bbb1a)
-
-<img src="images/synchrotron-2.svg" width="30%">
-
-
-### Wrap up
-
-1.  **Motivation to use the dask.distributed scheduler**
-    1.  Easy to use on your laptop (despite the name)
-    2.  Informative Bokeh visuals
-
-        (See Jim Crist's talk)
-    3.  Often faster than standard scheduler (try both)
-2.  **Saw concurrent futures API**
-    1.  Flexible like dask.delayed
-    2.  Real-time control
-    4.  Works great with collections (we didn't see this)
-    5.  Fully async/await compliant (we didn't see this)
-3.  **Things people should work on**:
-
-    ...
-
-
 ### Fully async await compliant
 
 <div class="row">
@@ -667,6 +642,32 @@ future = client.submit(func, x, resources={'MEMORY': 60e9})
 <p align="left">Good for GPUs, high memory tasks, etc.</p>
 </div>
 </div>
+
+
+
+### Live example with beamline
+
+[beamline gist](https://gist.github.com/4941effc945032fc2abb4aa76f4bbb1a)
+
+<img src="images/synchrotron-2.svg" width="30%">
+
+
+### Wrap up
+
+1.  **Motivation to use the dask.distributed scheduler**
+    1.  Easy to use on your laptop (despite the name)
+    2.  Informative Bokeh visuals
+
+        (See Jim Crist's talk)
+    3.  Often faster than standard scheduler (try both)
+2.  **Saw concurrent futures API**
+    1.  Flexible like dask.delayed
+    2.  Real-time control
+    4.  Works great with collections (we didn't see this)
+    5.  Fully async/await compliant (we didn't see this)
+3.  **Things people should work on**:
+
+    ...
 
 
 ## Hard and Fun Development Opportunities

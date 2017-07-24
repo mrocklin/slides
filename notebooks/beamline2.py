@@ -53,10 +53,10 @@ def collect_from_beam():
     """ Collect data from beam, submit processing tasks """
     client = get_client()
     while True:
-        delay = sleep_time.get()  # wait for photons to collect
-        time.sleep(delay)
-
+        delay = sleep_time.get()  # get time to delay
+        time.sleep(delay)         # wait for photons to collect
         local_image = get_image_from_detector()  # this is a numpy array
+
         remote_image = client.scatter(local_image, direct=True)
 
         result_1 = client.submit(process_1, remote_image)
