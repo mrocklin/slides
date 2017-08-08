@@ -273,10 +273,13 @@ Parallel map
 
 <img src="images/array-1d.svg">
 
-    >>> np.ones((15,))
+    >>> x = np.ones((15,))
+    >>> x
     array([ 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.])
 
     >>> x = da.ones((15,), chunks=(5,))
+    dask.array<ones, shape=(15,), dtype=float64, chunksize=(5,)>
+
 
 
 ### 1D-Array
@@ -379,7 +382,7 @@ Optimized for larger-than-memory use.
 
 *   **Parallel CPU**: Uses multiple threads or processes
 *   **Minimizes RAM**: Choose tasks to remove intermediates
-*   **Low overhead:** ~100us per task
+*   **Overhead:** ~50us per task
 *   **Concise**: ~1000 LOC
 *   **Real world workloads**: Under heavy load by many different projects
 
@@ -911,7 +914,7 @@ Optimized for larger-than-memory use.
 
 *   **Parallel CPU**: Uses multiple threads or processes
 *   **Minimizes RAM**: Choose tasks to remove intermediates
-*   **Low overhead:** ~50us per task
+*   **Overhead:** ~50us per task
 *   **Concise**: ~600 LOC, stable for ~12 months
 
 ### Distributed Scheduler
@@ -982,7 +985,7 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 
 *   **Parallel CPU**: Uses multiple threads or processes
 *   **Minimizes RAM**: Choose tasks to remove intermediates
-*   **Low overhead:** ~100us per task
+*   **Overhead:** ~50us per task
 *   **Concise**: ~600 LOC, stable for ~12 months
 *   **Real world workloads**: dask.array, xarray, dask.dataframe, dask.bag,
     Custom projects with dask.delayed
