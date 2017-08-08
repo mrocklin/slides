@@ -18,6 +18,21 @@ Continuum Analytics
 -  **Supported** by community, for/non-profit, and government
 
 
+### History
+
+1.  Parallel NumPy algorithms
+2.  Computational task scheduler (single machine)
+3.  Dataframes and Bags
+4.  Custom computations (dask.delayed)
+5.  Distributed scheduler
+6.  Asynchronous workflows (concurrent.futures)
+7.  Increased diversity of workloads
+    -  Auto-scaling
+    -  Multi-client collaboration
+    -  Other languages (Julia client exists)
+    -  Non-task-based APIs
+
+
 
 ### Parallelism in Python
 
@@ -250,6 +265,9 @@ Parallel map
 
 ### Dask Schedulers Execute Task Graphs
 
+<img src="images/collections-schedulers-inverse.png"
+     width="70%">
+
 
 ### 1D-Array
 
@@ -315,6 +333,9 @@ Parallel map
 <hr>
 
 ### Dask Schedulers Execute Task Graphs
+
+<img src="images/collections-schedulers-inverse.png"
+     width="70%">
 
 
 ### Dask.array/dataframe/delayed author task graphs
