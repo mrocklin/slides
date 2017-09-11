@@ -281,7 +281,6 @@ Parallel map
     dask.array<ones, shape=(15,), dtype=float64, chunksize=(5,)>
 
 
-
 ### 1D-Array
 
 <img src="images/array-1d-sum.svg" width="30%">
@@ -329,6 +328,7 @@ Parallel map
     import dask.array as da
     x = da.ones((15, 15), chunks=(5, 5))
     y = (x.dot(x.T + 1) - x.mean()).std()
+
 
 
 ### Dask APIs Produce Task Graphs
@@ -421,6 +421,25 @@ Set up on a cluster
     host2$ dask-worker 192.168.0.1:8786
     host3$ dask-worker 192.168.0.1:8786
     host4$ dask-worker 192.168.0.1:8786
+
+
+### Cross-Language Support
+
+-  Scheduler
+    -   Coordinates everything
+
+        Most of the difficult logic and code
+    -   Language agnostic
+
+        Communicates with msgpack and large bytestrings
+        -  To support other languages ([Julia prototype](https://github.com/invenia/DaskDistributedDispatcher.jl) exists)
+        -  May rewrite someday in Go/C++/PyPy
+-  Workers/Clients
+    -  Need to match software environments/language exactly
+    -  Relatively simple codebase
+        -  User API
+        -  Data and function serialization
+        -  Networking
 
 
 
