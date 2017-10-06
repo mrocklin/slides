@@ -1,5 +1,5 @@
 Dask for Task Scheduling
-========================
+------------------------
 
 <img src="images/dask_icon.svg" width=20%>
 
@@ -17,7 +17,26 @@ Anaconda Inc.
 ### similar to Luigi/Celery/Airflow
 
 
-### Usually Dask talks are about scaling NumPy, Pandas, ML ...
+### Python Parallel Programming Options
+
+-  Simple single-machine
+    -  Multiprocessing
+    -  concurrent.futures
+    -  Joblib
+-  Distributed data science
+    -  IPyParallel
+    -  PySpark
+    -  MapReduce
+    -  ...
+-  Task queuing / ETL systems
+    -  Airflow
+    -  Celery
+    -  Luigi
+-  ...
+
+
+
+### Usually Dask talks focus on scaling NumPy, Pandas, ML ...
 
 
 ### Dask.array
@@ -122,8 +141,8 @@ Anaconda Inc.
     from concurrent.futures import ThreadPoolExecutor
     executor = ThreadPoolExecutor(8)
 
-    # result = func(*args, **kwargs)
-    future = executor.submit(func, *args, **kwargs)
+    # result = func(*args, **kwargs)                 # sequential, blocking
+    future = executor.submit(func, *args, **kwargs)  # runs on separate thread
 
     # do other things concurrently
 
@@ -139,8 +158,8 @@ Anaconda Inc.
     from dask.distributed import Client
     client = Client()
 
-    # result = func(*args, **kwargs)
-    future = client.submit(func, *args, **kwargs)
+    # result = func(*args, **kwargs)                 # sequential, blocking
+    future = client.submit(func, *args, **kwargs)    # runs on separate thread
 
     # do other things concurrently
 
