@@ -84,10 +84,10 @@ Anaconda Inc.
 
 <hr>
 
-### Which we need to run efferently
+### Which we need to run efficiently
 
 
-### This starts to look like other task queuing projects
+### This execution looks like other task queuing projects
 
 -  Celery
 -  Luigi
@@ -108,7 +108,7 @@ Anaconda Inc.
     -  Arbitrary data dependencies
     -  Any Python function (without global state)
     -  Any (serializable) data
-    -  Resource constraints
+    -  Resource constraints (GPUs, ...)
     -  ...
 -  Efficient execution
     -  200us scheduler overhead per task
@@ -121,7 +121,6 @@ Anaconda Inc.
 ### But Dask lacks some popular attributes of Celery/Airflow
 
 -  Retry logic
--  Clear connections to RabbitMQ, Redis, ...
 -  Cron functionality
 -  Policy constraints
 -  ...
@@ -215,15 +214,15 @@ Anaconda Inc.
 ### Concurrent.futures
 
     from dask.distributed import Client
-    executor = Client()  # or optionally provide cluster address
+    client = Client()  # or optionally provide cluster address
     .
     futures = []
     for x in L1:
         for y in L2:
             if x < y:
-                future = executor.submit(f, x, y)
+                future = client.submit(f, x, y)
             else:
-                future = executor.submit(g, x, y)
+                future = client.submit(g, x, y)
             futures.append(z)
 
     results = [future.result() for future in futures]
