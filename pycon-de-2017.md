@@ -253,6 +253,8 @@ grid = GridSearchCV(pipe, parameter_grid)
 
 ### Example with Dask.delayed
 
+[dask-delayed notebook](https://github.com/dask/dask-kubernetes/blob/master/examples/01-custom-delayed.ipynb)
+
 
 
 ### We build high-level libraries with Dask
@@ -364,6 +366,8 @@ grid = GridSearchCV(pipe, parameter_grid)
 
 
 ### Example with dask.dataframes
+
+[dask-dataframe notebook](https://github.com/dask/dask-kubernetes/blob/master/examples/05-nyc-taxi.ipynb)
 
 
 
