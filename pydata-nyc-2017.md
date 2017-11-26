@@ -167,16 +167,40 @@ Streaming DataFrams with Dask
 1.  Parallelizing NumPy
 2.  Parallelizing Pandas
 3.  Parallelizing parts of Scikit-Learn
-4.  Parallelizing concurrent.futures
+4.  Scaling concurrent.futures
 
 ### Dask is used for ...
 
 -  Parallelizing custom internal systems
 
+    *Can we parallelize streamz?*
 
-### Drop-in Dask-powered stream replacement
+```python
+from streamz import Stream
+```
 
-### In about 200 lines of code
+
+### Dask is known for ...
+
+1.  Parallelizing NumPy
+2.  Parallelizing Pandas
+3.  Parallelizing parts of Scikit-Learn
+4.  Scaling concurrent.futures
+
+### Dask is used for ...
+
+-  Parallelizing custom internal systems
+
+    *Can we parallelize streamz?*
+
+```python
+from streamz.dask import DaskStream
+```
+
+
+### DaskStream is a scalable drop-in replacement
+
+### Written in about 200 lines of code (concurrent.futures)
 
 ### Scales down to multi-core. Scales up to clusters.
 
@@ -190,12 +214,20 @@ client = Client()  # create or connect to Dask cluster
 ```
 
 ```python
+from streamz import Stream
+local_stream = Stream()               # create local stream normally
+
 dask_stream = local_stream.scatter()  # convert to Dask stream
 local_stream = dask_stream.gather()   # convert to local stream
 ```
+
+<img src="images/streamz-dask-map.svg">
 
 
 Using streamz.dask
 ------------------
 
 <a href="images/streamz-dask.gif"><img src="images/streamz-dask.gif" width="100%"></a>
+
+-  Dask scheduler handles 1000's of tasks per second
+-  Adds 10-20ms roundtrip latency
