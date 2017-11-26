@@ -1,48 +1,63 @@
+Streaming Processing with Dask
+------------------------------
+
+<img src="images/dask_icon.svg" width=20%>
+
+*Matthew Rocklin*
+
+Anaconda Inc. (*formerly Continuum Analytics*)
+
+
 Streaming Processing
 --------------------
 
+<img src="images/dask_icon.svg" width=20% style="opacity:0.0">
 
-What is streaming processing
-----------------------------
+*Matthew Rocklin*
 
-
-Options today
--------------
+Anaconda Inc. (*formerly Continuum Analytics*)
 
 
-Examples
---------
+### Streaming processing is ...
+
+TODO
+
+### Applications
+
+TODO
 
 
-What did we just see?
----------------------
+What we'll see today
+--------------------
 
-1.  Streamz.core
+1.  **Streamz.core**
     1.  map, accumulate
     2.  time management and back pressure
     3.  Jupyter notebook integration
-2.  Streamz.dataframe
+2.  **Streamz.dataframe**
     1.  Stream of Pandas dataframes
     2.  With pandas API
     3.  Plotting integration with Holoviews/Bokeh
-3.  Streamz.dask
+3.  **Streamz.dask**
     1.  Full implemenation of Streamz.core on top of Dask
     2.  Adds millisecond overhead and 10-20ms latency
     3.  Scales
 
 
-Map / Accumulate
-----------------
-
 <img src="images/streamz-map.svg" width="100%">
+
+<hr>
 
 <img src="images/streamz-accumulate.svg" width="100%">
 
 
-Branching / Joining
--------------------
+### Branching
 
 <img src="images/streamz-branch.svg" width="100%">
+
+<hr>
+
+### Joining
 
 <img src="images/streamz-join.svg" width="100%">
 
@@ -53,9 +68,25 @@ Time and Back Pressure
 <img src="images/streamz-time.svg" width="100%">
 
 ```python
-stream.map(func).sink(write_to_database)
+# Later stages in a pipeline might be slow (like writing to a database)
+stream.map(f).combine_latest(other).accumulate(h).map(write_to_database)
 
-stream.emit(value)
+for element in data:      # user pushes data into stream
+    stream.emit(element)  # needs to be told to slow down
+```
+
+
+Time and Back Pressure
+----------------------
+
+<img src="images/streamz-time-1.5.svg" width="100%">
+
+```python
+# Later stages in a pipeline might be slow (like writing to a database)
+stream.map(f).combine_latest(other).accumulate(h).map(write_to_database)
+
+for element in data:      # user pushes data into stream
+    stream.emit(element)  # needs to be told to slow down
 ```
 
 
@@ -65,9 +96,11 @@ Time and Back Pressure
 <img src="images/streamz-time-2.svg" width="100%">
 
 ```python
-stream.map(func).sink(write_to_database)
+# Later stages in a pipeline might be slow (like writing to a database)
+stream.map(f).combine_latest(other).accumulate(h).map(write_to_database)
 
-stream.emit(value)  # sources block until sinks ready
+for element in data:      # user pushes data into stream
+    stream.emit(element)  # needs to be told to slow down
 ```
 
 
@@ -77,9 +110,11 @@ Time and Back Pressure
 <img src="images/streamz-time-2.svg" width="100%">
 
 ```python
-stream.map(func).sink(write_to_database)
+# Later stages in a pipeline might be slow (like writing to a database)
+stream.map(f).combine_latest(other).accumulate(h).map(write_to_database)
 
-await stream.emit(value)  # sources block until sinks ready
+for element in data:            # user pushes data into stream
+    await stream.emit(element)  # needs to be told to slow down
 ```
 
 
@@ -89,10 +124,115 @@ Time and Back Pressure
 <img src="images/streamz-time-3.svg" width="100%">
 
 ```python
-stream.map(func).sink(write_to_database)
+# Later stages in a pipeline might be slow (like writing to a database)
+stream...buffer(100)...rate_limit('5ms')...map(write_to_database)
 
-await stream.emit(value)  # sources block until sinks ready
+for element in data:            # user pushes data into stream
+    await stream.emit(element)  # needs to be told to slow down
 ```
+
+
+Streams are easy to build
+-------------------------
+
+```python
+@Stream.register_api()
+class map(Stream):
+    """ Apply a function to every element in the stream """
+    def __init__(self, upstream, func, *args, **kwargs):
+        self.func = func
+        # this is one of a few stream specific kwargs
+        stream_name = kwargs.pop('stream_name', None)
+        self.kwargs = kwargs
+        self.args = args
+
+        Stream.__init__(self, upstream, stream_name=stream_name)
+
+    def update(self, x, who=None):
+        result = self.func(x, *self.args, **self.kwargs)
+
+        return self._emit(result)
+```
+
+
+Streams are easy to build
+-------------------------
+
+```python
+@Stream.register_api()
+class filter(Stream):
+    """ Only pass through elements that satisfy the predicate """
+    def __init__(self, upstream, predicate, **kwargs):
+        if predicate is None:
+            predicate = _truthy
+        self.predicate = predicate
+
+        Stream.__init__(self, upstream, **kwargs)
+
+    def update(self, x, who=None):
+        if self.predicate(x):
+            return self._emit(x)
+```
+
+
+Streams are easy to build
+-------------------------
+
+```python
+@Stream.register_api()
+class rate_limit(Stream):
+    """ Limit the flow of data """
+    _graphviz_shape = 'octagon'
+
+    def __init__(self, upstream, interval, **kwargs):
+        self.interval = convert_interval(interval)
+        self.next = 0
+
+        Stream.__init__(self, upstream, **kwargs)
+
+    @gen.coroutine
+    def update(self, x, who=None):
+        now = time()
+        old_next = self.next
+        self.next = max(now, self.next) + self.interval
+        if now < old_next:
+            yield gen.sleep(old_next - now)
+        yield self._emit(x)
+```
+
+Use Tornado coroutines for time-dependent operations
+
+
+Streams are easy to build
+-------------------------
+
+```python
+@Stream.register_api()
+class rate_limit(Stream):
+    """ Limit the flow of data """
+    _graphviz_shape = 'octagon'
+
+    def __init__(self, upstream, interval, **kwargs):
+        self.interval = convert_interval(interval)
+        self.next = 0
+
+        Stream.__init__(self, upstream, **kwargs)
+
+    .
+    async def update(self, x, who=None):
+        now = time()
+        old_next = self.next
+        self.next = max(now, self.next) + self.interval
+        if now < old_next:
+            await gen.sleep(old_next - now)
+        await self._emit(x)
+```
+
+Or use async-await syntax if you prefer
+
+
+
+## DataFrames
 
 
 DataFrames
@@ -100,11 +240,7 @@ DataFrames
 
 -  Passing Pandas dataframes through streamz is a common case
 -  Can map/accumulate Pandas functions on normal Streams
--  The streamz.dataframe module provides syntactic sugar
-
-<hr>
-
-### Core Streams: map
+-  Or use streamz.dataframe module for syntactic sugar
 
 ```python
 from streamz import Stream
@@ -116,12 +252,41 @@ def query(df):
 def add_x(acc, new):
     return acc + new.x.sum()
 
-stream.map(query).accumulate(add_x)
+stream.map(query).accumulate(add_x)  # like df[df.name == 'Alice'].x.sum()
 ```
 
-<hr>
+<img src="images/streamz-map.svg" width="100%">
 
-### Streaming DataFrames
+
+DataFrames
+----------
+
+-  Passing Pandas dataframes through streamz is a common case
+-  Can map/accumulate Pandas functions on normal Streams
+-  Or use streamz.dataframe module for syntactic sugar
+
+```python
+from streamz.dataframe import DataFrame
+
+df = DataFrame(stream=stream,
+               example=pd.DataFrame({'name': [], 'x': [], 'y': []}))
+
+df[df.name == 'Alice'].x.sum()
+.
+.
+.
+.
+```
+
+<img src="images/streamz-map.svg" width="100%">
+
+
+DataFrames
+----------
+
+-  Passing Pandas dataframes through streamz is a common case
+-  Can map/accumulate Pandas functions on normal Streams
+-  Or use streamz.dataframe module for syntactic sugar
 
 ```python
 from streamz.dataframe import DataFrame
@@ -129,7 +294,7 @@ from streamz.dataframe import DataFrame
 sdf = DataFrame(stream=stream,
                 example=pd.DataFrame({'name': [], 'x': [], 'y': []}))
 
-sdf[sdf.name == 'Alice'].x.sum()
+sdf.window('60s').groupby('name').x.var()
 ```
 
 
@@ -198,11 +363,31 @@ from streamz.dask import DaskStream
 ```
 
 
-### DaskStream is a scalable drop-in replacement
-
-### Written in about 200 lines of code (concurrent.futures)
+### DaskStream is a drop-in replacement for Stream
 
 ### Scales down to multi-core. Scales up to clusters.
+
+<hr>
+
+### Written in around 200 lines of code
+
+
+Using streamz.dask
+------------------
+
+```python
+
+
+
+a = Stream()
+b = Stream()
+
+a2 = a.map(parse).rate_limit('10ms')
+b2 = b.map(load_from_file).map(process)
+c = combine_latest(a2, b2).accumulate(...).map(write_to_database).map(log)
+```
+
+<img src="images/streamz-dask-map.svg">
 
 
 Using streamz.dask
@@ -211,14 +396,13 @@ Using streamz.dask
 ```python
 from dask.distributed import Client
 client = Client()  # create or connect to Dask cluster
-```
 
-```python
-from streamz import Stream
-local_stream = Stream()               # create local stream normally
+a = Stream()
+b = Stream()
 
-dask_stream = local_stream.scatter()  # convert to Dask stream
-local_stream = dask_stream.gather()   # convert to local stream
+a2 = a.map(parse).scatter().rate_limit('10ms')
+b2 = b.scatter().map(load_from_file).map(process)
+c = combine_latest(a2, b2).accumulate(...).map(write_to_database).buffer(100).gather().map(log)
 ```
 
 <img src="images/streamz-dask-map.svg">
