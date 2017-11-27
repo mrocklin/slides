@@ -404,8 +404,8 @@ Jupyter Notebook Integration
 
 
 
-Streaming DataFrams with Dask
------------------------------
+Streaming DataFrames with Dask
+------------------------------
 
 <img src="images/dask_icon.svg" width=20%>
 
