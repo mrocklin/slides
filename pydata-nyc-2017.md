@@ -39,6 +39,8 @@ Anaconda Inc.
 
 <a href="https://www.youtube.com/watch?v=G981CbrUUwQ">video link</a>
 
+<a href="https://gist.github.com/893e693ed19a357ea38962dcf112f616">Notebook</a>
+
 
 
 ### Solutions already exist for these problems
