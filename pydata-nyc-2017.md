@@ -10,8 +10,8 @@ Anaconda Inc.
 (*formerly Continuum Analytics*)
 
 
-Streaming Processing
---------------------
+Streaming Processing in Python
+------------------------------
 
 <img src="images/dask_icon.svg" width=20% style="opacity:0.0">
 
@@ -33,7 +33,6 @@ Anaconda Inc.
     -  Telemetry from devices, cars, IoT, ...
     -  Network data
     -  ...
-
 
 
 ### Lets start with a quick demonstration
@@ -67,7 +66,7 @@ Anaconda Inc.
 1.  Pythonic
 2.  Simple in simple cases
 3.  Flexible enough for complex cases
-4.  Integrates nicely with PyData libraries (Jupyter, Pandas, ...)
+4.  Integrates with PyData libraries (Jupyter, Pandas, ...)
 5.  Scales nicely
 
 <hr>
@@ -469,7 +468,7 @@ b2 = b.map(load_from_file).map(process)
 c = combine_latest(a2, b2).accumulate(...).map(write).map(log)
 ```
 
-<img src="images/streamz-dask-map.svg">
+<img src="images/streamz-map.svg">
 
 
 Using streamz.dask
@@ -487,7 +486,7 @@ b2 = b.scatter().map(load_from_file).map(process)
 c = combine_latest(a2, b2).accumulate(...).map(write).gather().map(log)
 ```
 
-<img src="images/streamz-dask-map.svg">
+<img src="images/streamz-map.svg">
 
 
 Using streamz.dask
