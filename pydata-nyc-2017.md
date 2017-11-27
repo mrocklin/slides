@@ -5,7 +5,9 @@ Streaming Processing with Dask
 
 *Matthew Rocklin*
 
-Anaconda Inc. (*formerly Continuum Analytics*)
+Anaconda Inc.
+
+(*formerly Continuum Analytics*)
 
 
 Streaming Processing
@@ -15,16 +17,60 @@ Streaming Processing
 
 *Matthew Rocklin*
 
-Anaconda Inc. (*formerly Continuum Analytics*)
+Anaconda Inc.
+
+(*formerly Continuum Analytics*)
 
 
-### Streaming processing is ...
+-  **Streaming data processing is ...**:
+    -  Unbounded: we might receive data forever
+    -  Timely: we care about responding quickly
+    -  ...
+-  **Used in ...**
+    -  Scientific instruments (like the keynote)
+    -  Web server logs
+    -  Financial time series
+    -  Telemetry from devices, cars, IoT, ...
+    -  ...
 
-TODO
 
-### Applications
+### Lets start with a quick demonstration
 
-TODO
+<a href="https://www.youtube.com/watch?v=G981CbrUUwQ">video link</a>
+
+
+### Solutions already exist for these problems
+
+-  **Big Data Solutions**
+    - Apache Flink
+    - Apache Spark Streaming
+    - Apache Beam
+    - Apache Storm
+-  **Complex / performant solutions**
+    - Akka
+    - Message queueing systems (ZeroMQ, RabbitMQ)
+    - Custom protocols (science, finance)
+    - Custom code (threads, queues, sockets, ...)
+-  **Reactive Programming** (UI)
+    - ReactiveX / observer pattern
+
+
+### But we're going to make another one ...
+
+<hr>
+
+### Streamz
+
+1.  Pythonic
+2.  Simple in simple cases
+3.  Flexible enough for complex cases
+4.  Integrates nicely with PyData libraries (Jupyter, Pandas, ...)
+5.  Scales nicely
+
+<hr>
+
+*Disclaimer: everything in this talk is experimental.  APIs subject to change
+without notice*
 
 
 What we'll see today
@@ -48,7 +94,27 @@ What we'll see today
 
 <hr>
 
+```python
+>>> new_stream = stream.map(func)
+```
+
+
 <img src="images/streamz-accumulate.svg" width="100%">
+
+<hr>
+
+```python
+def binop(total, new):
+    return total + new
+
+>>> reduce(binop, range(10))      # single final result
+45
+
+>>> accumulate(binop, range(10))  # new result for every new element
+[0, 1, 3, 6, 10, 15, 21, 28, 36, 45]
+
+>>> new_stream = stream.accumulate(binop, start=0)
+```
 
 
 ### Branching
@@ -60,6 +126,11 @@ What we'll see today
 ### Joining
 
 <img src="images/streamz-join.svg" width="100%">
+
+
+### Many other operations exist
+
+<a href="http://streamz.readthedocs.io/en/latest/api.html">Stream API</a>
 
 
 Time and Back Pressure
@@ -132,8 +203,8 @@ for element in data:            # user pushes data into stream
 ```
 
 
-Streams are easy to build
--------------------------
+Streams are easy to extend
+--------------------------
 
 ```python
 @Stream.register_api()
@@ -155,8 +226,8 @@ class map(Stream):
 ```
 
 
-Streams are easy to build
--------------------------
+Streams are easy to extend
+--------------------------
 
 ```python
 @Stream.register_api()
@@ -175,8 +246,8 @@ class filter(Stream):
 ```
 
 
-Streams are easy to build
--------------------------
+Streams are easy to extend
+--------------------------
 
 ```python
 @Stream.register_api()
@@ -203,8 +274,8 @@ class rate_limit(Stream):
 Use Tornado coroutines for time-dependent operations
 
 
-Streams are easy to build
--------------------------
+Streams are easy to extend
+--------------------------
 
 ```python
 @Stream.register_api()
@@ -238,7 +309,7 @@ Or use async-await syntax if you prefer
 DataFrames
 ----------
 
--  Passing Pandas dataframes through streamz is a common case
+-  Passing dataframes through streams is a common case
 -  Can map/accumulate Pandas functions on normal Streams
 -  Or use streamz.dataframe module for syntactic sugar
 
@@ -261,7 +332,7 @@ stream.map(query).accumulate(add_x)  # like df[df.name == 'Alice'].x.sum()
 DataFrames
 ----------
 
--  Passing Pandas dataframes through streamz is a common case
+-  Passing dataframes through streamz is a common case
 -  Can map/accumulate Pandas functions on normal Streams
 -  Or use streamz.dataframe module for syntactic sugar
 
@@ -272,7 +343,7 @@ df = DataFrame(stream=stream,
                example=pd.DataFrame({'name': [], 'x': [], 'y': []}))
 
 df[df.name == 'Alice'].x.sum()
-.
+
 .
 .
 .
@@ -284,25 +355,31 @@ df[df.name == 'Alice'].x.sum()
 DataFrames
 ----------
 
--  Passing Pandas dataframes through streamz is a common case
+-  Passing dataframes through streamz is a common case
 -  Can map/accumulate Pandas functions on normal Streams
 -  Or use streamz.dataframe module for syntactic sugar
 
 ```python
 from streamz.dataframe import DataFrame
 
-sdf = DataFrame(stream=stream,
-                example=pd.DataFrame({'name': [], 'x': [], 'y': []}))
+df = DataFrame(stream=stream,
+               example=pd.DataFrame({'name': [], 'x': [], 'y': []}))
 
-sdf.window('60s').groupby('name').x.var()
+df.window('60s').groupby('name').x.var()
+
+.
+.
+.
 ```
+
+<img src="images/streamz-map.svg" width="100%">
 
 
 Dataframe Plotting
 ------------------
 
 -  Copies Pandas `.plot` interface
--  Currently using Bokeh + Holoviews  (thanks Philipp Rudiger!)
+-  Currently using Bokeh + Holoviews (thanks [Philipp Rudiger](http://philippjfr.com/)!)
 
 <img src="images/streamz-plot-line.gif" width="80%">
 
@@ -359,7 +436,7 @@ from streamz import Stream
     *Can we parallelize streamz?*
 
 ```python
-from streamz.dask import DaskStream
+from streamz.dask import DaskStream  # drop in replacement (mostly)
 ```
 
 
@@ -376,15 +453,15 @@ Using streamz.dask
 ------------------
 
 ```python
-
-
-
+.
+.
+.
 a = Stream()
 b = Stream()
 
 a2 = a.map(parse).rate_limit('10ms')
 b2 = b.map(load_from_file).map(process)
-c = combine_latest(a2, b2).accumulate(...).map(write_to_database).map(log)
+c = combine_latest(a2, b2).accumulate(...).map(write).map(log)
 ```
 
 <img src="images/streamz-dask-map.svg">
@@ -402,7 +479,7 @@ b = Stream()
 
 a2 = a.map(parse).scatter().rate_limit('10ms')
 b2 = b.scatter().map(load_from_file).map(process)
-c = combine_latest(a2, b2).accumulate(...).map(write_to_database).buffer(100).gather().map(log)
+c = combine_latest(a2, b2).accumulate(...).map(write).gather().map(log)
 ```
 
 <img src="images/streamz-dask-map.svg">
@@ -415,3 +492,33 @@ Using streamz.dask
 
 -  Dask scheduler handles 1000's of tasks per second
 -  Adds 10-20ms roundtrip latency
+
+
+Performance
+-----------
+
+-  Python iterators: 100ns
+-  Streamz: 1-10us
+-  Pandas: 1ms
+-  Dask: 200us (centralized) 20ms (100 core machine)
+
+
+What doesn't work
+-----------------
+
+1.  Convenient data source integration
+2.  Out-of-order dataframe handling
+3.  Benchmarking and profiling
+4.  Lineage culling / checkpointing
+5.  General use, debugging, user feedback
+
+
+Questions?
+----------
+
+-  [streamz.readthedocs.io](https://streamz.readthedocs.io)
+-  [github.com/mrocklin/streamz](https://github.com/mrocklin/streamz)
+-  Interactive plots: [holoviews.org](http://holoviews.org/) and [bokeh.pydata.org](https://bokeh.pydata.org/en/latest/)
+-  [@mrocklin](https://twitter.com/mrocklin)
+
+<img src="images/streamz-plot-line.gif" width="80%">
