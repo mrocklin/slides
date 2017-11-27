@@ -31,12 +31,15 @@ Anaconda Inc.
     -  Web server logs
     -  Financial time series
     -  Telemetry from devices, cars, IoT, ...
+    -  Network data
     -  ...
+
 
 
 ### Lets start with a quick demonstration
 
 <a href="https://www.youtube.com/watch?v=G981CbrUUwQ">video link</a>
+
 
 
 ### Solutions already exist for these problems
@@ -85,9 +88,10 @@ What we'll see today
     2.  With pandas API
     3.  Plotting integration with Holoviews/Bokeh
 3.  **Streamz.dask**
-    1.  Full implemenation of Streamz.core on top of Dask
+    1.  Full implementation of Streamz.core on top of Dask
     2.  Adds millisecond overhead and 10-20ms latency
     3.  Scales
+
 
 
 <img src="images/streamz-map.svg" width="100%">
@@ -201,6 +205,7 @@ stream...buffer(100)...rate_limit('5ms')...map(write_to_database)
 for element in data:            # user pushes data into stream
     await stream.emit(element)  # needs to be told to slow down
 ```
+
 
 
 Streams are easy to extend
@@ -494,13 +499,14 @@ Using streamz.dask
 -  Adds 10-20ms roundtrip latency
 
 
+
 Performance
 -----------
 
 -  Python iterators: 100ns
 -  Streamz: 1-10us
--  Pandas: 1ms
--  Dask: 200us (centralized) 20ms (100 core machine)
+-  Pandas: 100us-1ms (creating a dataframe)
+-  Dask: 200us (centralized)
 
 
 What doesn't work
