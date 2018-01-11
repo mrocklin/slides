@@ -10,18 +10,6 @@ Scaling Scientific Python
 Anaconda Inc.
 
 
-<img src="http://dask.pydata.org/en/latest/_images/dask_horizontal_white.svg"
-     alt="dask logo"
-     width="40%">
-
-<img src="images/grid_search_schedule.gif" width="100%">
-
--  Parallel task scheduler for Python
--  Parallelizes Numpy, Pandas, SKLearn, ...
--  Developed by NumPy, Pandas, SKLearn, Jupyter, ...
--  Light weight, well supported, BSD licensed
-
-
 ### Dask.DataFrame
 
 <img src="images/dask-dataframe-inverted.svg" width="30%">
@@ -46,6 +34,15 @@ Anaconda Inc.
     import dask.array as da
     x = da.random.random(..., chunks=(1000, 1000))
     u, s, v = da.linalg.svd(x.dot(x.T))
+
+
+### Dask ...
+
+-  Pandas
+-  NumPy
+-  Geopandas
+-  Scikit-Learn / XGBoost / ...
+-  ... (several private systems)
 
 
 <img src="http://dask.pydata.org/en/latest/_images/dask_horizontal_white.svg"
@@ -250,6 +247,8 @@ Anaconda Inc.
 ### Ways to get involved
 
 1.  Try: [pangeo.pydata.org](http://pangeo.pydata.org) (but don't trust it)
+    -  Break things (this is easy)
+    -  Write example workflows on datasets
 2.  Engage: [github.com/pangeo-data/pangeo/issues](https://github.com/pangeo-data/pangeo/issues)
 
     ... or report to upstream projects
@@ -260,6 +259,7 @@ Anaconda Inc.
     -  Developer time
     -  Use
     -  Funding
+    -  Datasets and workflows
 
 
 
