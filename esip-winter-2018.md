@@ -64,6 +64,11 @@ Anaconda Inc.
 
 ### into task graphs of many Numpy operations
 
+<hr>
+
+### and then runs them on parallel hardware
+
+
 
 ### 1D-Array
 
