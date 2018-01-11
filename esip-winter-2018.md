@@ -247,6 +247,21 @@ Anaconda Inc.
 -   ...
 
 
+### Ways to get involved
+
+1.  Try: [pangeo.pydata.org](http://pangeo.pydata.org) (but don't trust it)
+2.  Engage: [github.com/pangeo-data/pangeo/issues](https://github.com/pangeo-data/pangeo/issues)
+
+    ... or report to upstream projects
+3.  Deploy:
+    -  HPC: we have decent docs
+    -  Cloud: we have Kubernetes/Helm charts
+4.  Contribute:
+    -  Developer time
+    -  Use
+    -  Funding
+
+
 
 ## Questions?
 
