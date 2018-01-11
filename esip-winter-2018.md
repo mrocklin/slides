@@ -17,8 +17,8 @@ Anaconda Inc.
 <img src="images/grid_search_schedule.gif" width="100%">
 
 -  Parallel task scheduler for Python
--  Parallelizes Numpy, Pandas, Scikit-Learn, ...
--  Developed by NumPy, Pandas, Scikit-Learn, Jupyter, ...
+-  Parallelizes Numpy, Pandas, SKLearn, ...
+-  Developed by NumPy, Pandas, SKLearn, Jupyter, ...
 -  Light weight, well supported, BSD licensed
 
 
@@ -48,11 +48,16 @@ Anaconda Inc.
     u, s, v = da.linalg.svd(x.dot(x.T))
 
 
-### Dask Array on a Cluster
+<img src="http://dask.pydata.org/en/latest/_images/dask_horizontal_white.svg"
+     alt="dask logo"
+     width="40%">
 
-<iframe width="560" height="315"
-src="https://www.youtube.com/embed/cxcq35aruG0?ecver=1" frameborder="0"
-gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+<img src="images/grid_search_schedule.gif" width="100%">
+
+-  Parallel task scheduler for Python
+-  Parallelizes Numpy, Pandas, SKLearn, ...
+-  Developed by NumPy, Pandas, SKLearn, Jupyter, ...
+-  Light weight, well supported, BSD licensed
 
 
 
@@ -155,7 +160,7 @@ gesture="media" allow="encrypted-media" allowfullscreen></iframe>
 -  Algorithm support
 -  Deployment on HPC systems
 -  Deployment on Cloud systems
-    -  Standing up distributeed systems
+    -  Standing up distributed systems
     -  Accessibility
     -  User management
     -  File formats
