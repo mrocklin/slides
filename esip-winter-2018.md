@@ -227,14 +227,17 @@ Anaconda Inc.
 
 ### because we tapped community expertise
 
-
 ### No one person knows enough to build these systems
 
 
+### Building this was easy
+
+<hr>
+
+### because we tapped community expertise
+
 ### No organization knows enough to build these systems
 
-
-### No one funding source fully encompasses this project
 
 
 ### Encourage Multi-Organization Collaborations
