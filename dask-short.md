@@ -533,48 +533,6 @@ Set up on a cluster
 
 
 
-### NumPy
-
-<img src="images/numpy-inverted.svg">
-
-
-### Dask.Array
-
-<img src="images/dask-array-inverted.svg">
-
-
-### Pandas
-
-<img src="images/pandas-inverted.svg">
-
-
-### Dask.DataFrame
-
-<img src="images/dask-dataframes-inverted.svg" width="70%">
-
-
-### Many problems don't fit into a
-
-### "big array" or "big dataframe"
-
-<hr>
-
-### Fortunately the system that backs dask.array/dataframes
-
-### can be used for general applications
-
-
-### Python
-
-<img src="images/python-inverted.svg">
-
-
-### Dask
-
-<img src="images/dask-arbitrary-inverted.svg">
-
-
-
 ### Custom Script
 
     filenames = ['mydata-%d.dat' % i for i in range(10)]
@@ -876,127 +834,6 @@ https://github.com/apache/incubator-airflow
 
 ### Easy swapping enables scaling up *and down*
 
-<hr>
-
-<img src="images/collections-schedulers.png" width=50%>
-
-
-### Start with a single machine
-
-    import dask.dataframe as dd
-    df = dd.read_csv('/path/to/*.csv')
-    df.groupby(df.timestamp.dt.month).value.var().compute()
-
-### Connect to a cluster later
-
-    from dask.distributed import Client
-    client = Client('scheduler-address:8786')
-
-    df = dd.read_csv('hdfs:///path/to/*.csv')
-    df.groupby(df.timestamp.dt.month).value.var().compute()
-
-
-### Start with a single machine
-
-    import dask.dataframe as dd
-    df = dd.read_csv('/path/to/*.csv')
-    df.groupby(df.timestamp.dt.month).value.var().compute()
-
-### Connect to a cluster later
-
-    from dask.distributed import Client
-    client = Client('scheduler-address:8786')
-
-    df = dd.read_csv('s3:///path/to/*.csv')
-    df.groupby(df.timestamp.dt.month).value.var().compute()
-
-
-### Start with a single machine
-
-    import dask.dataframe as dd
-    df = dd.read_csv('/path/to/*.csv')
-    df.groupby(df.timestamp.dt.month).value.var().compute()
-
-### Connect to a cluster later
-
-    from dask.distributed import Client
-    client = Client('scheduler-address:8786')
-
-    import dask.dataframe as dd
-    df = dd.read_custom('internal://db/project')
-    df.groupby(df.timestamp.dt.month).value.var().compute()
-
-
-### Single Machine Scheduler
-
-Optimized for larger-than-memory use.
-
-*   **Parallel CPU**: Uses multiple threads or processes
-*   **Minimizes RAM**: Choose tasks to remove intermediates
-*   **Overhead:** ~50us per task
-*   **Concise**: ~600 LOC, stable for ~12 months
-
-### Distributed Scheduler
-
-Optimized for 10-1000 machine clusters
-
-*   **Distributed**: One scheduler coordinates many workers
-*   **Data local**: Moves computation to correct worker
-*   **Asynchronous**: Continuous non-blocking conversation
-*   **Multi-user**: Several users share the same system
-*   **Hackable**: all of the logic is hackable Python
-
-
-### Easy to get started
-
-    $ conda install dask distributed -c conda-forge
-    or
-    $ pip install dask[complete] distributed --upgrade
-
-<hr>
-
-    computer1:$ dask-scheduler
-
-    computer2:$ dask-worker scheduler-hostname:8786
-    computer3:$ dask-worker scheduler-hostname:8786
-
-<hr>
-
-    >>> from dask.distributed import Client
-    >>> client = Client('scheduler-hostname:8786')
-
-    >>> dask.compute(...)
-
-
-
-### Dask.array/dataframe/delayed author task graphs
-
-<hr>
-
-<img src="images/grid_search_schedule-0.png" width="100%">
-
-<hr>
-
-### Now we need to run them efficiently
-
-
-### Dask.array/dataframe/delayed author task graphs
-
-<hr>
-
-<img src="images/grid_search_schedule.gif" width="100%">
-
-<hr>
-
-### Now we need to run them efficiently
-
-
-### Dask schedulers target different architectures
-
-<hr>
-
-### Easy swapping enables scaling up *and down*
-
 
 ### Single Machine Scheduler
 
@@ -1102,7 +939,7 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 ### Easy to get started
 
     $ conda install dask distributed -c conda-forge
-    $ pip install dask[complete] distributed --upgrade
+    $ pip install dask[complete] --upgrade
 
 <hr>
 
@@ -1314,18 +1151,29 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 
 
 
-### Comparison to Spark
+### Comparison to Apache Spark
 
--  Reasons to prefer Spark
-    -   More established
-    -   All-in-one framework for clusters
-    -   Full SQL support plus extensions
-    -   Complements existing JVM infrastructure
--  Reasons to prefer Dask
-    -   Grows out of existing Python stack
-    -   Familiar to Python users and applications
-    -   Supports more complex computations
-    -   Integrates nicely into existing systems, lightweight
+-  Trust
+    -  Spark is well established and trusted
+    -  Dask is new, but part of the established PyData ecosystem
+-  Framework vs Library
+    -  Spark is an all-in-one framework
+    -  Dask is a small part of the larger PyData ecosystem
+-  JVM vs Python
+    -  Spark is JVM based, with support for Python and R
+    -  Dask is nicer for Python users, but supports no one else
+-  High vs Low level
+    -  Spark works at a high level of Map / Shuffle / Reduce stages
+    -  Dask thinks at a lower level of individual task scheduling
+-  Applications
+    -  Spark is focused on SQL and BI applications
+    -  Dask is less focused, and better at complex situations
+
+
+### People choose Dask for two reasons
+
+1.  They like Python
+2.  Their use case is too complex for Apache Spark
 
 
 ### Spark
@@ -1494,7 +1342,7 @@ fa5e20ca674cf5554aa4cab5141019465ef02ce9/task-stream-image-fft.html"
 
 <hr>
 
-    $ pip install dask[complete] distributed --upgrade
+    $ pip install dask[complete] --upgrade
     $ ipython
     >>> from distributed import Client
     >>> client = Client()  # starts a "cluster" on your local machine
