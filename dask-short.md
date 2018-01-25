@@ -5,7 +5,7 @@ Dask: Parallel Programming in Python
 
 *Matthew Rocklin*
 
-Continuum Analytics
+Anaconda Inc.
 
 
 ### Dask enables parallel computing
@@ -32,6 +32,37 @@ Continuum Analytics
     -  Other languages (Julia client exists)
     -  Non-task-based APIs
 
+
+
+### Ecosystem
+
+
+### Python has a mature analytics stack (Numpy, Pandas, ...)
+
+<hr>
+
+### But it is restricted to RAM and a single CPU
+
+### How do we parallelize an ecosystem?
+
+
+<img src="images/scipy-stack/1.png">
+
+
+<img src="images/scipy-stack/2.png">
+
+
+<img src="images/scipy-stack/3.png">
+
+
+<img src="images/scipy-stack/4.png">
+
+
+<img src="images/scipy-stack/5.png">
+
+
+
+### Parallelism Options Today
 
 
 ### Parallelism in Python
@@ -185,6 +216,9 @@ Parallel map
 
 
 
+### Collections
+
+
 ### Dask enables parallel Python
 
 <hr>
@@ -259,14 +293,14 @@ Parallel map
 
 
 
+### Dask array graphs
+
+
 ### Dask APIs Produce Task Graphs
 
 <hr>
 
 ### Dask Schedulers Execute Task Graphs
-
-<img src="images/collections-schedulers-inverse.png"
-     width="70%">
 
 
 ### 1D-Array
@@ -331,14 +365,14 @@ Parallel map
 
 
 
+### Schedulers
+
+
 ### Dask APIs Produce Task Graphs
 
 <hr>
 
 ### Dask Schedulers Execute Task Graphs
-
-<img src="images/collections-schedulers-inverse.png"
-     width="70%">
 
 
 ### Dask.array/dataframe/delayed author task graphs
@@ -443,367 +477,7 @@ Set up on a cluster
 
 
 
-### Brief and Incomplete Summary of Parallelism Options
-
--  Embarrassingly parallel systems (multiprocessing, joblib)
--  Big Data collections (MapReduce, Spark, Flink, Database)
--  Task schedulers (Airflow, Luigi, Celery, Make)
-
-
-### map
-
-    # Sequential Code
-    data = [...]
-    output = map(func, data)
-
-<hr>
-
-    # Parallel Code
-    pool = multiprocessing.Pool()
-    output = pool.map(func, data)
-
--   Pros
-    -   Easy to install and use in the common case
-    -   Lightweight dependency
--   Cons
-    -  Data interchange cost
-    -  Not able to handle complex computations
-
-
-### Big Data collections
-
-    from pyspark import SparkContext
-    sc = SparkContext('local[4]')
-
-    rdd = sc.parallelize(data)
-    rdd.map(json.loads).filter(...).groupBy(...).count()
-
-    df = spark.read_json(...)
-    df.groupBy('name').aggregate({'value': 'sum'})
-
--   Pros
-    -   Larger set of operations
-    -   Scales nicely on clusters
-    -   Well trusted by enterprise
--   Cons
-    -  Heavyweight and JVM focused
-    -  Not able to handle complex computations
-
-
-### This is what I mean by complex
-
-<img src="images/array-xdotxT-mean-std.svg">
-
-### Spark does the following well
-
-<table>
-<tr>
-  <td>
-    <img src="images/embarrassing.svg">
-  </td>
-  <td>
-    <img src="images/shuffle.svg">
-  </td>
-  <td>
-    <img src="images/reduction.svg">
-  </td>
-</tr>
-</table>
-
-
-### Task Schedulers (Airflow, Luigi, Celery, ...)
-
-<img src="images/airflow.png" width="40%">
-<img src="images/luigi.png" width="40%">
-
--  Pros
-    -  Handle arbitrarily complex task graphs
-    -  Python Native
--  Cons
-    -  No inter-worker storage or data interchange
-    -  Long latencies (relatively)
-    -  Not designed for computational loads
-
-
-### Want a task scheduler (like Airflow, Luigi)
-
-<hr>
-
-### Built for computational loads (like Spark, Flink)
-
-
-
-### Custom Script
-
-    filenames = ['mydata-%d.dat' % i for i in range(10)]
-    data = [load(fn) for fn in filenames]
-
-    reference = load_from_sql('sql://mytable')
-    processed = [normalize(d, reference) for d in data]
-
-    rolled = []
-    for i in range(len(processed) - 2):
-        a = processed[i]
-        b = processed[i + 1]
-        c = processed[i + 2]
-        r = roll(a, b, c)
-        rolled.append(r)
-
-    compared = []
-    for i in range(20):
-        a = random.choice(rolled)
-        b = random.choice(rolled)
-        c = compare(a, b)
-        compared.append(c)
-
-    best = reduction(compared)
-
-
-### Custom Script
-
-<img src="images/custom-etl-1.svg">
-
-    data = [load(fn) for fn in filenames]
-
-
-### Custom Script
-
-<img src="images/custom-etl-2.svg">
-
-    reference = load_from_sql('sql://mytable')
-
-
-### Custom Script
-
-<img src="images/custom-etl-3.svg">
-
-    processed = [normalize(d, reference) for d in data]
-
-
-### Custom Script
-
-<img src="images/custom-etl-4.svg" width="70%">
-
-    rolled = []
-    for i in range(len(processed) - 2):
-        a = processed[i]
-        b = processed[i + 1]
-        c = processed[i + 2]
-        r = roll(a, b, c)
-        rolled.append(r)
-
-
-### Custom Script
-
-<img src="images/custom-etl-5.svg">
-
-    compared = []
-    for i in range(20):
-        a = random.choice(rolled)
-        b = random.choice(rolled)
-        c = compare(a, b)
-        compared.append(c)
-
-
-### Custom Script
-
-<img src="images/custom-etl-6.svg">
-
-    best = reduction(compared)
-
-
-### This flexibility is novel and liberating
-
-<hr>
-
-### But it's also tricky to do well
-
-
-
-### Contrast with High Level Parallelism
-
-**Spark**
-
-    outputs = collection.filter(predicate)
-                        .groupBy(key)
-                        .map(function)
-
-<hr>
-
-**SQL**
-
-    SELECT city, sum(population)
-    WHERE population > 1000000
-    GROUP BY city
-
-<hr>
-
-**Matrices**
-
-    solve(A.dot(A.T), x)
-
-
-### Map - Shuffle - Reduce
-
-<table>
-<tr>
-  <td>
-    <img src="images/embarrassing.svg">
-  </td>
-  <td>
-    <img src="images/shuffle.svg">
-  </td>
-  <td>
-    <img src="images/reduction.svg">
-  </td>
-</tr>
-</table>
-
-*  Build optimized Map
-*  Build optimized Shuffle
-*  Build optimized Aggregations
-*  Get a decent database-like project
-
-
-### Many parallel problems don't fit this model
-
-
-### Custom Pipelines
-
-<img src="images/custom-etl-6.svg">
-
-
-### ETL: Luigi
-
-<img src="images/luigi.png" width="80%">
-
-http://luigi.readthedocs.io/en/stable/
-
-
-### ETL: Airflow
-
-<img src="images/airflow.png" width="80%">
-
-https://github.com/apache/incubator-airflow
-
-
-### Efficient TimeSeries - Resample
-
-<img src="images/resample.svg">
-
-    df.value.resample('1w').mean()
-
-
-### Efficient TimeSeries - Rolling
-
-<img src="images/rolling.svg">
-
-    df.value.rolling(100).mean()
-
-
-### ND-Array - Sum
-
-<img src="images/array-sum.svg">
-
-    x = da.ones((15, 15), chunks=(5, 5))
-    x.sum(axis=0)
-
-
-### ND-Array - Transpose
-
-<img src="images/array-xxT.svg">
-
-    x = da.ones((15, 15), chunks=(5, 5))
-    x + x.T
-
-
-### ND-Array - Matrix Multiply
-
-<img src="images/array-xdotxT.svg">
-
-    x = da.ones((15, 15), chunks=(5, 5))
-    x.dot(x.T + 1)
-
-
-### ND-Array - Compound Operations
-
-<img src="images/array-xdotxT-mean.svg">
-
-    x = da.ones((15, 15), chunks=(5, 5))
-    x.dot(x.T + 1) - x.mean()
-
-
-### ND-Array - Compound Operations
-
-<img src="images/array-xdotxT-mean-std.svg">
-
-    x = da.ones((15, 15), chunks=(5, 5))
-    (x.dot(x.T + 1) - x.mean()).std()
-
-
-### Modern SVD
-
-<img src="images/svd.svg" width="45%">
-
-    u, s, v = da.linalg.svd(x)
-
-
-### Modern Approximate SVD
-
-<img src="images/svd-compressed.svg">
-
-    u, s, v = da.linalg.svd_compressed(x, k=10)
-
-
-### Arbitrary graph execution eases developer burden
-
-<hr>
-
-### It enables algorithms and custom applications
-
-<hr>
-
-### But it's hard to do well
-
-
-### Arbitrary Graph Scheduling is Hard
-
-<img src="images/svd-compressed.svg" width="60%">
-
-<img src="images/computer-tower.svg" width="15%">
-<img src="images/computer-tower.svg" width="15%">
-<img src="images/computer-tower.svg" width="15%">
-<img src="images/computer-tower.svg" width="15%">
-<img src="images/computer-tower.svg" width="15%">
-<img src="images/computer-tower.svg" width="15%">
-
-
-### Optimal Graph Scheduling is NP-Hard
-
-<img src="images/svd-compressed.svg" width="60%">
-
-<img src="images/computer-tower.svg" width="15%">
-<img src="images/computer-tower.svg" width="15%">
-<img src="images/computer-tower.svg" width="15%">
-<img src="images/computer-tower.svg" width="15%">
-<img src="images/computer-tower.svg" width="15%">
-<img src="images/computer-tower.svg" width="15%">
-
-
-### Scalable Scheduling Requires Linear Time Solutions
-
-<img src="images/svd-compressed-large.svg" width="100%">
-
-<img src="images/computer-tower.svg" width="15%">
-<img src="images/computer-tower.svg" width="15%">
-<img src="images/computer-tower.svg" width="15%">
-<img src="images/computer-tower.svg" width="15%">
-<img src="images/computer-tower.svg" width="15%">
-<img src="images/computer-tower.svg" width="15%">
-
-
-### Fortunately we can do pretty well with heuristics
-
+### How the Scheudler Works
 
 
 ### Dask.array/dataframe/delayed author task graphs
@@ -953,6 +627,9 @@ Stable for a year or so.  Optimized for larger-than-memory use.
     $ dask-worker scheduler-hostname:8786
     $ dask-worker scheduler-hostname:8786
 
+
+
+### Scheduling Heuristics
 
 
 ### Dask.array/dataframe/delayed author task graphs
@@ -1149,6 +826,9 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 
 <img src="images/dicts-everywhere.jpg">
 
+
+
+### Apache Spark
 
 
 ### Comparison to Apache Spark
@@ -1686,17 +1366,381 @@ prediction = est.predict(test)
 <img src="images/grid_search_schedule.gif" width="100%">
 
 
-### Acknowledgements
+### Thanks!
 
-*  Countless open source developers
-*  SciPy developer community
-*  Continuum Analytics
-*  XData Program from DARPA
+    $ conda install dask
+    $ pip install dask[complete] --upgrade
 
-<img src="images/moore.png">
+<img src="images/moore.png" width="20%">
+<img src="images/Anaconda_Logo.png" width="20%">
+<img src="images/NSF.png" width="10%">
+<img src="images/DARPA_Logo.jpg" width="20%">
 
 <hr>
 
 ### Questions?
 
 <img src="images/grid_search_schedule.gif" width="100%">
+
+
+
+### Brief and Incomplete Summary of Parallelism Options
+
+-  Embarrassingly parallel systems (multiprocessing, joblib)
+-  Big Data collections (MapReduce, Spark, Flink, Database)
+-  Task schedulers (Airflow, Luigi, Celery, Make)
+
+
+### map
+
+    # Sequential Code
+    data = [...]
+    output = map(func, data)
+
+<hr>
+
+    # Parallel Code
+    pool = multiprocessing.Pool()
+    output = pool.map(func, data)
+
+-   Pros
+    -   Easy to install and use in the common case
+    -   Lightweight dependency
+-   Cons
+    -  Data interchange cost
+    -  Not able to handle complex computations
+
+
+### Big Data collections
+
+    from pyspark import SparkContext
+    sc = SparkContext('local[4]')
+
+    rdd = sc.parallelize(data)
+    rdd.map(json.loads).filter(...).groupBy(...).count()
+
+    df = spark.read_json(...)
+    df.groupBy('name').aggregate({'value': 'sum'})
+
+-   Pros
+    -   Larger set of operations
+    -   Scales nicely on clusters
+    -   Well trusted by enterprise
+-   Cons
+    -  Heavyweight and JVM focused
+    -  Not able to handle complex computations
+
+
+### This is what I mean by complex
+
+<img src="images/array-xdotxT-mean-std.svg">
+
+### Spark does the following well
+
+<table>
+<tr>
+  <td>
+    <img src="images/embarrassing.svg">
+  </td>
+  <td>
+    <img src="images/shuffle.svg">
+  </td>
+  <td>
+    <img src="images/reduction.svg">
+  </td>
+</tr>
+</table>
+
+
+### Task Schedulers (Airflow, Luigi, Celery, ...)
+
+<img src="images/airflow.png" width="40%">
+<img src="images/luigi.png" width="40%">
+
+-  Pros
+    -  Handle arbitrarily complex task graphs
+    -  Python Native
+-  Cons
+    -  No inter-worker storage or data interchange
+    -  Long latencies (relatively)
+    -  Not designed for computational loads
+
+
+### Want a task scheduler (like Airflow, Luigi)
+
+<hr>
+
+### Built for computational loads (like Spark, Flink)
+
+
+
+### Custom Script
+
+    filenames = ['mydata-%d.dat' % i for i in range(10)]
+    data = [load(fn) for fn in filenames]
+
+    reference = load_from_sql('sql://mytable')
+    processed = [normalize(d, reference) for d in data]
+
+    rolled = []
+    for i in range(len(processed) - 2):
+        a = processed[i]
+        b = processed[i + 1]
+        c = processed[i + 2]
+        r = roll(a, b, c)
+        rolled.append(r)
+
+    compared = []
+    for i in range(20):
+        a = random.choice(rolled)
+        b = random.choice(rolled)
+        c = compare(a, b)
+        compared.append(c)
+
+    best = reduction(compared)
+
+
+### Custom Script
+
+<img src="images/custom-etl-1.svg">
+
+    data = [load(fn) for fn in filenames]
+
+
+### Custom Script
+
+<img src="images/custom-etl-2.svg">
+
+    reference = load_from_sql('sql://mytable')
+
+
+### Custom Script
+
+<img src="images/custom-etl-3.svg">
+
+    processed = [normalize(d, reference) for d in data]
+
+
+### Custom Script
+
+<img src="images/custom-etl-4.svg" width="70%">
+
+    rolled = []
+    for i in range(len(processed) - 2):
+        a = processed[i]
+        b = processed[i + 1]
+        c = processed[i + 2]
+        r = roll(a, b, c)
+        rolled.append(r)
+
+
+### Custom Script
+
+<img src="images/custom-etl-5.svg">
+
+    compared = []
+    for i in range(20):
+        a = random.choice(rolled)
+        b = random.choice(rolled)
+        c = compare(a, b)
+        compared.append(c)
+
+
+### Custom Script
+
+<img src="images/custom-etl-6.svg">
+
+    best = reduction(compared)
+
+
+### This flexibility is novel and liberating
+
+<hr>
+
+### But it's also tricky to do well
+
+
+
+### Contrast with High Level Parallelism
+
+**Spark**
+
+    outputs = collection.filter(predicate)
+                        .groupBy(key)
+                        .map(function)
+
+<hr>
+
+**SQL**
+
+    SELECT city, sum(population)
+    WHERE population > 1000000
+    GROUP BY city
+
+<hr>
+
+**Matrices**
+
+    solve(A.dot(A.T), x)
+
+
+### Map - Shuffle - Reduce
+
+<table>
+<tr>
+  <td>
+    <img src="images/embarrassing.svg">
+  </td>
+  <td>
+    <img src="images/shuffle.svg">
+  </td>
+  <td>
+    <img src="images/reduction.svg">
+  </td>
+</tr>
+</table>
+
+*  Build optimized Map
+*  Build optimized Shuffle
+*  Build optimized Aggregations
+*  Get a decent database-like project
+
+
+### Many parallel problems don't fit this model
+
+
+### Custom Pipelines
+
+<img src="images/custom-etl-6.svg">
+
+
+### ETL: Luigi
+
+<img src="images/luigi.png" width="80%">
+
+http://luigi.readthedocs.io/en/stable/
+
+
+### ETL: Airflow
+
+<img src="images/airflow.png" width="80%">
+
+https://github.com/apache/incubator-airflow
+
+
+### Efficient TimeSeries - Resample
+
+<img src="images/resample.svg">
+
+    df.value.resample('1w').mean()
+
+
+### Efficient TimeSeries - Rolling
+
+<img src="images/rolling.svg">
+
+    df.value.rolling(100).mean()
+
+
+### ND-Array - Sum
+
+<img src="images/array-sum.svg">
+
+    x = da.ones((15, 15), chunks=(5, 5))
+    x.sum(axis=0)
+
+
+### ND-Array - Transpose
+
+<img src="images/array-xxT.svg">
+
+    x = da.ones((15, 15), chunks=(5, 5))
+    x + x.T
+
+
+### ND-Array - Matrix Multiply
+
+<img src="images/array-xdotxT.svg">
+
+    x = da.ones((15, 15), chunks=(5, 5))
+    x.dot(x.T + 1)
+
+
+### ND-Array - Compound Operations
+
+<img src="images/array-xdotxT-mean.svg">
+
+    x = da.ones((15, 15), chunks=(5, 5))
+    x.dot(x.T + 1) - x.mean()
+
+
+### ND-Array - Compound Operations
+
+<img src="images/array-xdotxT-mean-std.svg">
+
+    x = da.ones((15, 15), chunks=(5, 5))
+    (x.dot(x.T + 1) - x.mean()).std()
+
+
+### Modern SVD
+
+<img src="images/svd.svg" width="45%">
+
+    u, s, v = da.linalg.svd(x)
+
+
+### Modern Approximate SVD
+
+<img src="images/svd-compressed.svg">
+
+    u, s, v = da.linalg.svd_compressed(x, k=10)
+
+
+### Arbitrary graph execution eases developer burden
+
+<hr>
+
+### It enables algorithms and custom applications
+
+<hr>
+
+### But it's hard to do well
+
+
+### Arbitrary Graph Scheduling is Hard
+
+<img src="images/svd-compressed.svg" width="60%">
+
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+
+
+### Optimal Graph Scheduling is NP-Hard
+
+<img src="images/svd-compressed.svg" width="60%">
+
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+
+
+### Scalable Scheduling Requires Linear Time Solutions
+
+<img src="images/svd-compressed-large.svg" width="100%">
+
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+<img src="images/computer-tower.svg" width="15%">
+
+
+### Fortunately we can do pretty well with heuristics
