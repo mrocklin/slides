@@ -1304,9 +1304,14 @@ fa5e20ca674cf5554aa4cab5141019465ef02ce9/task-stream-image-fft.html"
 
 
 
-### Dask enables Machine Learning
+### Machine Learning
 
-1.  Model parallelism with Scikit-Learn
+[dask-ml.readthedocs.io](http://dask-ml.readthedocs.io/)
+
+
+### Machine Learning: We have a few options ...
+
+1.  Accelerate Scikit-Learn directly
 
     ```python
     pipe = Pipeline(steps=[('pca', PCA()),
@@ -1314,7 +1319,7 @@ fa5e20ca674cf5554aa4cab5141019465ef02ce9/task-stream-image-fft.html"
     grid = GridSearchCV(pipe, parameter_grid)
     ```
 
-2.  Implement known algorithms with dask.array
+2.  Build well-known algorithms with Dask.array
 
     ```python
     eXbeta = da.exp(X.dot(beta))
@@ -1322,13 +1327,344 @@ fa5e20ca674cf5554aa4cab5141019465ef02ce9/task-stream-image-fft.html"
     ...
     ```
 
-3.  Collaborate with other distributed systems
+3.  Support and deploy other distributed systems
 
-    -  **Pre-process** with dataframe
-    -  **Deploy** other services
-    -  **Pass data** from Dask and **train** with other service
+    <img src="images/dask-xgboost-pre.svg" width="40%">
+    <img src="images/dask-xgboost-pre.svg" width="40%">
 
-4.  Build custom systems with dask.delayed, concurrent.futures
+4.  Build custom algorithms with concurrent.futures, dask.delayed, ...
+
+
+### Machine Learning: We have a few options ...
+
+1.  Accelerate Scikit-Learn directly
+
+    ```python
+    pipe = Pipeline(steps=[('pca', PCA()),
+                           ('logistic', LogisticRegression)])
+    grid = GridSearchCV(pipe, parameter_grid)
+    ```
+
+2.  Build well-known algorithms with Dask.array
+
+    ```python
+    eXbeta = da.exp(X.dot(beta))
+    gradient = X.T.dot(eXbeta / (eXbeta + 1) - y)
+    ...
+    ```
+
+3.  Support and deploy other distributed systems side-by-side
+
+    <img src="images/dask-xgboost-post.svg" width="40%">
+    <img src="images/dask-xgboost-post.svg" width="40%">
+
+4.  Build custom algorithms with concurrent.futures, dask.delayed, ...
+
+
+### Accelerate Scikit-Learn directly with Joblib
+
+-  Scikit-Learn uses [Joblib](https://pythonhosted.org/joblib/) for parallelism
+-  Joblib now supports swapping backends
+-  Can replace the normal thread pool with Dask
+
+-  Thread Pool <-- Joblib <-- Scikit Learn
+
+```python
+from sklearn.model_selection import GridSearchCV
+.
+.
+
+est = GridSearchCV(...)  # this could be any joblib-parallelized estimator
+
+est.fit(X, y)  # uses a thread pool
+```
+
+
+### Accelerate Scikit-Learn directly with Joblib
+
+-  Scikit-Learn uses [Joblib](https://pythonhosted.org/joblib/) for parallelism
+-  Joblib now supports swapping backends
+-  Can replace the normal thread pool with Dask
+
+-  Dask Cluster <-- Joblib <-- Scikit Learn
+
+```python
+from sklearn.model_selection import GridSearchCV
+from sklearn.externals.joblib import parallel_backend
+import dask_ml.joblib
+
+est = GridSearchCV(...)  # this could be any joblib-parallelized estimator
+with parallel_backend('dask.distributed', scheduler_host='...'):
+    est.fit(X, y)  # uses Dask
+```
+
+
+### Accelerate Scikit-Learn directly with Joblib
+
+-  Good:
+    -  model selection (grid search)
+    -  embarrassingly parallel computations (random forests)
+-  Bad:
+    -  Training large data
+    -  Still some backends baked into Scikit-Learn
+-  Status:
+    - Works well today
+    - Will extend to new algorithms as Joblib evolves
+
+
+### Use Dask Array to Build Optimization Algorithms
+
+Implement optimization algorithms with NumPy syntax
+
+<div class="columns">
+  <div class="column">
+    <pre>
+Xbeta = X.dot(beta_hat)
+func = ((y - Xbeta)\*\*2).sum()
+gradient = 2 \* X.T.dot(Xbeta - y)
+
+beta_hat = beta_hat - step_size \* gradient
+new_func = ((y - X.dot(beta_hat)) \*\* 2).sum()
+    </pre>
+
+    <p> Dask.array provides scalable algorithms </p>
+    <p> Easy for mathematical programmers </p>
+  </div>
+
+  <div class="column">
+    <img src="images/grad-step-white-on-transparent.svg" width="100%">
+  </div>
+</div>
+
+
+### Use Dask Array to Build Optimization Algorithms
+
+```python
+>>> from dask_ml.estimators import LogisticRegression
+>>> from dask_ml.datasets import make_classification
+>>> X, y = make_classification()
+>>> lr = LogisticRegression()
+>>> lr.fit(X, y)
+>>> lr
+LogisticRegression(abstol=0.0001, fit_intercept=True, lamduh=1.0,
+                   max_iter=100, over_relax=1, regularizer='l2', reltol=0.01,
+                                      rho=1, solver='admm', tol=0.0001)
+```
+
+-  Combine the following:
+    -  Optimization algorithms with Dask.array
+    -  Regularizers (L1, L2, ElasticNet, ...)
+    -  Generalized Linear Model families
+-  Get:
+    -  Linear Regression
+    -  Logistic Regression
+    -  Poisson Regression
+    -  ...
+
+
+### Use Dask Array to Build Optimization Algorithms
+
+-  Good:
+    -  Train large datasets
+    -  Extensible to new regularization methods, link functions
+    -  Supports SKLearn API
+-  Bad:
+    -  Not as efficient as SKLearn on single machines
+-  Status:
+    -  Good to go
+    -  Needs benchmarking on real problems
+
+<hr>
+
+*Work by Chris White and Tom Augspurger*
+
+
+### Deploy Other Services with Dask
+
+<div class="columns">
+  <div class="column">
+  <ul>
+    <li>Other distributed machine learning systems exist</li>
+    <li>Dask can deploy these and serve data</li>
+  <ul>
+  <pre>
+import dask.dataframe as dd
+df = dd.read_parquet('s3://...')
+
+# Split into training and testing data
+train, test = df.random_split([0.8, 0.2])
+
+# Separate labels from data
+train_labels = train.x > 0
+test_labels = test.x > 0
+
+del train['x']  # remove informative column from data
+del test['x']  # remove informative column from data
+
+.
+.
+
+.
+.
+
+.
+  </pre>
+  </div>
+
+  <div class="column">
+    <img src="images/network-inverse.svg" width="100%">
+  </div>
+</div>
+
+
+### Deploy Other Services with Dask
+
+<div class="columns">
+  <div class="column">
+  <ul>
+    <li>Other distributed machine learning systems exist</li>
+    <li>Dask can deploy these and serve data</li>
+  <ul>
+  <pre>
+import dask.dataframe as dd
+df = dd.read_parquet('s3://...')
+
+# Split into training and testing data
+train, test = df.random_split([0.8, 0.2])
+
+# Separate labels from data
+train_labels = train.x > 0
+test_labels = test.x > 0
+
+del train['x']  # remove informative column from data
+del test['x']  # remove informative column from data
+
+.
+.
+
+.
+.
+
+.
+  </pre>
+  </div>
+
+  <div class="column">
+    <img src="images/network-inverse-xgboost.svg" width="100%">
+  </div>
+</div>
+
+
+### Deploy Other Services with Dask
+
+<div class="columns">
+  <div class="column">
+  <ul>
+    <li>Other distributed machine learning systems exist</li>
+    <li>Dask can deploy these and serve data</li>
+  <ul>
+  <pre>
+import dask.dataframe as dd
+df = dd.read_parquet('s3://...')
+
+# Split into training and testing data
+train, test = df.random_split([0.8, 0.2])
+
+# Separate labels from data
+train_labels = train.x > 0
+test_labels = test.x > 0
+
+del train['x']  # remove informative column from data
+del test['x']  # remove informative column from data
+
+.
+.
+
+.
+.
+
+.
+  </pre>
+  </div>
+  <div class="column">
+    <img src="images/network-inverse-xgboost-connections.svg" width="100%">
+  </div>
+</div>
+
+
+### Deploy Other Services with Dask
+
+<div class="columns">
+  <div class="column">
+  <ul>
+    <li>Other distributed machine learning systems exist</li>
+    <li>Dask can deploy these and serve data</li>
+  <ul>
+  <pre>
+import dask.dataframe as dd
+df = dd.read_parquet('s3://...')
+
+# Split into training and testing data
+train, test = df.random_split([0.8, 0.2])
+
+# Separate labels from data
+train_labels = train.x > 0
+test_labels = test.x > 0
+
+del train['x']  # remove informative column from data
+del test['x']  # remove informative column from data
+
+# from xgboost import XGBRegressor  # change import
+from dask_ml.xgboost import XGBRegressor
+
+est = XGBRegressor(...)
+est.fit(train, train_labels)
+
+prediction = est.predict(test)
+  </pre>
+  </div>
+  <div class="column">
+    <img src="images/network-inverse-xgboost-connections.svg" width="100%">
+  </div>
+</div>
+
+
+### Deploy Other Services with Dask
+
+-  Good
+    -  Works with XGBoost
+    -  Works with TensorFlow
+    -  Handles administrative setup
+    -  Delivers distributed data
+    -  Doesn't reinvent anything unnecessarily
+-  Bad
+    -  You still need to understand XGBoost
+    -  You still need to understand TensorFlow
+    -  Requires that the service plays nicely with Python
+-  Status
+    -  Very small projects
+    -  Not heavily used, so expect some friction
+
+
+### Machine Learning Overview
+
+-  Dask enable parallel machine learning
+    -  Uses existing technologies like SKLearn, XGBoost
+    -  Implements new algorithms when necessary
+-  Highly collaborative
+-  Maintain familiar Scikit-Learn APIs
+
+<hr>
+
+-  See blogposts by [Tom Augspurger](https://tomaugspurger.github.io/)
+    -  [Overview](https://tomaugspurger.github.io/scalable-ml-01.html)
+    -  [Incremental Learning](https://tomaugspurger.github.io/scalable-ml-02.html)
+    -  ...
+-  And [Jim Crist](http://jcrist.github.io/)
+    -  [Grid Search](http://jcrist.github.io/introducing-dask-searchcv.html)
+-  And [Chris White](https://github.com/moody-marlin/)
+    -  [Convex Optimization](https://matthewrocklin.com/blog/work/2017/03/22/dask-glm-1)
+    -  [Asynchronous Algorithms](http://matthewrocklin.com/blog/work/2017/04/19/dask-glm-2)
 
 
 

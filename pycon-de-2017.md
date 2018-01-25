@@ -537,6 +537,7 @@ df = geopandas.sjoin(taxi_rides, zones, op='within')
 3.  Support and deploy other distributed systems
 
     <img src="images/dask-xgboost-pre.svg" width="40%">
+    <img src="images/dask-xgboost-pre.svg" width="40%">
 
 4.  Build custom algorithms with concurrent.futures, dask.delayed, ...
 
@@ -561,6 +562,7 @@ df = geopandas.sjoin(taxi_rides, zones, op='within')
 
 3.  Support and deploy other distributed systems side-by-side
 
+    <img src="images/dask-xgboost-post.svg" width="40%">
     <img src="images/dask-xgboost-post.svg" width="40%">
 
 4.  Build custom algorithms with concurrent.futures, dask.delayed, ...
