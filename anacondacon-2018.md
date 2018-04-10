@@ -72,7 +72,7 @@ Anaconda Inc
 -  Executes efficiently
     -  Scales from laptops to super-computers
     -  Resilient, responsive, and real-time
-    -  Millisecond latencies, 100us overheads
+    -  Millisecond latencies, 300us overheads
 
 
 ### High Level APIs for Numpy, Pandas, Scikit-Learn
@@ -151,7 +151,7 @@ grid = GridSearchCV(pipe, parameter_grid)
     Includes standard concurrency primitives
 
     *Queues, Locks, Shared Variables, ...*
-4.  **Fast-ish**: Millisecond latencies, 100 microsecond overheads
+4.  **Fast-ish**: Millisecond latencies, 300 microsecond overheads
 
 .
 
@@ -169,7 +169,7 @@ grid = GridSearchCV(pipe, parameter_grid)
 
 ```python
 >>> from dask.distributed import Client
->>> client = Client()
+>>> client = Client(processes=False)                   # Start Dask Client
 
 >>> # result = function(*args, **kwargs)               # would run locally
 
@@ -182,10 +182,10 @@ grid = GridSearchCV(pipe, parameter_grid)
 
 ```python
 >>> future                                             # task finishes in the background
-<Future: status: finished, key: add-c3cae4a08c3bbbbd>
+<Future: status: finished, type: np.ndarray, key: add-c3cae4a08c3bbbbd>
 
 >>> future.result()                                    # block and gather result
-123
+array([ ... ])
 ```
 
 
@@ -213,7 +213,7 @@ Avoids gathering intermediate results
 ```
 
 -  300 microsecond overhead
--  10ms roundtrip latency
+-  10 millisecond roundtrip latency
 
 
 ### Futures: Submit tasks from tasks
