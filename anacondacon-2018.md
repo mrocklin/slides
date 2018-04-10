@@ -7,6 +7,8 @@ Real Time Processing and Dask
 
 Anaconda Inc
 
+[Play along with live examples](https://mybinder.org/v2/gh/mrocklin/dask-examples/anacondacon-2018)
+
 
 ### We want to combine data analysis
 
@@ -43,13 +45,13 @@ Anaconda Inc
 <hr>
 
 1.  Streaming Dataframes
-    -  Apache Flink\*
+    -  Apache Flink
     -  Apache Spark Streaming
-    -  Apache Beam\*
+    -  Apache Beam
 2.  Responding to network requests
     -  Concurrent.futures
     -  Celery
-    -  General web technology nginx\*
+    -  General web technology nginx
 3.  Advanced distributed algorithms
     -  ZeroMQ
     -  Ray
@@ -335,7 +337,10 @@ See [PyData NYC 2017 talk](https://www.youtube.com/watch?v=yI_yZoUaz60)
 <hr>
 
 ```python
->>> new_stream = stream.map(func)
+>>> from streamz import Stream
+
+>>> stream = Stream.from_kafka(...)
+>>> new_stream = stream.map(json.loads)
 ```
 
 
@@ -344,16 +349,16 @@ See [PyData NYC 2017 talk](https://www.youtube.com/watch?v=yI_yZoUaz60)
 <hr>
 
 ```python
-def binop(total, new):
+def add(total, new):
     return total + new
 
->>> reduce(binop, range(10))      # single final result
+>>> reduce(add, range(10))      # single final result
 45
 
->>> accumulate(binop, range(10))  # new result for every new element
+>>> accumulate(add, range(10))  # new result for every new element
 [0, 1, 3, 6, 10, 15, 21, 28, 36, 45]
 
->>> new_stream = stream.accumulate(binop, start=0)
+>>> new_stream = stream.accumulate(add, start=0)
 ```
 
 
@@ -425,7 +430,6 @@ for element in data:            # user pushes data into stream
 2.  Aggregation with state
 3.  Branching / Joining
 4.  Rate and control flow
-5.  Optional dataframe algorithms
 
 <hr>
 
@@ -436,23 +440,70 @@ for element in data:            # user pushes data into stream
 3.  Optional Dask backend exists
 
 
-### Streaming Dataframes
+### Streamz.dataframe
+
+1.  Submodule of streamz
+2.  Implements small but commonly used subset of the Pandas API
+    -  Filtering, embarrassingly parallel operations
+    -  Aggregations
+    -  Groupby-aggregations
+    -  Windowing operations
+3.  Just a stream of Pandas Dataframes
+4.  *This is currently a side project, use with caution*
+
+
+### Streamz.dataframe
 
 Need to make Pandas algorithms that support marginal updates
 
 ```python
 class Sum(Aggregation):
+
     def on_new(self, accumulator, new):
         result = accumulator + new.sum()
+
         return result
 
     def on_old(self, accumulator, old):
-        result = accumulator- old.sum()
+        result = accumulator - old.sum()
+
         return result
 
     def initial(self, new):
         result = new.sum()
+
         return result
+
+```
+
+This is hard, but not that hard.  Around 1kLOC.
+
+[github.com/mrocklin/streamz/tree/master/streamz/dataframe](https://github.com/mrocklin/streamz/tree/master/streamz/dataframe)
+
+
+
+### Streamz.dataframe
+
+Need to make Pandas algorithms that support marginal updates
+
+```python
+class Mean(Aggregation):
+    def on_new(self, acc, new):
+        totals, counts = acc
+        totals = totals + new.sum()
+        counts = counts + new.count()
+        return (totals, counts), totals / counts
+
+    def on_old(self, acc, old):
+        totals, counts = acc
+        totals = totals - old.sum()
+        counts = counts - old.count()
+        return (totals, counts), totals / counts
+
+    def initial(self, new):
+        s, c = new.sum(), new.count()
+        return (s, c)
+
 ```
 
 This is hard, but not that hard.  Around 1kLOC.
@@ -472,7 +523,7 @@ This is hard, but not that hard.  Around 1kLOC.
     -  **Streamz:** for streaming control flow
     -  **Jupyter:** for interactivity
     -  **Bokeh/Holoviews:** for plotting
-    -  **Dask:** for distributed computing
+    -  **Dask:** for distributed computing (optional)
 -   Used Dask Futures to add scalability
 
     Dask addition is 200 LOC
