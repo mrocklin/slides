@@ -236,11 +236,11 @@ Parallel map
 
     import numpy as np
     x = np.random.random(...)
-    u, s, v = np.linalg.svd(x.dot(x.T))
+    y = x + x.T - x.mean(axis=0)
 
     import dask.array as da
     x = da.random.random(..., chunks=(1000, 1000))
-    u, s, v = da.linalg.svd(x.dot(x.T))
+    y = x + x.T - x.mean(axis=0)
 
 
 ### Dask.DataFrame
