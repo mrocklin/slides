@@ -240,6 +240,19 @@ grid = GridSearchCV(pipe, parameter_grid)
 <img src="images/nyc-taxi-geo-counts.png" width="60%">
 
 
+### How does Dask relate to Anaconda Enterprise?
+
+-  They are independent
+    -  Dask is open source and can be used without Anaconda Enterprise
+    -  Anaconda Enterprise works with other distributed frameworks
+-  But complimentary
+    -   Anaconda Enterprise helps with authentication, user management,
+        software environments, ...
+
+        These are critical pain-points when using any distributed system
+    -   As Python becomes more prevalent in an organization, scaling Pandas,
+        Scikit-Learn, and other analysis becomes more critical
+
 
 ### How does Dask compare to Apache Spark?
 
