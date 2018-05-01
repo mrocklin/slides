@@ -59,13 +59,6 @@ How do people use Dask?
     ```
 
 
-### Dask APIs help users construct task graphs
-
-<hr>
-
-### Dask schedulers execute task graphs on parallel hardware
-
-
 ### Parallel Dask Arrays
 
 Leverage existing Numpy library for in-memory arrays
@@ -165,6 +158,7 @@ grid = GridSearchCV(pipe, parameter_grid)
 <img src="images/grid_search_schedule.gif" width="100%">
 
 
+
 ### Dask Network
 
 <img src="images/network-inverse.svg">
@@ -240,6 +234,7 @@ grid = GridSearchCV(pipe, parameter_grid)
 <img src="images/nyc-taxi-geo-counts.png" width="60%">
 
 
+
 ### How does Dask relate to Anaconda Enterprise?
 
 -  They are independent
@@ -252,6 +247,7 @@ grid = GridSearchCV(pipe, parameter_grid)
         These are critical pain-points when using any distributed system
     -   As Python becomes more prevalent in an organization, scaling Pandas,
         Scikit-Learn, and other analysis becomes more critical
+
 
 
 ### How does Dask compare to Apache Spark?
