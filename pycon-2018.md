@@ -22,8 +22,8 @@ Anaconda Inc.
 
 ### Goals
 
-1.  Provide context for how atmospheric scientists use Python
-2.  Inform other scientific domains about specific tools
+1.  Provide context for scientific Python
+2.  Attract other scientists to specific tools
 3.  Encourage the non-science Python community to help
 
     (Science needs non-science skills!)
@@ -57,7 +57,13 @@ Anaconda Inc.
 
 ### Demonstration Analysis
 
+<hr>
+
 ### Measure sea surface temperature
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/zfovozdDvSM" frameborder="0"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 
 ### We just used these tools
@@ -74,11 +80,12 @@ Anaconda Inc.
 
 -  Code interactively
 
-    Need to iterate quickly.  Scientists don't know what they're looking for
--  Integrate many kinds of content:
-    -  Code and results
-    -  Markdown prose
-    -  Output images
+    Scientists iterate quickly as they search for insight
+
+-  Integrate different forms of content:
+    -  Code
+    -  Prose
+    -  Outputs and images
 
     Transitions smoothly from workspace to reproducible report
 -  Runs in a web browser
@@ -88,14 +95,15 @@ Anaconda Inc.
 
 -  Code interactively
 
-    Need to iterate quickly.  Scientists don't know what they're looking for
--  Integrate many kinds of content:
-    -  Code and results
-    -  Markdown prose
-    -  Output images
+    Scientists iterate quickly as they search for insight
+
+-  Integrate different forms of content:
+    -  Code
+    -  Prose
+    -  Outputs and images
 
     Transitions smoothly from workspace to reproducible report
--  Runs in a web browser (this will be key later)
+-  Runs in a web browser (this will be important later)
 
 
 ### NetCDF / XArray, related grids of data
@@ -140,24 +148,22 @@ Not efficient for gridded data
 
 
 
-Challenges
-----------
+### Challenges
 
 1.  Data Scale
     -  NASA plans to dump 100's of petabytes of images onto the cloud
-    -  Simulations dump petabytes on every run
+    -  Simulations create petabytes on every run
 2.  Human Scale
     -  More researchers are adopting these techniques across domains
     -  Average technical proficiency is *decreasing*
     -  They aren't taught to manage parallel and distributed systems
 
 
-Scalable Demo
--------------
+### Scalable Demonstration
 
 <iframe width="560" height="315"
-src="https://www.youtube.com/embed/rSOJKbfNBNk?ecver=1" frameborder="0"
-gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+src="https://www.youtube.com/embed/FFVIDucwjXo" frameborder="0"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 
 ### You can do this too
@@ -313,8 +319,8 @@ Cluster scales down to reduce costs
     3.  Anaconda Inc.
 -  Rapidly expanded to other agencies
     -  UK Met Office
-    -  USGS
     -  NASA
+    -  USGS
     -  Several universities and international agencies
     -  ...
 
@@ -355,18 +361,20 @@ Cluster scales down to reduce costs
 <img src="images/pangeo/pangeo-microscopy.png" width="80%">
 
 
-### Challenges Today
+### Challenges and Opportunities
 
 1.  Too many scientists, not enough technical diversity
-2.  Cloud native data storage formats for multi-dimensional arrays
-3.  Manage software environments between different research groups
+2.  Manage software environments, user permissions
+
+    among increasingly diverse research groups
+3.  Cloud native data storage formats for scientific data
 4.  Increasing impact across scientific domains
 
 
 ### Questions?
 
-<img src="images/pangeo/sea-level-variability.png" width="90%">
+<img src="images/pangeo/sea-level-variability.png" width="70%">
 
 ### Participate
 
-Issue Tracker: [github.com/pangeo-data/pangeo](https://github.com/pangeo-data/pangeo)
+Community Issue Tracker: [github.com/pangeo-data/pangeo](https://github.com/pangeo-data/pangeo)
