@@ -61,6 +61,28 @@ Anaconda Inc.
 <img src="images/scipy-stack/5.png">
 
 
+### How do we parallelize an ecosystem
+
+<hr>
+
+### Filled with a wide variety of algorithms?
+
+### Written in Python, C/C++, Fortran, CUDA, ...
+
+
+### Parallelism Options Today
+
+-  **Message Passing Interface (MPI)**
+    -  **Good**: Algorithmically flexible, fast, native
+    -  **Bad**: Difficult for non-experts, brittle
+-  **Spark / MapReduce / Flink / ...**
+    -  **Good**: Easy to use, resilient
+    -  **Bad**: Not algorithmically flexible, typically Java/Scala based
+-  **We want ...**
+    -  Some of the ease and automation of Spark
+    -  With some of flexibility and native support of MPI
+
+
 
 ### Parallelism Options Today
 
