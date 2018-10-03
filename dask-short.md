@@ -285,6 +285,8 @@ Parallel map
 <hr>
 
     results = {}
+    .
+    .
 
     for a in A:
         for b in B:
@@ -298,20 +300,22 @@ Parallel map
 
 ### Fine Grained Python Code
 
-    from dask import delayed, compute
+    import dask
 
 <hr>
 
     results = {}
+    f = dask.delayed(f)  # mark functions as lazily evaluated
+    g = dask.delayed(g)
 
     for a in A:
         for b in B:
             if a < b:
-                results[a, b] = delayed(f)(a, b)  # lazily construct graph
+                results[a, b] = f(a, b)  # construct task graph
             else:
-                results[a, b] = delayed(g)(a, b)  # without structure
+                results[a, b] = g(a, b)
 
-    results = compute(results)  # trigger all computation
+    results = dask.compute(results)  # trigger computation
 
 
 
