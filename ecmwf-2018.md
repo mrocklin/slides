@@ -283,6 +283,69 @@ Deploy workers on distributed hardware
 ```
 
 
+### Automatic deployment for most cluster managers
+
+-  Cloud: dask-kubernetes
+-  HPC: dask-jobqueue (PBS, SLURM, SGE, ...)
+-  Hadoop/Spark: dask-yarn
+
+<hr>
+
+```python
+>>> from dask_kubenetes import KubeCluster
+>>> cluster = KubeCluster(...,
+                          ...,
+                          ...,
+                          ...)
+
+>>> cluster.scale(10)  # ask for ten nodes
+
+>>> cluster.adapt(minimum=0, maximum=100)  # or adapt nodes based on load
+```
+
+
+### Automatic deployment for most cluster managers
+
+-  Cloud: dask-kubernetes
+-  HPC: dask-jobqueue (PBS, SLURM, SGE, ...)
+-  Hadoop/Spark: dask-yarn
+
+<hr>
+
+```python
+>>> from dask_yarn import YarnCluster
+>>> cluster = YarnCluster(...,
+                          ...,
+                          ...,
+                          ...)
+
+>>> cluster.scale(10)  # ask for ten nodes
+
+>>> cluster.adapt(minimum=0, maximum=100)  # or adapt nodes based on load
+```
+
+
+### Automatic deployment for most cluster managers
+
+-  Cloud: dask-kubernetes
+-  HPC: dask-jobqueue (PBS, SLURM, SGE, ...)
+-  Hadoop/Spark: dask-yarn
+
+<hr>
+
+```python
+>>> from dask.distributed import LocalCluster
+>>> cluster = LocalCluster()
+.
+.
+.
+.
+.
+.
+.
+```
+
+
 
 -  Jupyter Notebook
 -  XArray
