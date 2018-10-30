@@ -245,11 +245,11 @@ Deploy workers on distributed hardware
 <img src="images/network-inverse.svg" width="50%">
 
     host1$ dask-scheduler
-    Starting scheduler at 192.168.0.1:8786
+    Starting scheduler at tcp://192.168.0.1:8786
 
-    host2$ dask-worker 192.168.0.1:8786
-    host3$ dask-worker 192.168.0.1:8786
-    host4$ dask-worker 192.168.0.1:8786
+    host2$ dask-worker tcp://192.168.0.1:8786
+    host3$ dask-worker tcp://192.168.0.1:8786
+    host4$ dask-worker tcp://192.168.0.1:8786
 
     >>> client = Client("tcp://192.168.0.1:8786")  # connect from Python process
 
@@ -257,7 +257,7 @@ Deploy workers on distributed hardware
 ### Automatic deployment for most cluster managers
 
 -  Cloud: dask-kubernetes
--  HPC: dask-jobqueue
+-  HPC: dask-jobqueue (PBS, SLURM, SGE, ...)
 -  Hadoop/Spark: dask-yarn
 
 <hr>
@@ -469,7 +469,7 @@ geopandas.read_file('nyc-taxi-zones.shp')
 
 ### Credit modeling in banks
 
-<img src="images/credit_models/graph_model.svg"
+<img src="images/credit_models/simple-model.svg"
      width="80%">
 
 
