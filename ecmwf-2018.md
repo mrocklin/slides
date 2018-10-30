@@ -34,6 +34,7 @@ Anaconda Inc.
 -  Explore Dask beyond array computing
 
 
+
 ### How did Joe run his computation in parallel?
 
 
@@ -214,6 +215,7 @@ These are hard and interesting problems
 But we won't discuss them here
 
 
+
 -  Jupyter Notebook
 -  XArray to describe earth science computation
 -  Numpy-like array code
@@ -273,6 +275,7 @@ Deploy workers on distributed hardware
 
 >>> cluster.adapt(minimum=0, maximum=100)  # or adapt nodes based on load
 ```
+
 
 
 -  Jupyter Notebook
@@ -338,6 +341,7 @@ These elements can change
 <hr>
 
 These elements can change
+
 
 
 ### Dask was designed to parallelize
@@ -467,6 +471,17 @@ geopandas.read_file('nyc-taxi-zones.shp')
 <img src="images/nyc-taxi-zones.svg" width="60%">
 
 
+### GeoPandas (experimental)
+
+Pandas and GeoSpatial data (points, lines, polygons)
+
+```python
+df = geopandas.sjoin(taxi_rides, zones, op='within')
+```
+
+<img src="images/nyc-taxi-geo-counts.png" width="50%">
+
+
 ### Credit modeling in banks
 
 <img src="images/credit_models/simple-model.svg"
@@ -480,8 +495,15 @@ geopandas.read_file('nyc-taxi-zones.shp')
 ### benefitting each other without explicit coordination
 
 
-### Dask does one thing (parallel task scheduling)
+### Example with automated machine learning with TPOT
 
-### and as a result
+[Example](https://mybinder.org/v2/gh/dask/dask-examples/master?urlpath=lab/tree/machine-learning/tpot.ipynb)
 
-### is broadly used in many applications
+
+### Learn More
+
+<img src="images/dask_icon.svg" width=20%>
+
+[dask.org](https://dask.org)
+
+[examples.dask.org](https://examples.dask.org)
