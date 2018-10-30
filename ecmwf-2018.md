@@ -500,6 +500,22 @@ df = geopandas.sjoin(taxi_rides, zones, op='within')
 [Example](https://mybinder.org/v2/gh/dask/dask-examples/master?urlpath=lab/tree/machine-learning/tpot.ipynb)
 
 
+
+### Final thoughts
+
+-  Dask parallelizes array computing through dynamic task scheduling
+-  This works with other domains too
+    -  Tabular data analysis
+    -  Machine learning
+    -  Custom systems
+    -  ...
+
+-  Dask's impact has been accelerated by
+    -  Doing one thing well (task scheduling)
+    -  Integrating with existing tools
+    -  Integrating with existing communities
+
+
 ### Learn More
 
 <img src="images/dask_icon.svg" width=20%>
