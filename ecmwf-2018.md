@@ -147,13 +147,6 @@ Dask array converts array code into task graphs
 
 
 
-### Dask APIs Produce Task Graphs
-
-<hr>
-
-### Dask Schedulers Execute Task Graphs
-
-
 -  Jupyter Notebook
 -  XArray to describe earth science computation
 -  Numpy-like array code
@@ -200,6 +193,19 @@ Execute task graphs on parallel hardware
 <hr>
 
 ### Now we need to run them efficiently
+
+
+### Dynamic task scheduling
+
+-  Which task should we run next?
+-  Where should we run that task?
+-  Should we balance load or prefer data locality?
+
+<hr>
+
+.
+
+.
 
 
 ### Dynamic task scheduling
@@ -346,7 +352,7 @@ These elements can change
 
 ### Dask was designed to parallelize
 
-### An ecosystem of related software
+### an ecosystem of related software
 
 
 <img src="images/scipy-stack/1.png">
@@ -482,7 +488,7 @@ df = geopandas.sjoin(taxi_rides, zones, op='within')
 <img src="images/nyc-taxi-geo-counts.png" width="50%">
 
 
-### Credit modeling in banks
+### Complex custom computations
 
 <img src="images/credit_models/simple-model.svg"
      width="80%">
@@ -503,8 +509,8 @@ df = geopandas.sjoin(taxi_rides, zones, op='within')
 
 ### Final thoughts
 
--  Dask parallelizes array computing through dynamic task scheduling
--  This works with other domains too
+-  Dask parallelizes array computing with dynamic task scheduling
+-  This approach works across domains
     -  Tabular data analysis
     -  Machine learning
     -  Custom systems
