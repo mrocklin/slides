@@ -5,32 +5,47 @@ Dask: Parallel Programming in Python
 
 *Matthew Rocklin*
 
-Anaconda Inc.
+NVIDIA
 
 
-### Dask enables parallel computing
+### High Level: Dask scales other Python libraries
 
--  **Parallelizes libraries** like Pandas, NumPy, and SKLearn
--  **Scales** from 1 to 1000's of computers (Spark-like scaling)
--  **Flexible** backed by a task scheduler (like Airflow, Celery)
--  **Adapts** to custom systems
--  **Pure Python** and built from standard technology
--  **Supported** by community, for/non-profit, and government
+-  Pandas + Dask
+
+        df = dask.dataframe.read_csv('s3://path/to/*.csv')
+        df.groupby(df.timestamp.dt.hour).value.mean()
+
+-  Numpy + Dask
+
+        X = dask.array.random((100000, 100000), chunks=(1000, 1000))
+        (X + X.T) - X.mean(axis=0)
+
+-  Scikit-Learn + Dask + ...
+
+        from dask_ml.linear_models import LogisticRegression
+
+        model = LogisticRegression()
+        model.fit(X, y)
+
+-  ... and several other applicaitons throughout PyData
 
 
-### History
+### Low Level: Dask is a task scheduler
 
-1.  Parallel NumPy algorithms
-2.  Computational task scheduler (single machine)
-3.  Dataframes and Bags
-4.  Custom computations (dask.delayed)
-5.  Distributed scheduler
-6.  Asynchronous workflows (concurrent.futures)
-7.  Increased diversity of workloads
-    -  Auto-scaling
-    -  Multi-client collaboration
-    -  Other languages (Julia client exists)
-    -  Non-task-based APIs
+Like `make`, but where each task is a short Python function
+
+    (X + X.T) - X.mean(axis=0)  # Dask code turns into task graphs
+
+<img src="images/grid_search_schedule-0.png" width="100%">
+
+
+### Low Level: Dask is a task scheduler
+
+Like `make`, but where each task is a short Python function
+
+    (X + X.T) - X.mean(axis=0)  # Dask code turns into task graphs
+
+<img src="images/grid_search_schedule.gif" width="100%">
 
 
 
@@ -537,12 +552,12 @@ Set up on a cluster
 
 ### Single Machine Scheduler
 
-Stable for a year or so.  Optimized for larger-than-memory use.
+Very Stable.  Optimized for larger-than-memory use.
 
 *   **Parallel CPU**: Uses multiple threads or processes
 *   **Minimizes RAM**: Choose tasks to remove intermediates
 *   **Overhead:** ~50us per task
-*   **Concise**: ~600 LOC, stable for ~12 months
+*   **Concise**: ~600 LOC
 *   **Real world workloads**: dask.array, xarray, dask.dataframe, dask.bag,
     Custom projects with dask.delayed
 
@@ -628,9 +643,7 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 *   **Data local**: Moves computation to correct worker
 *   **Asynchronous**: Continuous non-blocking conversation
 *   **Multi-user**: Several users share the same system
-*   **HDFS Aware**: Works well with HDFS, S3, YARN, etc..
-*   **Solidly supports**: dask.array, dask.dataframe, dask.bag, dask.delayed,
-    concurrent.futures, ...
+*   **Deployable**: Easy to deploy on HPC, Hadoop, Cloud
 *   **Less Concise**: ~3000 LOC Tornado TCP application
 
     But all of the logic is hackable Python
@@ -638,7 +651,7 @@ Stable for a year or so.  Optimized for larger-than-memory use.
 
 ### Easy to get started
 
-    $ conda install dask distributed -c conda-forge
+    $ conda install dask
     $ pip install dask[complete] --upgrade
 
 <hr>
