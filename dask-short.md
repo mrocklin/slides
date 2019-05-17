@@ -12,22 +12,31 @@ NVIDIA
 
 -  Pandas + Dask
 
-        df = dask.dataframe.read_csv('s3://path/to/*.csv')
-        df.groupby(df.timestamp.dt.hour).value.mean()
+    ```python
+    # df = pandas.read_csv('my-file.csv')
+    df = dask.dataframe.read_csv('s3://path/to/*.csv')
+    df.groupby(df.timestamp.dt.hour).value.mean()
+    ```
 
 -  Numpy + Dask
 
-        X = dask.array.random((100000, 100000), chunks=(1000, 1000))
-        (X + X.T) - X.mean(axis=0)
+    ```python
+    # X = numpy.random.random((1000, 1000))
+    X = dask.array.random((100000, 100000), chunks=(1000, 1000))
+    (X + X.T) - X.mean(axis=0)
+    ```
 
 -  Scikit-Learn + Dask + ...
 
-        from dask_ml.linear_models import LogisticRegression
+    ```python
+    from scikit_learn.linear_models import LogisticRegression
+    from dask_ml.linear_models import LogisticRegression
 
-        model = LogisticRegression()
-        model.fit(X, y)
+    model = LogisticRegression()
+    model.fit(X, y)
+    ```
 
--  ... and several other applicaitons throughout PyData
+-  ... and several other applications throughout PyData
 
 
 ### Low Level: Dask is a task scheduler
