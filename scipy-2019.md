@@ -743,6 +743,10 @@ Dask Name: from_pandas, 2 tasks
 
 ### What should we do about it?
 
--  **Users:** Experiment new technologies, share experiences
--  **Developers:**: Build on protocols, not closed systems
--  **Core Maintainers:** Build extension points
+-   **Users:** Experiment new technologies, share experiences
+
+-   **Developers:**: Build on protocols, not closed systems
+
+    Build new things!
+
+-   **Core Maintainers:** Build extension points
