@@ -658,15 +658,15 @@ Externalizing that API enables external packages to be Pandas native
 
 ```python
 >>> import pandas as pd
->>> from cyberpandas import IPArray
+>>> from cyberpandas import IPArray  # <--- External library
 
 >>> arr = IPArray([0, 1, 2, 3])
->>> s = pd.Series(arr)
+>>> s = pd.Series(arr)               # <--- Native integration
 0    0.0.0.0
 1    0.0.0.1
 2    0.0.0.2
 3    0.0.0.3
-dtype: ip
+dtype: ip                            # <--- Neat!
 ```
 
 What would previously be a community fork is now native and integrated
@@ -692,7 +692,7 @@ npartitions=2
 0     ip
 2    ...
 3    ...
-dtype: ip
+dtype: ip                            # <--- Downstream benefits
 Dask Name: from_pandas, 2 tasks
 ```
 
