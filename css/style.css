@@ -1,0 +1,15 @@
+code {
+  color: white;
+  background-color: black;
+}
+.reveal pre code {
+  background-color: black;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+body {
+  background: #000;
+  background-color: #000;
+}
+
+
