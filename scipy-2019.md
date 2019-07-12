@@ -123,11 +123,11 @@ $ du -h my_data
      alt="RAPIDS Logo">
 
 
-### We don't have to code CUDA to use a GPU
+### We don't have to write CUDA to use a GPU
 
 <hr>
 
-### Rapids and CuPy provide familiar APIs around GPUs
+### Rapids and CuPy provide familiar SciPy APIs around GPUs
 
 
 
@@ -190,7 +190,7 @@ $ du -h my_data
 -   Philanthropic foundations
 -   Fresh startups
 -   Large technology companies
--   VCs
+-   .
 
 
 ### This is great!
@@ -282,7 +282,7 @@ $ du -h my_data
 
 
 
-### Lets look at some successful protocols
+### Let's look at some successful protocols
 
 
 ### Protocol examples: `__iter__`
@@ -329,6 +329,19 @@ plt.plot(df.balance)
 Implement the `__array__` protocol to convert to a NumPy array
 
 ```python
+# pandas/core/series.py
+
+class Series:
+    def __array__(self):
+        return np.array(self._pointer_to_data)
+```
+
+
+### Protocol example: `__array__`
+
+Implement the `__array__` protocol to convert to a NumPy array
+
+```python
 import h5py
 
 x = numpy.ones(10000)
@@ -346,7 +359,7 @@ import h5py
 
 df = pandas.read_csv('myfile.csv')
 
-h5py.File('myfile.h5')['x'] = df.balance
+h5py.File('myfile.h5')['x'] = df.balance  # <-- mediate two non-numpy libraries
 ```
 
 
@@ -359,7 +372,7 @@ import h5py
 
 df = dask.dataframe.read_csv('myfile.csv')
 
-h5py.File('myfile.h5')['x'] = df.balance
+h5py.File('myfile.h5')['x'] = df.balance  # <-- mediate two non-numpy libraries
 ```
 
 
@@ -450,7 +463,7 @@ pipeline.fit(X, y)
 
 ### Protocol example: `.ipynb`
 
--   Classic notebook
+-   Classic Jupyter notebook
 -   Jupyter Lab
 -   Nteract
 -   .
@@ -539,15 +552,6 @@ d = xarray.DataArary(x)
 *For example an OpenCL Numpy implementation could gain traction quickly*
 
 
-### Protocols level the playing field for technologies
-
-<hr>
-
-### New developers can engage, improving accessibility
-
-*For example an OpenCL Numpy implementation could gain traction quickly*
-
-
 ### Protocol example: `__array_function__`
 
 Implement `__array_function__` to use NumPy functions
@@ -591,9 +595,18 @@ d = xarray.DataArary(x)
 
 <hr>
 
-### Scientists quickly explore new functionality
+### Quickly mix and match to explore new functionality
 
-*For example you can easily see if a GPU accelerates your workload*
+*"Let's just throw sparse arrays in Dask and see what happens"*
+
+
+### Protocols enforce consistency for users
+
+<hr>
+
+### Quickly mix and match to explore new functionality
+
+*"Let's just throw GPU dataframes in Dask and see what happens"*
 
 
 ### Example API Consumer: Dask Array
@@ -616,6 +629,15 @@ d = xarray.DataArary(x)
 <img src="images/dask-dataframe-light.svg" width="30%">
 
 Works with either Pandas or RAPIDS cuDF for GPUs
+
+
+### Protocols level the playing field for technologies
+
+<hr>
+
+### New developers can quickly engage
+
+*PhD students need more opportunities to distract them from research*
 
 
 ### Pandas and Extension Arrays: internal
