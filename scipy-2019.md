@@ -285,7 +285,7 @@ $ du -h my_data
 ### Lets look at some successful protocols
 
 
-### Protocols examples: `__iter__`
+### Protocol examples: `__iter__`
 
 Implement the `__iter__` protocol to operate in for loops
 
@@ -298,7 +298,7 @@ for x in MyObject():
 ```
 
 
-### Protocols examples: `__array__`
+### Protocol example: `__array__`
 
 Implement the `__array__` protocol to convert to a NumPy array
 
@@ -311,7 +311,7 @@ plt.plot(x)
 ```
 
 
-### Protocols examples: `__array__`
+### Protocol example: `__array__`
 
 Implement the `__array__` protocol to convert to a NumPy array
 
@@ -324,7 +324,7 @@ plt.plot(df.balance)
 ```
 
 
-### Protocols examples: `__array__`
+### Protocol example: `__array__`
 
 Implement the `__array__` protocol to convert to a NumPy array
 
@@ -337,7 +337,7 @@ h5py.File('myfile.h5')['x'] = x
 ```
 
 
-### Protocols examples: `__array__`
+### Protocol example: `__array__`
 
 Implement the `__array__` protocol to convert to a NumPy array
 
@@ -350,7 +350,7 @@ h5py.File('myfile.h5')['x'] = df.balance
 ```
 
 
-### Protocols examples: `__array__`
+### Protocol example: `__array__`
 
 Implement the `__array__` protocol to convert to a NumPy array
 
@@ -363,7 +363,7 @@ h5py.File('myfile.h5')['x'] = df.balance
 ```
 
 
-### Protocols examples: `__array__`
+### Protocol example: `__array__`
 
 Implement the `__array__` protocol to convert to a NumPy array
 
@@ -376,7 +376,7 @@ h5py.File('myfile.h5')['x'] = x
 ```
 
 
-### Protocols examples: `__array__`
+### Protocol example: `__array__`
 
 Implement the `__array__` protocol to convert to a NumPy array
 
@@ -389,7 +389,7 @@ h5py.File('myfile.h5')['x'] = x
 ```
 
 
-### Protocols examples: `__array__`
+### Protocol example: `__array__`
 
 Implement the `__array__` protocol to convert to a NumPy array
 
@@ -402,7 +402,14 @@ zarr.create_dataset(...)['x'] = x
 ```
 
 
-### Protocols examples: `fit/predict`
+### Protocols let us mix and match technologies
+
+<hr>
+
+### Enabling creative solutions that maintainers didn't foresee
+
+
+### Protocol example: `fit/predict`
 
 Implement fit/transform/predict to work with Scikit-Learn
 
@@ -415,7 +422,7 @@ pipeline.fit(X, y)
 ```
 
 
-### Protocols examples: `fit/predict`
+### Protocol example: `fit/predict`
 
 Implement fit/transform/predict to work with Scikit-Learn
 
@@ -428,7 +435,7 @@ pipeline.fit(X, y)
 ```
 
 
-### Protocols examples: `fit/predict`
+### Protocol example: `fit/predict`
 
 Implement fit/transform/predict to work with Scikit-Learn
 
@@ -441,10 +448,37 @@ pipeline.fit(X, y)
 ```
 
 
-### Protocols examples: `.ipynb`
+### Protocol example: `.ipynb`
+
+-   Classic notebook
+-   Jupyter Lab
+-   Nteract
+-   .
+-   .
+-   .
 
 
-### Protocols examples: `__array_function__`
+### Protocol example: `.ipynb`
+
+-   Classic Jupyter notebook
+-   Jupyter Lab
+-   Nteract
+-   GitHub rendering
+-   Netflix infrastructure
+-   .
+
+
+### Protocol example: `.ipynb`
+
+-   Classic Jupyter notebook
+-   Jupyter Lab
+-   Nteract
+-   GitHub rendering
+-   Netflix infrastructure
+-   Voilà
+
+
+### Protocol example: `__array_function__`
 
 Implement `__array_function__` to use NumPy functions
 
@@ -457,7 +491,7 @@ u, s, v = np.linalg.svd(x)
 ```
 
 
-### Protocols examples: `__array_function__`
+### Protocol example: `__array_function__`
 
 Implement `__array_function__` to use NumPy functions
 
@@ -470,7 +504,7 @@ u, s, v = np.linalg.svd(x)
 ```
 
 
-### Protocols examples: `__array_function__`
+### Protocol example: `__array_function__`
 
 Implement `__array_function__` to use NumPy functions
 
@@ -483,7 +517,7 @@ u, s, v = np.linalg.svd(x)
 ```
 
 
-### Protocols examples: `__array_function__`
+### Protocol example: `__array_function__`
 
 Implement `__array_function__` to use NumPy functions
 
@@ -505,7 +539,7 @@ d = xarray.DataArary(x)
 *For example an OpenCL Numpy implementation could gain traction quickly*
 
 
-### Protocols examples: `__array_function__`
+### Protocol example: `__array_function__`
 
 Implement `__array_function__` to use NumPy functions
 
@@ -518,7 +552,7 @@ u, s, v = np.linalg.svd(x)
 ```
 
 
-### Protocols examples: `__array_function__`
+### Protocol example: `__array_function__`
 
 Implement `__array_function__` to use NumPy functions
 
@@ -531,7 +565,7 @@ u, s, v = np.linalg.svd(x)
 ```
 
 
-### Protocols examples: `__array_function__`
+### Protocol example: `__array_function__`
 
 Implement `__array_function__` to use NumPy functions
 
@@ -654,6 +688,7 @@ Dask Name: from_pandas, 2 tasks
 ```
 
 
+
 ### Core projects define clear contracts
 
 <hr>
@@ -673,3 +708,10 @@ Dask Name: from_pandas, 2 tasks
 
 1.  GPUs are neat.  Let's play!
 2.  The revolution is coming.   Let's plan.
+
+
+### What should we do about it?
+
+-  **Users:** Experiment new technologies, share experiences
+-  **Developers:**: Build on protocols, not closed systems
+-  **Core Maintainers:** Build extension points
