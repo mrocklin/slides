@@ -31,6 +31,22 @@ NVIDIA
         allowfullscreen></iframe>
 
 
+### Same code
+
+<hr>
+
+### Different Hardware
+
+<hr>
+
+### Different performance profile
+
+
+<img src="images/cupy-performance.svg" width="100%">
+
+*work by Peter Entschev [blog.dask.org/2019/06/27/single-gpu-cupy-benchmarks](https://blog.dask.org/2019/06/27/single-gpu-cupy-benchmarks)*
+
+
 ### SVD Example
 
 ```python
@@ -65,22 +81,6 @@ u, s, v = dask.compute(u, s, v)
 <img src="images/large-svd.svg" width="100%">
 
 Works today on GPU arrays too
-
-
-### Same code
-
-<hr>
-
-### Different Hardware
-
-<hr>
-
-### Different performance profile
-
-
-<img src="images/cupy-performance.svg" width="100%">
-
-*work by Peter Entschev [blog.dask.org/2019/06/27/single-gpu-cupy-benchmarks](https://blog.dask.org/2019/06/27/single-gpu-cupy-benchmarks)*
 
 
 ### GPUs are good for other things too
