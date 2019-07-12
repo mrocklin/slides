@@ -11,7 +11,7 @@ NVIDIA
 
 <hr>
 
-### We need to think about protocols
+### We need to think about standards
 
 
 ### GPUs are neat
@@ -135,14 +135,14 @@ $ du -h my_data
 
 <hr>
 
-### We need to think about protocols
+### We need to think about standards
 
 
 ### .
 
 <hr>
 
-### We need to think about protocols
+### We need to think about standards
 
 
 ### The SciPy ecosystem is expanding
@@ -278,11 +278,11 @@ $ du -h my_data
 
 <hr>
 
-### Protocols enable inter-project coordination
+### Standards enable inter-project coordination
 
 
 
-### Let's look at some successful protocols
+### Let's look at some successful standards
 
 
 ### Protocol examples: `__iter__`
@@ -415,7 +415,7 @@ zarr.create_dataset(...)['x'] = x
 ```
 
 
-### Protocols let us mix and match technologies
+### Standards let us mix and match technologies
 
 <hr>
 
@@ -543,7 +543,7 @@ d = xarray.DataArary(x)
 ```
 
 
-### Protocols level the playing field for technologies
+### Standards level the playing field for technologies
 
 <hr>
 
@@ -591,7 +591,7 @@ d = xarray.DataArary(x)
 ```
 
 
-### Protocols enforce consistency for users
+### Standards enforce consistency for users
 
 <hr>
 
@@ -600,7 +600,7 @@ d = xarray.DataArary(x)
 *"Let's just throw sparse arrays in Dask and see what happens"*
 
 
-### Protocols enforce consistency for users
+### Standards enforce consistency for users
 
 <hr>
 
@@ -631,7 +631,7 @@ d = xarray.DataArary(x)
 Works with either Pandas or RAPIDS cuDF for GPUs
 
 
-### Protocols level the playing field for technologies
+### Standards level the playing field for technologies
 
 <hr>
 
@@ -745,7 +745,7 @@ Dask Name: from_pandas, 2 tasks
 
 -   **Users:** Experiment new technologies, share experiences
 
--   **Developers:**: Build on protocols, not closed systems
+-   **Developers:**: Build on standards, not closed systems
 
     Build new things!
 
