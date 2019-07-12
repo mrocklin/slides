@@ -88,10 +88,10 @@ Works today on GPU arrays too
 ```python
 >>> import pandas, cudf
 
->>> %time len(pandas.read_csv("nyc-taxi-2015-01.csv")
+>>> %time pandas.read_csv("nyc-taxi-2015-01.csv")
 Wall time: 29.2s
 
->>> %time len(cudf.read_csv("nyc-taxi-2015-01.csv")
+>>> %time cudf.read_csv("nyc-taxi-2015-01.csv")
 Wall time: 2.12s
 
 $ du -h nyc-taxi-2015-01.csv
@@ -127,7 +127,7 @@ $ du -h my_data
 
 <hr>
 
-### Rapids and CuPy provide familiar SciPy APIs around GPUs
+### Rapids, CuPy, Numba provide familiar SciPy APIs around GPUs
 
 
 
@@ -177,8 +177,8 @@ $ du -h my_data
 
 -  Multi-core CPUs
 -  Distributed Clusters
--  ARM
 -  Accelerators (GPUs, TPUs, ...)
+-  ARM
 
 
 ### The SciPy ecosystem is expanding
