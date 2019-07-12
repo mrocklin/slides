@@ -539,6 +539,15 @@ d = xarray.DataArary(x)
 *For example an OpenCL Numpy implementation could gain traction quickly*
 
 
+### Protocols level the playing field for technologies
+
+<hr>
+
+### New developers can engage, improving accessibility
+
+*For example an OpenCL Numpy implementation could gain traction quickly*
+
+
 ### Protocol example: `__array_function__`
 
 Implement `__array_function__` to use NumPy functions
