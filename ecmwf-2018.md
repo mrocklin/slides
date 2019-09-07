@@ -78,11 +78,22 @@ Dask array converts array code into task graphs
 
 
 
-### Dask APIs Produce Task Graphs
+### Dask.array
 
-<hr>
+<img src="images/dask-array.svg" width="60%">
 
-### Dask Schedulers Execute Task Graphs
+    import numpy as np
+    x = np.random.random((1000, 1000))
+    y = x + x.T - x.mean(axis=0)
+
+    import dask.array as da
+    x = da.random.random((100000, 100000), chunks=(1000, 1000))
+    y = x + x.T - x.mean(axis=0)
+
+
+### Dask array turns array computations
+
+### into chunked task graphs
 
 
 ### 1D-Array
@@ -557,32 +568,21 @@ df = geopandas.sjoin(taxi_rides, zones, op='within')
      width="80%">
 
 
+### Iris
+
+<img src="https://raw.githubusercontent.com/SciTools/iris/master/docs/iris/src/_static/logo_banner.png"
+     width="50%">
+
+You can scale Iris 2 with Dask today
+
+
 ### There are many more such projects
-
-### developed by a broad community
-
-### benefitting each other without explicit coordination
 
 
 ### Example with automated machine learning with TPOT
 
 [Example](https://mybinder.org/v2/gh/dask/dask-examples/master?urlpath=lab/tree/machine-learning/tpot.ipynb)
 
-
-
-### Final thoughts
-
--  Dask parallelizes array computing with dynamic task scheduling
--  This approach works across domains
-    -  Tabular data analysis
-    -  Machine learning
-    -  Custom systems
-    -  ...
-
--  Dask's impact has been accelerated by
-    -  Doing one thing well (task scheduling)
-    -  Integrating with existing tools
-    -  Integrating with existing communities
 
 
 ### Learn More

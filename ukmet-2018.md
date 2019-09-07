@@ -98,7 +98,7 @@ Dask array converts array code into task graphs
 
 ### 1D-Array
 
-<img src="images/array-1d.svg">
+<img src="images/array-1d.svg" maxheight="50%">
 
     >>> x = np.ones((15,))
     >>> x
@@ -110,7 +110,7 @@ Dask array converts array code into task graphs
 
 ### 1D-Array
 
-<img src="images/array-1d-sum.svg" width="30%">
+<img src="images/array-1d-sum.svg" width="15%">
 
     x = da.ones((15,), chunks=(5,))
     x.sum()
@@ -118,7 +118,7 @@ Dask array converts array code into task graphs
 
 ### ND-Array - Sum
 
-<img src="images/array-sum.svg">
+<img src="images/array-sum.svg" width="50%">
 
     x = da.ones((15, 15), chunks=(5, 5))
     x.sum(axis=0)
@@ -126,7 +126,7 @@ Dask array converts array code into task graphs
 
 ### ND-Array - Transpose
 
-<img src="images/array-xxT.svg">
+<img src="images/array-xxT.svg" width="70%">
 
     x = da.ones((15, 15), chunks=(5, 5))
     x + x.T
@@ -134,7 +134,7 @@ Dask array converts array code into task graphs
 
 ### ND-Array - Matrix Multiply
 
-<img src="images/array-xdotxT.svg">
+<img src="images/array-xdotxT.svg" width="70%">
 
     x = da.ones((15, 15), chunks=(5, 5))
     x.dot(x.T + 1)
@@ -150,7 +150,7 @@ Dask array converts array code into task graphs
 
 ### ND-Array - Compound Operations
 
-<img src="images/array-xdotxT-mean-std.svg">
+<img src="images/array-xdotxT-mean-std.svg" width="60%">
 
     import dask.array as da
     x = da.ones((15, 15), chunks=(5, 5))
